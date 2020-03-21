@@ -153,7 +153,7 @@ namespace Private {
           execution_count: null,
           metadata: { trusted: true },
           outputs: [],
-          source: "n = 7"
+          source: "n = 20"
         },
         {
           cell_type: "markdown",
