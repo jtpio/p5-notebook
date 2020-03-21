@@ -19,8 +19,8 @@ jobs:
 
       - name: Build
         run: |
-          npm
-          npm run build
+          yarn
+          yarn run build
           
       - name: Create dist directory
         run: |
