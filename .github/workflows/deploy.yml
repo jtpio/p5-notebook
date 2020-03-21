@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: |
           yarn
-          yarn run build
+          yarn run build:prod
           
       - name: Create dist directory
         run: |
