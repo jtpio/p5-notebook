@@ -2,7 +2,9 @@
 
 ![Github Actions Status](https://github.com/jtpio/p5-notebook/workflows/Deploy/badge.svg)
 
-A minimal Jupyter Notebook UI for p5.js kernels.
+A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
+
+**✨ [Try it in your browser!](https://jtp.io/p5-notebook-demo) ✨**
 
 ![screenshot](./screenshot.png)
 
