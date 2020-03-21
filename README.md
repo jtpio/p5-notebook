@@ -1,5 +1,7 @@
 # ![p5-icon](./favicon.ico) p5-notebook ![p5-icon](./favicon.ico)
 
+![Github Actions Status](https://github.com/jtpio/p5-notebook/workflows/Deploy/badge.svg)
+
 A minimal Jupyter Notebook UI for p5.js kernels.
 
 ![screenshot](./screenshot.png)
