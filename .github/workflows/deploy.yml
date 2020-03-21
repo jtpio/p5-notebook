@@ -1,4 +1,4 @@
-name: CI
+name: Deploy
 
 on:
   push:
@@ -24,9 +24,9 @@ jobs:
           
       - name: Create dist directory
         run: |
-          mkdir dist/
+          mkdir -p dist/build/
           mv index.html dist/
-          mv build/ dist/
+          mv build/bundle.js dist/build/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
