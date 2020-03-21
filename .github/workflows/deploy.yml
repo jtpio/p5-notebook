@@ -25,7 +25,7 @@ jobs:
       - name: Create dist directory
         run: |
           mkdir -p dist/build/
-          mv index.html dist/
+          mv index.html favicon.ico dist/
           mv build/bundle.js dist/build/
 
       - name: Deploy
