@@ -91,7 +91,7 @@ export namespace Kernels {
   /**
    * The base url for the Kernels manager
    */
-  export const WS_BASE_URL = `ws://${window.location.host}`;
+  export const WS_BASE_URL = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`;
 
   /**
    * The kernel service URL.
