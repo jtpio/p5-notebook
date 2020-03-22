@@ -60,6 +60,10 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
           });
         };
         console.warn = console.error;
+
+        window.onerror = function(message, source, lineno, colno, error) {
+          console.error(message);
+        }
       `);
       window.addEventListener('message', (e: MessageEvent) => {
         const msg = e.data;
@@ -123,7 +127,7 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
         this._kernelInfo(msg);
         break;
       case "execute_request":
-        this._execute(msg);
+        this._executeRequest(msg);
         break;
       case "status":
         this._status(msg);
@@ -212,39 +216,19 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   }
 
   /**
-   * Handle a execute_request message
+   * Handle an `execute_request` message
    */
-  private _execute(msg: KernelMessage.IMessage) {
+  private _executeRequest(msg: KernelMessage.IMessage) {
     const parent = msg as KernelMessage.IExecuteRequestMsg;
     this._execution_count++;
-    const content: KernelMessage.IExecuteReply = {
-      execution_count: this._execution_count,
-      status: "ok",
-      user_expressions: {},
-      payload: []
-    };
-
-    this._executeInput(parent);
-
 
     // store previous parent header
     this._evalFunc(this._iframe.contentWindow, `
       window._parentHeader = ${JSON.stringify(parent.header)};
     `);
 
-    // TODO: handle errors
-    this._executeResult(parent);
-
-    const message = KernelMessage.createMessage<KernelMessage.IExecuteReplyMsg>(
-      {
-        msgType: "execute_reply",
-        channel: "shell",
-        parentHeader: parent.header,
-        session: this._sessionId,
-        content
-      }
-    );
-    this._sendMessage(message);
+    this._executeInput(parent);
+    this._execute(parent);
   }
 
   /**
@@ -269,27 +253,90 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   }
 
   /**
-   * Send an `execute_result` message.
+   * Execute the code.
    */
-  private _executeResult(msg: KernelMessage.IMessage) {
+  private _execute(msg: KernelMessage.IMessage) {
     const parent = msg as KernelMessage.IExecuteRequestMsg;
     const code = parent.content.code;
-    const result = this._eval(code);
-    const message = KernelMessage.createMessage<
-      KernelMessage.IExecuteResultMsg
-    >({
-      msgType: "execute_result",
-      parentHeader: parent.header,
-      channel: "iopub",
-      session: this._sessionId,
-      content: {
-        execution_count: this._execution_count,
+    try {
+      const result = this._eval(code);
+      this._executeResult(parent, {
         data: {
           "text/plain": result
         },
         metadata: {}
+      });
+      this._execute_reply(parent, {
+        execution_count: this._execution_count,
+        status: "ok",
+        user_expressions: {},
+        payload: []
+      });
+    } catch (e) {
+      const { name, stack, message } = e;
+      const error = {
+        ename: name,
+        evalue: message,
+        traceback: [stack]
+      };
+      this._error(parent, error);
+      this._execute_reply(parent, {
+        execution_count: this._execution_count,
+        status: "error",
+        ...error
+      });
+    }
+  }
+
+  /**
+   * Send an `execute_result` message.
+   */
+  private _executeResult(msg: KernelMessage.IMessage, content: Pick<KernelMessage.IExecuteResultMsg['content'], 'data' | 'metadata'>) {
+    const message = KernelMessage.createMessage<
+      KernelMessage.IExecuteResultMsg
+    >({
+      msgType: "execute_result",
+      parentHeader: msg.header,
+      channel: "iopub",
+      session: this._sessionId,
+      content: {
+        ...content,
+        execution_count: this._execution_count,
       }
     });
+    this._sendMessage(message);
+  }
+
+  /**
+   * Send an `error` message.
+   */
+  private _error(msg: KernelMessage.IMessage, content: KernelMessage.IErrorMsg['content']) {
+    const message = KernelMessage.createMessage<
+      KernelMessage.IErrorMsg
+    >({
+      msgType: "error",
+      parentHeader: msg.header,
+      channel: "iopub",
+      session: this._sessionId,
+      content
+    });
+    this._sendMessage(message);
+  }
+
+  /**
+   * Send an `execute_reply` message.
+   */
+  private _execute_reply(msg: KernelMessage.IMessage, content: KernelMessage.IExecuteReplyMsg['content']) {
+    const parent = msg as KernelMessage.IExecuteRequestMsg;
+    const message = KernelMessage.createMessage<KernelMessage.IExecuteReplyMsg>(
+      {
+        msgType: "execute_reply",
+        channel: "shell",
+        parentHeader: parent.header,
+        session: this._sessionId,
+        content
+      }
+    );
     this._sendMessage(message);
   }
 
