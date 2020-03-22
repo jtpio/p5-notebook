@@ -1,8 +1,8 @@
-import { ServiceManager, ServerConnection } from "@jupyterlab/services";
+import { ServiceManager, ServerConnection } from '@jupyterlab/services';
 
-import { WebSocket } from "mock-socket";
+import { WebSocket } from 'mock-socket';
 
-import { JupyterServer } from "../server/server";
+import { JupyterServer } from '../server/server';
 
 /**
  * A custom ServiceManager to run in the browser
@@ -10,10 +10,11 @@ import { JupyterServer } from "../server/server";
 export class BrowserServiceManager extends ServiceManager {
   /**
    * Construct a new service provider.
-   * @options The instantiation options for the service manager.
+   *
+   * @param options The instantiation options for the service manager.
    */
   constructor(options: ServiceManager.IOptions = {}) {
-    const server = new JupyterServer({});
+    const server = new JupyterServer();
     super({
       ...options,
       serverSettings: {
@@ -28,7 +29,7 @@ export class BrowserServiceManager extends ServiceManager {
   /**
    * Get the underlying Jupyter Server
    */
-  get server() {
+  get server(): JupyterServer {
     return this._server;
   }
 

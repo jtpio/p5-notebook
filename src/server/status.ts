@@ -5,7 +5,7 @@ export class Status {
   /**
    * Get the status
    */
-  get() {
+  get(): any {
     return {};
   }
 }
@@ -17,5 +17,5 @@ export namespace Status {
   /**
    * The url for the status service.
    */
-  export const STATUS_SERVICE_URL = "/api/status";
+  export const STATUS_SERVICE_URL = '/api/status';
 }

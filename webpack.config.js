@@ -1,35 +1,35 @@
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require('fs-extra');
+const path = require('path');
 
 // copy static resources
-const basePath = path.resolve(".");
-const resources = path.resolve(basePath, "./src/server/resources");
-const target = path.resolve(basePath, "./build/server/resources");
+const basePath = path.resolve('.');
+const resources = path.resolve(basePath, './src/server/resources');
+const target = path.resolve(basePath, './build/server/resources');
 fs.copySync(resources, target);
 
 module.exports = {
-  entry: ["whatwg-fetch", "./build/index.js"],
+  entry: ['whatwg-fetch', './build/index.js'],
   output: {
-    path: __dirname + "/build",
-    filename: "bundle.js"
+    path: __dirname + '/build',
+    filename: 'bundle.js'
   },
   bail: true,
-  devtool: "source-map",
-  mode: "development",
+  devtool: 'source-map',
+  mode: 'development',
   module: {
     rules: [
-      { test: /\.css$/, use: ["style-loader", "css-loader"] },
-      { test: /\.html$/, use: "file-loader" },
-      { test: /\.md$/, use: "raw-loader" },
-      { test: /\.ipynb$/, use: "raw-loader" },
-      { test: /\.js.map$/, use: "file-loader" },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.html$/, use: 'file-loader' },
+      { test: /\.md$/, use: 'raw-loader' },
+      { test: /\.ipynb$/, use: 'raw-loader' },
+      { test: /\.js.map$/, use: 'file-loader' },
       {
         // In .css files, svg is loaded as a data URI.
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         issuer: { test: /\.css$/ },
         use: {
-          loader: "svg-url-loader",
-          options: { encoding: "none", limit: 10000 }
+          loader: 'svg-url-loader',
+          options: { encoding: 'none', limit: 10000 }
         }
       },
       {
@@ -38,12 +38,12 @@ module.exports = {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         issuer: { test: /\.js$/ },
         use: {
-          loader: "raw-loader"
+          loader: 'raw-loader'
         }
       },
       {
         test: /\.(png|jpg|gif|ttf|woff|woff2|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: [{ loader: "url-loader", options: { limit: 10000 } }]
+        use: [{ loader: 'url-loader', options: { limit: 10000 } }]
       }
     ]
   }

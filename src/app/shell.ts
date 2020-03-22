@@ -1,8 +1,8 @@
-import { JupyterFrontEnd } from "@jupyterlab/application";
+import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { IIterator, iter } from "@lumino/algorithm";
+import { IIterator, iter } from '@lumino/algorithm';
 
-import { Panel, Widget, BoxLayout } from "@lumino/widgets";
+import { Panel, Widget, BoxLayout } from '@lumino/widgets';
 
 /**
  * The application shell.
@@ -10,7 +10,7 @@ import { Panel, Widget, BoxLayout } from "@lumino/widgets";
 export class Shell extends Widget implements JupyterFrontEnd.IShell {
   constructor() {
     super();
-    this.id = "main";
+    this.id = 'main';
 
     const rootLayout = new BoxLayout();
 
@@ -30,7 +30,7 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     widget: Widget,
     area?: Shell.Area,
     options?:
-      | import("@jupyterlab/docregistry").DocumentRegistry.IOpenOptions
+      | import('@jupyterlab/docregistry').DocumentRegistry.IOpenOptions
       | undefined
   ): void {
     this._main.widgets.forEach(w => w.dispose());
@@ -54,5 +54,5 @@ export namespace Shell {
   /**
    * The areas of the application shell where widgets can reside.
    */
-  export type Area = "left" | "right";
+  export type Area = 'left' | 'right';
 }

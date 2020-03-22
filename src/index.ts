@@ -1,63 +1,63 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-// @ts-ignore
-__webpack_public_path__ = URLExt.join(PageConfig.getBaseUrl(), "p5/");
+import { CodeCell } from '@jupyterlab/cells';
 
-import { CodeCell } from "@jupyterlab/cells";
-
-import { editorServices } from "@jupyterlab/codemirror";
+import { editorServices } from '@jupyterlab/codemirror';
 
 import {
   CompleterModel,
   Completer,
   CompletionHandler,
   KernelConnector
-} from "@jupyterlab/completer";
+} from '@jupyterlab/completer';
 
-import { PageConfig, URLExt } from "@jupyterlab/coreutils";
+import { PageConfig } from '@jupyterlab/coreutils';
 
-import { DocumentManager } from "@jupyterlab/docmanager";
+import { DocumentManager } from '@jupyterlab/docmanager';
 
-import { DocumentRegistry } from "@jupyterlab/docregistry";
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { MathJaxTypesetter } from "@jupyterlab/mathjax2";
+import { MathJaxTypesetter } from '@jupyterlab/mathjax2';
 
 import {
   NotebookPanel,
   NotebookWidgetFactory,
   NotebookModelFactory,
   NotebookActions
-} from "@jupyterlab/notebook";
+} from '@jupyterlab/notebook';
 
 import {
   RenderMimeRegistry,
   standardRendererFactories as initialFactories
-} from "@jupyterlab/rendermime";
+} from '@jupyterlab/rendermime';
 
-import { CommandRegistry } from "@lumino/commands";
+import { CommandRegistry } from '@lumino/commands';
 
-import { Widget } from "@lumino/widgets";
+import { Widget } from '@lumino/widgets';
 
-import { App } from "./app/app";
+import { App } from './app/app';
 
-import { SetupCommands } from "./app/commands";
+import { SetupCommands } from './app/commands';
 
-import { BrowserServiceManager } from "./app/service";
+import { BrowserServiceManager } from './app/service';
 
-import "@jupyterlab/application/style/index.css";
+import '@jupyterlab/application/style/index.css';
 
-import "@jupyterlab/codemirror/style/index.css";
+import '@jupyterlab/codemirror/style/index.css';
 
-import "@jupyterlab/completer/style/index.css";
+import '@jupyterlab/completer/style/index.css';
 
-import "@jupyterlab/notebook/style/index.css";
+import '@jupyterlab/notebook/style/index.css';
 
-import "@jupyterlab/theme-light-extension/style/index.css";
+import '@jupyterlab/theme-light-extension/style/index.css';
 
-import "../style/index.css";
+import '../style/index.css';
 
-async function main() {
+/**
+ * The main function
+ */
+async function main(): Promise<void> {
   // create the app
   const app = new App();
   // Initialize the command registry with the bindings.
@@ -65,7 +65,7 @@ async function main() {
 
   // Setup the keydown listener for the document.
   document.addEventListener(
-    "keydown",
+    'keydown',
     event => {
       commands.processKeydownEvent(event);
     },
@@ -75,13 +75,13 @@ async function main() {
   const rendermime = new RenderMimeRegistry({
     initialFactories: initialFactories,
     latexTypesetter: new MathJaxTypesetter({
-      url: PageConfig.getOption("mathjaxUrl"),
-      config: PageConfig.getOption("mathjaxConfig")
+      url: PageConfig.getOption('mathjaxUrl'),
+      config: PageConfig.getOption('mathjaxConfig')
     })
   });
 
   const opener = {
-    open: (widget: Widget) => {
+    open: (widget: Widget): void => {
       // Do nothing for sibling widgets for now.
     }
   };
@@ -97,10 +97,10 @@ async function main() {
   const contentFactory = new NotebookPanel.ContentFactory({ editorFactory });
 
   const wFactory = new NotebookWidgetFactory({
-    name: "Notebook",
-    modelName: "notebook",
-    fileTypes: ["notebook"],
-    defaultFor: ["notebook"],
+    name: 'Notebook',
+    modelName: 'notebook',
+    fileTypes: ['notebook'],
+    defaultFor: ['notebook'],
     preferKernel: true,
     canStartKernel: true,
     rendermime,
@@ -110,7 +110,7 @@ async function main() {
   docRegistry.addModelFactory(mFactory);
   docRegistry.addWidgetFactory(wFactory);
 
-  const notebookPath = "test.ipynb";
+  const notebookPath = 'test.ipynb';
   const nbWidget = docManager.open(notebookPath) as NotebookPanel;
   await nbWidget.context.sessionContext.ready;
 
@@ -136,12 +136,12 @@ async function main() {
     if (notebook !== nbWidget.content) {
       return;
     }
-    if (cell.model.type !== "code") {
+    if (cell.model.type !== 'code') {
       return;
     }
     const codeCell = cell as CodeCell;
     const host = codeCell.outputArea.node;
-    if (host.lastChild?.nodeName === "IFRAME") {
+    if (host.lastChild?.nodeName === 'IFRAME') {
       // TODO: should the iframe be unregistered with server.ungregisterIFrame?
       host.removeChild(host.lastChild);
     }
@@ -153,12 +153,12 @@ async function main() {
     }
     const kernelId = nbWidget.sessionContext.session?.kernel?.id;
     if (!kernelId) {
-      console.error("no kernel id");
+      console.error('no kernel id');
       return;
     }
-    const iframe = document.createElement("iframe");
-    iframe.width = matches[1] ?? "100%";
-    iframe.height = matches[2] ?? "400px";
+    const iframe = document.createElement('iframe');
+    iframe.width = matches[1] ?? '100%';
+    iframe.height = matches[2] ?? '400px';
     host.appendChild(iframe);
     const manager = app.serviceManager as BrowserServiceManager;
     manager.server.registerIFrame(kernelId, iframe);
@@ -172,4 +172,4 @@ async function main() {
   Widget.attach(completer, document.body);
 }
 
-window.addEventListener("load", main);
+window.addEventListener('load', main);

@@ -22,7 +22,10 @@
     "build:prod": "tsc && webpack --mode=production",
     "clean": "rimraf build && rimraf tsconfig.tsbuildinfo",
     "prepublishOnly": "npm run build",
-    "prettier": "prettier --write '**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}'"
+    "prettier": "prettier --write '**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}'",
+    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "eslint": "eslint . --ext .ts,.tsx --fix",
+    "eslint:check": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@jupyterlab/application": "^2.0.2",
@@ -52,8 +55,17 @@
   },
   "devDependencies": {
     "@types/codemirror": "^0.0.76",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "css-loader": "~3.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jsdoc": "^22.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
     "fs-extra": "^9.0.0",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.3",
     "mini-css-extract-plugin": "~0.8.0",
     "prettier": "^1.19.1",
     "raw-loader": "^4.0.0",
@@ -66,5 +78,10 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "whatwg-fetch": "^3.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

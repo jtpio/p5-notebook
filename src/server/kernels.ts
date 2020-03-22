@@ -1,33 +1,28 @@
-import { ObservableMap } from "@jupyterlab/observables";
+import { ObservableMap } from '@jupyterlab/observables';
 
-import { Kernel, KernelMessage } from "@jupyterlab/services";
+import { Kernel, KernelMessage } from '@jupyterlab/services';
 
 import {
   deserialize,
   serialize
-} from "@jupyterlab/services/lib/kernel/serialize";
+} from '@jupyterlab/services/lib/kernel/serialize';
 
-import { UUID } from "@lumino/coreutils";
+import { UUID } from '@lumino/coreutils';
 
-import { Server as WebSocketServer } from "mock-socket";
+import { Server as WebSocketServer } from 'mock-socket';
 
-import { KernelIFrame } from "./kernel";
+import { KernelIFrame } from './kernel';
 
-import { IJupyterServer } from "../tokens";
+import { IJupyterServer } from '../tokens';
 
 /**
  * A class to handle requests to /api/kernels
  */
 export class Kernels implements IJupyterServer.IRoutable {
   /**
-   * Construct a new Kernels.
-   */
-  constructor() {}
-
-  /**
    * Start a new kernel.
-   * @param kernelModel The kernel model
-   * @param sessionModel The session model
+   *
+   * @param sessionId The session id.
    */
   startNew(sessionId: string): Kernel.IModel {
     const id = UUID.uuid4();
@@ -35,8 +30,8 @@ export class Kernels implements IJupyterServer.IRoutable {
     const wsServer = new WebSocketServer(kernelUrl);
 
     // TODO: handle multiple connections to the same kernel
-    wsServer.on("connection", socket => {
-      const sendMessage = (msg: KernelMessage.IMessage) => {
+    wsServer.on('connection', socket => {
+      const sendMessage = (msg: KernelMessage.IMessage): void => {
         const message = serialize(msg);
         socket.send(message);
       };
@@ -44,7 +39,7 @@ export class Kernels implements IJupyterServer.IRoutable {
       const kernel = new KernelIFrame({ id, sendMessage, sessionId });
       this._kernels.set(id, kernel);
 
-      socket.on("message", (message: string | ArrayBuffer) => {
+      socket.on('message', (message: string | ArrayBuffer) => {
         if (message instanceof ArrayBuffer) {
           message = new Uint8Array(message).buffer;
         }
@@ -52,7 +47,7 @@ export class Kernels implements IJupyterServer.IRoutable {
         kernel.handleMessage(msg);
       });
 
-      socket.on("close", () => {
+      socket.on('close', () => {
         kernel.dispose();
         this._kernels.delete(id);
       });
@@ -60,23 +55,30 @@ export class Kernels implements IJupyterServer.IRoutable {
 
     const model = {
       id,
-      name: "p5.js"
+      name: 'p5.js'
     };
     return model;
   }
 
   /**
    * Fetch an IFrame by kernel id
+   *
+   * @param kernelId The id of the kernel.
+   * @param iframe The IFrame to register.
    */
-  registerIFrame(kernelId: string, iframe: HTMLIFrameElement) {
+  registerIFrame(
+    kernelId: string,
+    iframe: HTMLIFrameElement
+  ): Promise<void> | undefined {
     return this._kernels.get(kernelId)?.registerIFrame(iframe);
   }
 
   /**
    * Dispatch a request to the local router.
+   *
    * @param req The request to dispatch.
    */
-  dispatch(req: Request) {
+  dispatch(req: Request): Response {
     // TODO: handle kernel lifecycle
     return new Response(null);
   }
@@ -92,16 +94,11 @@ export namespace Kernels {
    * The base url for the Kernels manager
    */
   export const WS_BASE_URL = `${
-    window.location.protocol === "https:" ? "wss" : "ws"
+    window.location.protocol === 'https:' ? 'wss' : 'ws'
   }://${window.location.host}`;
 
   /**
    * The kernel service URL.
    */
-  export const KERNEL_SERVICE_URL = "/api/kernels";
-
-  /**
-   * The instantiation options for a Kernels
-   */
-  export interface IOptions {}
+  export const KERNEL_SERVICE_URL = '/api/kernels';
 }
