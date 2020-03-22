@@ -1,3 +1,12 @@
+const fs = require("fs-extra");
+const path = require("path");
+
+// copy static resources
+const basePath = path.resolve(".");
+const resources = path.resolve(basePath, "./src/server/resources");
+const target = path.resolve(basePath, "./build/server/resources");
+fs.copySync(resources, target);
+
 module.exports = {
   entry: ["whatwg-fetch", "./build/index.js"],
   output: {
@@ -12,6 +21,7 @@ module.exports = {
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       { test: /\.html$/, use: "file-loader" },
       { test: /\.md$/, use: "raw-loader" },
+      { test: /\.ipynb$/, use: "raw-loader" },
       { test: /\.js.map$/, use: "file-loader" },
       {
         // In .css files, svg is loaded as a data URI.
