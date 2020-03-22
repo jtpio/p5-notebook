@@ -30,6 +30,45 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
     this._initIFrame(this._iframe).then(() => {
       // TODO: handle kernel ready
+      this._evalFunc(this._iframe.contentWindow, `
+        console._log = console.log;
+        console._error = console.error;
+
+        window._bubbleUp = function(msg) {
+          window.parent.postMessage({
+            ...msg,
+            "parentHeader": window._parentHeader
+          });
+        }
+
+        console.log = function() {
+          const args = Array.prototype.slice.call(arguments);
+          window._bubbleUp({
+            "event": "stream",
+            "name": "stdout",
+            "text": args.join(' ') + '\\n'
+          });
+        };
+        console.info = console.log;
+
+        console.error = function() {
+          const args = Array.prototype.slice.call(arguments);
+          window._bubbleUp({
+            "event": "stream",
+            "name": "stderr",
+            "text": args.join(' ') + '\\n'
+          });
+        };
+        console.warn = console.error;
+      `);
+      window.addEventListener('message', (e: MessageEvent) => {
+        const msg = e.data;
+        const parentHeader = msg.parentHeader as KernelMessage.IHeader<KernelMessage.MessageType>;
+        if (msg.event === 'stream') {
+          const content = msg as KernelMessage.IStreamMsg['content'];
+          this._stream(parentHeader, content);
+        }
+      });
     });
   }
 
@@ -187,6 +226,12 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
     this._executeInput(parent);
 
+
+    // store previous parent header
+    this._evalFunc(this._iframe.contentWindow, `
+      window._parentHeader = ${JSON.stringify(parent.header)};
+    `);
+
     // TODO: handle errors
     this._executeResult(parent);
 
@@ -252,6 +297,20 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
    * Handle a status message
    */
   private _status(parent: KernelMessage.IMessage) {}
+
+  /**
+   * Handle a stream event from the kernel
+   */
+  private _stream(parentHeader: KernelMessage.IHeader<KernelMessage.MessageType>, content: KernelMessage.IStreamMsg['content']) {
+    const message = KernelMessage.createMessage<KernelMessage.IStreamMsg>({
+      channel: 'iopub',
+      msgType: 'stream',
+      session: this._sessionId,
+      parentHeader,
+      content
+    })
+    this._sendMessage(message);
+  }
 
   /**
    * Handle an complete_request message
