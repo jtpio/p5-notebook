@@ -2,6 +2,8 @@ import { Router } from "./router";
 
 import { IJupyterServer } from "../tokens";
 
+import DEFAULT_NB from "./resources/default.ipynb";
+
 /**
  * A class to handle requests to /api/contents
  */
@@ -70,126 +72,14 @@ namespace Private {
    * The default notebook to serve.
    */
   export const DEFAULT_NOTEBOOK = {
-    name: "Untitled12.ipynb",
-    path: "Untitled12.ipynb",
+    name: "default.ipynb",
+    path: "default.ipynb",
     last_modified: "2020-03-18T18:41:01.243007Z",
     created: "2020-03-18T18:41:01.243007Z",
-    content: {
-      cells: [
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source:
-            "# p5 notebook\n\nA minimal Jupyter notebook UI for [p5.js](https://p5js.org) kernels."
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source: "First let's define a couple of variables:"
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source: "var n = 4;\nvar speed = 1;"
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source:
-            "## The `setup` function\n\nThe usual p5 setup function, which creates the canvas."
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source:
-            "function setup () {\n  createCanvas(innerWidth, innerHeight);\n  rectMode(CENTER);\n}"
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source:
-            "## The `draw` function\n\nFrom the [p5.js documentation](https://p5js.org/reference/#/p5/draw):\n\n> The `draw()` function continuously executes the lines of code contained inside its block until the program is stopped or `noLoop()` is called."
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source:
-            "function draw() {\n  background('#ddd');\n  translate(innerWidth / 2, innerHeight / 2);\n  for (let i = 0; i < n; i++) {\n    push();\n    rotate(frameCount * speed / 1000 * (i + 1));\n    fill(i * 5, i * 100, i * 150);\n    const s = 200 - i * 10;\n    rect(0, 0, s, s);\n    pop();\n  }\n}"
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source:
-            "## Show the sketch\n\nNow let's show the sketch by using the `%show` magic:"
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source: "%show"
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source:
-            "## Tweak the values\n\nWe can also tweak some values in real time:"
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source: "speed = 3"
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source: "n = 20"
-        },
-        {
-          cell_type: "markdown",
-          metadata: {},
-          source: "We can also show the sketch a second time:"
-        },
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: { trusted: true },
-          outputs: [],
-          source: "%show"
-        }
-      ],
-      metadata: {
-        kernelspec: {
-          display_name: "p5.js",
-          language: "javascript",
-          name: "p5"
-        },
-        language_info: {
-          codemirror_mode: { name: "javascript" },
-          file_extension: ".js",
-          mimetype: "text/javascript",
-          name: "javascript",
-          nbconvert_exporter: "javascript",
-          pygments_lexer: "javascript",
-          version: "es2017"
-        }
-      },
-      nbformat: 4,
-      nbformat_minor: 4
-    },
+    content: JSON.parse(DEFAULT_NB),
     format: "json",
     mimetype: null,
-    size: 3139,
+    size: DEFAULT_NB.length,
     writable: true,
     type: "notebook"
   };
