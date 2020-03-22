@@ -1,4 +1,4 @@
-import { KernelMessage } from "@jupyterlab/services";
+import { KernelMessage } from '@jupyterlab/services';
 
 /**
  * A namespace for IJupyterServer statics.
@@ -15,6 +15,7 @@ export namespace IJupyterServer {
 
     /**
      * Handle an incoming message from the server.
+     *
      * @param msg The message to handle
      */
     handleMessage: (msg: KernelMessage.IMessage) => Promise<void>;
@@ -26,6 +27,7 @@ export namespace IJupyterServer {
   export interface IRoutable {
     /**
      * Dispatch a request.
+     *
      * @param req The request to dispatch.
      */
     dispatch: (req: Request) => void;

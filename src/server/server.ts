@@ -1,23 +1,20 @@
-import { Contents } from "./contents";
+import { Contents } from './contents';
 
-import { KernelSpecs } from "./kernelspecs";
+import { KernelSpecs } from './kernelspecs';
 
-import { Kernels } from "./kernels";
+import { Kernels } from './kernels';
 
-import { Sessions } from "./sessions";
+import { Sessions } from './sessions';
 
 /**
  * A (very, very) simplified Jupyter Server running in the browser.
  */
 export class JupyterServer {
   /**
-   * Construct a new JupyterServer.
-   * @options the instantiation options for the Jupyter Server.
-   */
-  constructor(options: JupyterServer.IOptions) {}
-
-  /**
    * Handle an incoming request from the client.
+   *
+   * @param req The incoming request
+   * @param init The optional init request
    */
   async fetch(
     req: Request,
@@ -41,8 +38,14 @@ export class JupyterServer {
 
   /**
    * Register an IFrame for the given kernel id.
+   *
+   * @param kernelId The id of the kernel.
+   * @param iframe The IFrame to register.
    */
-  async registerIFrame(kernelId: string, iframe: HTMLIFrameElement) {
+  async registerIFrame(
+    kernelId: string,
+    iframe: HTMLIFrameElement
+  ): Promise<void> {
     return this._kernels.registerIFrame(kernelId, iframe);
   }
 
@@ -55,9 +58,4 @@ export class JupyterServer {
 /**
  * A namespace for JupyterServer statics.
  */
-export namespace JupyterServer {
-  /**
-   * The instantiation options for a Jupyter Server.
-   */
-  export interface IOptions {}
-}
+export namespace JupyterServer {}

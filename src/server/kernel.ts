@@ -1,12 +1,12 @@
-import { KernelMessage } from "@jupyterlab/services";
+import { KernelMessage } from '@jupyterlab/services';
 
-import { PromiseDelegate } from "@lumino/coreutils";
+import { PromiseDelegate } from '@lumino/coreutils';
 
-import { IDisposable } from "@lumino/disposable";
+import { IDisposable } from '@lumino/disposable';
 
-import p5 from "!!raw-loader!p5/lib/p5.min.js";
+import p5 from '!!raw-loader!p5/lib/p5.min.js';
 
-import { IJupyterServer } from "../tokens";
+import { IJupyterServer } from '../tokens';
 
 /**
  * A kernel that executes code in an IFrame.
@@ -14,7 +14,8 @@ import { IJupyterServer } from "../tokens";
 export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   /**
    * Instantiate a new IFrameKernel
-   * @options The instantiation options for a new IFrameKernel
+   *
+   * @param options The instantiation options for a new IFrameKernel
    */
   constructor(options: IFrameKernel.IOptions) {
     const { id, sendMessage, sessionId } = options;
@@ -24,8 +25,8 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
     this._sendMessage = sendMessage;
 
     // create the main IFrame
-    this._iframe = document.createElement("iframe");
-    this._iframe.style.visibility = "hidden";
+    this._iframe = document.createElement('iframe');
+    this._iframe.style.visibility = 'hidden';
     document.body.appendChild(this._iframe);
 
     this._initIFrame(this._iframe).then(() => {
@@ -68,13 +69,13 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
         }
       `
       );
-      window.addEventListener("message", (e: MessageEvent) => {
+      window.addEventListener('message', (e: MessageEvent) => {
         const msg = e.data;
         const parentHeader = msg.parentHeader as KernelMessage.IHeader<
           KernelMessage.MessageType
         >;
-        if (msg.event === "stream") {
-          const content = msg as KernelMessage.IStreamMsg["content"];
+        if (msg.event === 'stream') {
+          const content = msg as KernelMessage.IStreamMsg['content'];
           this._stream(parentHeader, content);
         }
       });
@@ -84,21 +85,21 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   /**
    * Whether the kernel is disposed.
    */
-  get isDisposed() {
+  get isDisposed(): boolean {
     return this._isDisposed;
   }
 
   /**
    * Get the kernel id
    */
-  get id() {
+  get id(): string {
     return this._id;
   }
 
   /**
    * Dispose the kernel.
    */
-  dispose() {
+  dispose(): void {
     if (this.isDisposed) {
       return;
     }
@@ -106,38 +107,38 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   }
 
   /**
-   * Get the kernel iframe.
+   * Register a new IFrame.
+   *
+   * @param iframe The IFrame to register.
    */
-  async registerIFrame(iframe: HTMLIFrameElement) {
+  async registerIFrame(iframe: HTMLIFrameElement): Promise<void> {
     await this._initIFrame(iframe);
     for (const cell of this._cells) {
       this._evalFunc(iframe.contentWindow, cell);
     }
     // call the setup function
-    this._evalFunc(iframe.contentWindow, "if (window.setup) window.setup()");
+    this._evalFunc(iframe.contentWindow, 'if (window.setup) window.setup()');
     this._iframes.push(iframe);
   }
 
   /**
    * Handle an incoming message from the client.
+   *
    * @param msg The message to handle
    */
-  async handleMessage(msg: KernelMessage.IMessage) {
+  async handleMessage(msg: KernelMessage.IMessage): Promise<void> {
     // console.log(msg)
     this._busy(msg);
 
     const msgType = msg.header.msg_type;
     switch (msgType) {
-      case "kernel_info_request":
+      case 'kernel_info_request':
         this._kernelInfo(msg);
         break;
-      case "execute_request":
+      case 'execute_request':
         this._executeRequest(msg);
         break;
-      case "status":
-        this._status(msg);
-        break;
-      case "complete_request":
+      case 'complete_request':
         this._complete(msg);
         break;
       default:
@@ -149,16 +150,17 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send an 'idle' status message.
+   *
    * @param parent The parent message
    */
-  private _idle(parent: KernelMessage.IMessage) {
+  private _idle(parent: KernelMessage.IMessage): void {
     const message = KernelMessage.createMessage<KernelMessage.IStatusMsg>({
-      msgType: "status",
-      session: "",
+      msgType: 'status',
+      session: '',
       parentHeader: parent.header,
-      channel: "iopub",
+      channel: 'iopub',
       content: {
-        execution_state: "idle"
+        execution_state: 'idle'
       }
     });
     this._sendMessage(message);
@@ -166,16 +168,17 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send a 'busy' status message.
-   * @param parent The parent message
+   *
+   * @param parent The parent message.
    */
-  private _busy(parent: KernelMessage.IMessage) {
+  private _busy(parent: KernelMessage.IMessage): void {
     const message = KernelMessage.createMessage<KernelMessage.IStatusMsg>({
-      msgType: "status",
-      session: "",
+      msgType: 'status',
+      session: '',
       parentHeader: parent.header,
-      channel: "iopub",
+      channel: 'iopub',
       content: {
-        execution_state: "busy"
+        execution_state: 'busy'
       }
     });
     this._sendMessage(message);
@@ -183,36 +186,38 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Handle a kernel_info_request message
+   *
+   * @param parent The parent message.
    */
-  private _kernelInfo(parent: KernelMessage.IMessage) {
+  private _kernelInfo(parent: KernelMessage.IMessage): void {
     const content: KernelMessage.IInfoReply = {
-      implementation: "p5",
-      implementation_version: "0.1.0",
+      implementation: 'p5',
+      implementation_version: '0.1.0',
       language_info: {
         codemirror_mode: {
-          name: "javascript"
+          name: 'javascript'
         },
-        file_extension: ".js",
-        mimetype: "text/javascript",
-        name: "javascript",
-        nbconvert_exporter: "javascript",
-        pygments_lexer: "javascript",
-        version: "es2017"
+        file_extension: '.js',
+        mimetype: 'text/javascript',
+        name: 'javascript',
+        nbconvert_exporter: 'javascript',
+        pygments_lexer: 'javascript',
+        version: 'es2017'
       },
-      protocol_version: "5.3",
-      status: "ok",
-      banner: "A p5.js kernel running in the browser",
+      protocol_version: '5.3',
+      status: 'ok',
+      banner: 'A p5.js kernel running in the browser',
       help_links: [
         {
-          text: "p5.js Kernel",
-          url: "https://github.com/jtpio/p5-notebook"
+          text: 'p5.js Kernel',
+          url: 'https://github.com/jtpio/p5-notebook'
         }
       ]
     };
 
     const message = KernelMessage.createMessage<KernelMessage.IInfoReplyMsg>({
-      msgType: "kernel_info_reply",
-      channel: "shell",
+      msgType: 'kernel_info_reply',
+      channel: 'shell',
       session: this._sessionId,
       content
     });
@@ -222,17 +227,17 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Handle an `execute_request` message
+   *
+   * @param msg The parent message.
    */
-  private _executeRequest(msg: KernelMessage.IMessage) {
+  private _executeRequest(msg: KernelMessage.IMessage): void {
     const parent = msg as KernelMessage.IExecuteRequestMsg;
     this._execution_count++;
 
     // store previous parent header
     this._evalFunc(
       this._iframe.contentWindow,
-      `
-      window._parentHeader = ${JSON.stringify(parent.header)};
-    `
+      `window._parentHeader = ${JSON.stringify(parent.header)};`
     );
 
     this._executeInput(parent);
@@ -241,15 +246,17 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send an `execute_input` message.
+   *
+   * @param msg The parent message.
    */
-  private _executeInput(msg: KernelMessage.IMessage) {
+  private _executeInput(msg: KernelMessage.IMessage): void {
     const parent = msg as KernelMessage.IExecuteInputMsg;
     const code = parent.content.code;
     const message = KernelMessage.createMessage<KernelMessage.IExecuteInputMsg>(
       {
-        msgType: "execute_input",
+        msgType: 'execute_input',
         parentHeader: parent.header,
-        channel: "iopub",
+        channel: 'iopub',
         session: this._sessionId,
         content: {
           code,
@@ -262,21 +269,23 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Execute the code.
+   *
+   * @param msg The parent message.
    */
-  private _execute(msg: KernelMessage.IMessage) {
+  private _execute(msg: KernelMessage.IMessage): void {
     const parent = msg as KernelMessage.IExecuteRequestMsg;
     const code = parent.content.code;
     try {
       const result = this._eval(code);
       this._executeResult(parent, {
         data: {
-          "text/plain": result
+          'text/plain': result
         },
         metadata: {}
       });
       this._execute_reply(parent, {
         execution_count: this._execution_count,
-        status: "ok",
+        status: 'ok',
         user_expressions: {},
         payload: []
       });
@@ -290,7 +299,7 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
       this._error(parent, error);
       this._execute_reply(parent, {
         execution_count: this._execution_count,
-        status: "error",
+        status: 'error',
         ...error
       });
     }
@@ -298,20 +307,23 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send an `execute_result` message.
+   *
+   * @param msg The parent message.
+   * @param content The execut result content.
    */
   private _executeResult(
     msg: KernelMessage.IMessage,
     content: Pick<
-      KernelMessage.IExecuteResultMsg["content"],
-      "data" | "metadata"
+      KernelMessage.IExecuteResultMsg['content'],
+      'data' | 'metadata'
     >
-  ) {
+  ): void {
     const message = KernelMessage.createMessage<
       KernelMessage.IExecuteResultMsg
     >({
-      msgType: "execute_result",
+      msgType: 'execute_result',
       parentHeader: msg.header,
-      channel: "iopub",
+      channel: 'iopub',
       session: this._sessionId,
       content: {
         ...content,
@@ -323,15 +335,18 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send an `error` message.
+   *
+   * @param msg The parent message.
+   * @param content The content for the execution error response.
    */
   private _error(
     msg: KernelMessage.IMessage,
-    content: KernelMessage.IErrorMsg["content"]
-  ) {
+    content: KernelMessage.IErrorMsg['content']
+  ): void {
     const message = KernelMessage.createMessage<KernelMessage.IErrorMsg>({
-      msgType: "error",
+      msgType: 'error',
       parentHeader: msg.header,
-      channel: "iopub",
+      channel: 'iopub',
       session: this._sessionId,
       content
     });
@@ -340,16 +355,19 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Send an `execute_reply` message.
+   *
+   * @param msg The parent message.
+   * @param content The content for the execute reply.
    */
   private _execute_reply(
     msg: KernelMessage.IMessage,
-    content: KernelMessage.IExecuteReplyMsg["content"]
-  ) {
+    content: KernelMessage.IExecuteReplyMsg['content']
+  ): void {
     const parent = msg as KernelMessage.IExecuteRequestMsg;
     const message = KernelMessage.createMessage<KernelMessage.IExecuteReplyMsg>(
       {
-        msgType: "execute_reply",
-        channel: "shell",
+        msgType: 'execute_reply',
+        channel: 'shell',
         parentHeader: parent.header,
         session: this._sessionId,
         content
@@ -359,20 +377,18 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   }
 
   /**
-   * Handle a status message
-   */
-  private _status(parent: KernelMessage.IMessage) {}
-
-  /**
    * Handle a stream event from the kernel
+   *
+   * @param parentHeader The parent header.
+   * @param content The stream content.
    */
   private _stream(
     parentHeader: KernelMessage.IHeader<KernelMessage.MessageType>,
-    content: KernelMessage.IStreamMsg["content"]
-  ) {
+    content: KernelMessage.IStreamMsg['content']
+  ): void {
     const message = KernelMessage.createMessage<KernelMessage.IStreamMsg>({
-      channel: "iopub",
-      msgType: "stream",
+      channel: 'iopub',
+      msgType: 'stream',
       session: this._sessionId,
       parentHeader,
       content
@@ -382,34 +398,36 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Handle an complete_request message
+   *
+   * @param msg The parent message.
    */
-  private _complete(msg: KernelMessage.IMessage) {
+  private _complete(msg: KernelMessage.IMessage): void {
     const parent = msg as KernelMessage.ICompleteRequestMsg;
 
     // naive completion on window names only
     // TODO: improve and move logic to the iframe
     const vars = this._evalFunc(
       this._iframe.contentWindow,
-      "Object.keys(window)"
+      'Object.keys(window)'
     ) as string[];
     const { code, cursor_pos } = parent.content;
     const words = code.slice(0, cursor_pos).match(/(\w+)$/) ?? [];
-    const word = words[0] ?? "";
+    const word = words[0] ?? '';
     const matches = vars.filter(v => v.startsWith(word));
 
     const message = KernelMessage.createMessage<
       KernelMessage.ICompleteReplyMsg
     >({
-      msgType: "complete_reply",
+      msgType: 'complete_reply',
       parentHeader: parent.header,
-      channel: "shell",
+      channel: 'shell',
       session: this._sessionId,
       content: {
         matches,
         cursor_start: cursor_pos - word.length,
         cursor_end: cursor_pos,
         metadata: {},
-        status: "ok"
+        status: 'ok'
       }
     });
 
@@ -418,12 +436,13 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Execute code in the kernel IFrame.
+   *
    * @param code The code to execute.
    */
-  private _eval(code: string) {
+  private _eval(code: string): string {
     // TODO: handle magics
-    if (code.startsWith("%show")) {
-      return "";
+    if (code.startsWith('%show')) {
+      return '';
     }
     this._cells.push(code);
     for (const frame of this._iframes) {
@@ -436,18 +455,22 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
 
   /**
    * Create a new IFrame
+   *
+   * @param iframe The IFrame to initialize.
    */
-  private async _initIFrame(iframe: HTMLIFrameElement) {
+  private async _initIFrame(
+    iframe: HTMLIFrameElement
+  ): Promise<HTMLIFrameElement | undefined> {
     const delegate = new PromiseDelegate<void>();
     if (!iframe.contentWindow) {
-      delegate.reject("IFrame not ready");
+      delegate.reject('IFrame not ready');
       return;
     }
     const doc = iframe.contentWindow.document;
-    const script = doc.createElement("script");
+    const script = doc.createElement('script');
     doc.body.appendChild(script);
     script.textContent = p5 as string;
-    script.id = "p5-src";
+    script.id = 'p5-src';
     this._evalFunc(
       iframe.contentWindow,
       `
@@ -470,9 +493,9 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
   private _iframes: HTMLIFrameElement[] = [];
   private _cells: string[] = [];
   private _evalFunc = new Function(
-    "window",
-    "code",
-    "return window.eval(code);"
+    'window',
+    'code',
+    'return window.eval(code);'
   );
   private _execution_count = 0;
   private _sessionId: string;

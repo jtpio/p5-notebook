@@ -4,11 +4,12 @@
 export class Router {
   /**
    * Add a new route.
+   *
    * @param method The method
    * @param pattern The pattern
    * @param callback The callback
    */
-  add(method: Router.Method, pattern: string, callback: Router.Callback) {
+  add(method: Router.Method, pattern: string, callback: Router.Callback): void {
     this._routes.push({
       method,
       pattern,
@@ -18,6 +19,7 @@ export class Router {
 
   /**
    * Route a request.
+   *
    * @param req The request to route.
    */
   async route(req: Request): Promise<Response> {
@@ -31,7 +33,7 @@ export class Router {
       }
     }
 
-    throw new Error("Cannot route " + req);
+    throw new Error('Cannot route ' + req);
   }
 
   private _routes: Router.IRoute[] = [];
@@ -49,7 +51,7 @@ export namespace Router {
   /**
    * The Method type.
    */
-  export type Method = "GET" | "PUT" | "POST" | "PATCH" | "DELETE";
+  export type Method = 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
 
   /**
    * An interface for a route.

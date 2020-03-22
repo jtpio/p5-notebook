@@ -1,8 +1,8 @@
-import { JupyterFrontEnd } from "@jupyterlab/application";
+import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { BrowserServiceManager } from "./service";
+import { BrowserServiceManager } from './service';
 
-import { Shell } from "./shell";
+import { Shell } from './shell';
 
 /**
  * App is the main application class. It is instantiated once and shared.
@@ -10,6 +10,8 @@ import { Shell } from "./shell";
 export class App extends JupyterFrontEnd<Shell> {
   /**
    * Construct a new App object.
+   *
+   * @param options The instantiation options for an App.
    */
   constructor(options: App.IOptions = { shell: new Shell() }) {
     super({
@@ -21,7 +23,7 @@ export class App extends JupyterFrontEnd<Shell> {
   /**
    * The name of the application.
    */
-  readonly name = "p5-notebook";
+  readonly name = 'p5-notebook';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
@@ -31,7 +33,7 @@ export class App extends JupyterFrontEnd<Shell> {
   /**
    * The version of the application.
    */
-  readonly version = "unknown";
+  readonly version = 'unknown';
 }
 
 /**
@@ -41,5 +43,5 @@ export namespace App {
   /**
    * The instantiation options for an App.
    */
-  export interface IOptions extends JupyterFrontEnd.IOptions<Shell> {}
+  export type IOptions = JupyterFrontEnd.IOptions<Shell>;
 }
