@@ -166,6 +166,9 @@ async function main(): Promise<void> {
 
   SetupCommands(commands, nbWidget, handler);
 
+  const plugins = [require('jupyterlab-topbar-extension')];
+  app.registerPlugins(plugins);
+
   app.shell.add(nbWidget);
   app.start();
 
