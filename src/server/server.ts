@@ -5,6 +5,8 @@ import { KernelSpecs } from './kernelspecs';
 import { Kernels } from './kernels';
 
 import { Sessions } from './sessions';
+import { Settings } from './settings';
+import { Themes } from './themes';
 
 /**
  * A (very, very) simplified Jupyter Server running in the browser.
@@ -32,6 +34,10 @@ export class JupyterServer {
       return this._sessions.dispatch(req);
     } else if (req.url.match(Kernels.KERNEL_SERVICE_URL)) {
       return this._kernels.dispatch(req);
+    } else if (req.url.match(Settings.SETTINGS_SERVICE_URL)) {
+      return this._settings.dispatch(req);
+    } else if (req.url.match(Themes.THEMES_SERVICE_URL)) {
+      return this._themes.dispatch(req);
     }
     return new Response(null);
   }
@@ -52,6 +58,8 @@ export class JupyterServer {
   private _kernelspecs = new KernelSpecs();
   private _contents = new Contents();
   private _kernels = new Kernels();
+  private _settings = new Settings();
+  private _themes = new Themes();
   private _sessions = new Sessions({ kernels: this._kernels });
 }
 

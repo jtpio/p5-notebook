@@ -38,6 +38,35 @@ export class App extends JupyterFrontEnd<Shell> {
    */
   readonly version = 'unknown';
 
+  get paths(): JupyterFrontEnd.IPaths {
+    return {
+      urls: {
+        base: '',
+        notFound: '',
+        app: '',
+        static: '',
+        settings: '',
+        themes: '/api/themes',
+        tree: '',
+        workspaces: '',
+        hubHost: '',
+        hubPrefix: '',
+        hubUser: '',
+        hubServerName: ''
+      },
+      directories: {
+        appSettings: '',
+        schemas: '',
+        static: '',
+        templates: '',
+        themes: '',
+        userSettings: '',
+        serverRoot: '',
+        workspaces: ''
+      }
+    };
+  }
+
   /**
    * Register plugins from a plugin module.
    *
