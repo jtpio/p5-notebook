@@ -43,3 +43,4 @@ p5.js kernels also run in the browser in their own IFrame. The IFrame provides t
 - nb5.js, a notebook for p5js sketches (proof of concept): https://github.com/aparrish/nb5js-proof-of-concept
 - p5.js Jupyter Widget: https://github.com/jtpio/ipyp5
 - [archived / demo] p5.js in the Classic Jupyter Notebook with Jupyter Widgets: https://github.com/jtpio/p5-jupyter-notebook
+- Jupyter Kernels, right inside JupyterLab: https://github.com/deathbeds/jyve
