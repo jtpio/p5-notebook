@@ -1,4 +1,7 @@
-import { JupyterFrontEnd } from '@jupyterlab/application';
+import {
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from '@jupyterlab/application';
 
 import { BrowserServiceManager } from './service';
 
@@ -34,6 +37,40 @@ export class App extends JupyterFrontEnd<Shell> {
    * The version of the application.
    */
   readonly version = 'unknown';
+
+  /**
+   * Register plugins from a plugin module.
+   *
+   * @param mod - The plugin module to register.
+   */
+  registerPluginModule(mod: App.IPluginModule): void {
+    let data = mod.default;
+    // Handle commonjs exports.
+    if (!Object.prototype.hasOwnProperty.call(mod, '__esModule')) {
+      data = mod as any;
+    }
+    if (!Array.isArray(data)) {
+      data = [data];
+    }
+    data.forEach(item => {
+      try {
+        this.registerPlugin(item);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+
+  /**
+   * Register the plugins from multiple plugin modules.
+   *
+   * @param mods - The plugin modules to register.
+   */
+  registerPluginModules(mods: App.IPluginModule[]): void {
+    mods.forEach(mod => {
+      this.registerPluginModule(mod);
+    });
+  }
 }
 
 /**
@@ -44,4 +81,15 @@ export namespace App {
    * The instantiation options for an App.
    */
   export type IOptions = JupyterFrontEnd.IOptions<Shell>;
+
+  /**
+   * The interface for a module that exports a plugin or plugins as
+   * the default value.
+   */
+  export interface IPluginModule {
+    /**
+     * The default export.
+     */
+    default: JupyterFrontEndPlugin<any> | JupyterFrontEndPlugin<any>[];
+  }
 }
