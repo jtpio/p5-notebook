@@ -44,6 +44,7 @@
     "@jupyterlab/services": "^5.0.2",
     "@jupyterlab/theme-dark-extension": "^2.0.2",
     "@jupyterlab/theme-light-extension": "^2.0.2",
+    "@jupyterlab/ui-components": "^2.0.2",
     "@lumino/algorithm": "^1.2.3",
     "@lumino/commands": "^1.10.1",
     "@lumino/coreutils": "^1.4.2",

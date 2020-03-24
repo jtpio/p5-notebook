@@ -3,8 +3,8 @@ const path = require('path');
 
 // copy static resources
 const basePath = path.resolve('.');
-const resources = path.resolve(basePath, './src/server/resources');
-const target = path.resolve(basePath, './build/server/resources');
+const resources = path.resolve(basePath, './src/resources');
+const target = path.resolve(basePath, './build/resources');
 fs.copySync(resources, target);
 
 module.exports = {

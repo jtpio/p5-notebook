@@ -34,6 +34,9 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   add(widget: Widget, area?: Shell.Area): void {
+    if (area === 'top') {
+      return this._top.addWidget(widget);
+    }
     this._main.widgets.forEach(w => w.dispose());
     this._main.addWidget(widget);
     this._main.update();

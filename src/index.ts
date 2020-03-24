@@ -40,6 +40,7 @@ async function main(): Promise<void> {
   const mods = [
     require('./app/plugins/notebook'),
     require('./app/plugins/theme'),
+    require('./app/plugins/top'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/theme-light-extension')
   ];
