@@ -7,6 +7,8 @@ import { LabIcon } from '@jupyterlab/ui-components';
 
 import { Widget } from '@lumino/widgets';
 
+import { Menu } from './menu';
+
 // icon from: https://github.com/processing/p5.js-web-editor/blob/master/client/images/p5-asterisk.svg
 import p5IconStr from '../../../resources/p5-asterisk.svg';
 
@@ -28,7 +30,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
     });
     logo.id = 'p5-logo';
 
+    const { commands } = app;
+    const menu = new Menu({ commands });
+    menu.id = 'p5-menu';
+
     app.shell.add(logo, 'top');
+    app.shell.add(menu, 'top');
   }
 };
 

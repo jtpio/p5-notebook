@@ -37,6 +37,7 @@
     "@jupyterlab/docmanager": "^2.0.2",
     "@jupyterlab/docregistry": "^2.0.2",
     "@jupyterlab/documentsearch": "^2.0.2",
+    "@jupyterlab/mainmenu": "^2.0.2",
     "@jupyterlab/mathjax2": "^2.0.1",
     "@jupyterlab/notebook": "^2.0.2",
     "@jupyterlab/observables": "^3.0.1",
