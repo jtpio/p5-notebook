@@ -4,7 +4,7 @@ import { Router } from './router';
 
 import { IJupyterServer } from '../tokens';
 
-import DEFAULT_NB from './resources/default.ipynb';
+import DEFAULT_NB from '../resources/default.ipynb';
 
 /**
  * A class to handle requests to /api/contents

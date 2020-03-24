@@ -12,6 +12,13 @@ body {
   bottom: 4px;
 }
 
+#top-panel {
+  border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
+  background: var(--jp-layout-color1);
+  display: flex;
+  min-height: var(--jp-private-menubar-height);
+}
+
 iframe {
   border: none;
 }
