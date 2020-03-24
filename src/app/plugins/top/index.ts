@@ -7,7 +7,9 @@ import { LabIcon } from '@jupyterlab/ui-components';
 
 import { Widget } from '@lumino/widgets';
 
-import { Menu } from './menu';
+import { MainMenu } from './menu';
+
+import { IMainMenu } from './tokens';
 
 // icon from: https://github.com/processing/p5.js-web-editor/blob/master/client/images/p5-asterisk.svg
 import p5IconStr from '../../../resources/p5-asterisk.svg';
@@ -15,10 +17,11 @@ import p5IconStr from '../../../resources/p5-asterisk.svg';
 /**
  * The top plugin.
  */
-const plugin: JupyterFrontEndPlugin<void> = {
+const plugin: JupyterFrontEndPlugin<IMainMenu> = {
   id: '@p5-notebook/top',
   autoStart: true,
-  activate: (app: JupyterFrontEnd): void => {
+  provides: IMainMenu,
+  activate: (app: JupyterFrontEnd): IMainMenu => {
     const logo = new Widget();
     const icon = new LabIcon({ name: 'p5-icon', svgstr: p5IconStr });
     icon.element({
@@ -31,11 +34,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
     logo.id = 'p5-logo';
 
     const { commands } = app;
-    const menu = new Menu({ commands });
+    const menu = new MainMenu({ commands });
     menu.id = 'p5-menu';
 
     app.shell.add(logo, 'top');
     app.shell.add(menu, 'top');
+
+    return menu;
   }
 };
 

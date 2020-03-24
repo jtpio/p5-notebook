@@ -8,7 +8,7 @@ import { Router } from './router';
 
 import { IJupyterServer } from '../tokens';
 
-const DEFAULT_NAME = 'test.ipynb';
+const DEFAULT_NAME = 'example.ipynb';
 
 /**
  * A class to handle requests to /api/sessions
