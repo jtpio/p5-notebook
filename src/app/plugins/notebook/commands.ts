@@ -13,6 +13,7 @@ import {
 import { NotebookPanel, NotebookActions } from '@jupyterlab/notebook';
 
 import { CommandRegistry } from '@lumino/commands';
+
 import { IMainMenu } from '../top/tokens';
 
 /**
@@ -86,8 +87,14 @@ export const SetupCommands = (
   commands.addCommand(CommandIDs.download, {
     label: 'Download',
     execute: () => {
-      console.log('download');
-      nbWidget.context.download();
+      const element = document.createElement('a');
+      element.href = `data:text/json;charset=utf-8,${encodeURIComponent(
+        nbWidget.context.model.toString()
+      )}`;
+      element.download = nbWidget.context.path;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
     }
   });
 

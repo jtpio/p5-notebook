@@ -100,7 +100,7 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
     docRegistry.addModelFactory(mFactory);
     docRegistry.addWidgetFactory(wFactory);
 
-    const notebookPath = 'test.ipynb';
+    const notebookPath = 'example.ipynb';
     const nbWidget = docManager.open(notebookPath) as NotebookPanel;
     await nbWidget.context.sessionContext.ready;
 
