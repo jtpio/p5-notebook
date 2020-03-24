@@ -40,6 +40,8 @@ import { SetupCommands } from './commands';
 
 import { BrowserServiceManager } from '../../service';
 
+import { IMainMenu } from '../top/tokens';
+
 /**
  * The notebook plugin.
  */
@@ -47,7 +49,8 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
   id: '@p5-notebook/notebook:plugin',
   autoStart: true,
   requires: [],
-  activate: async (app: JupyterFrontEnd): Promise<void> => {
+  optional: [IMainMenu],
+  activate: async (app: JupyterFrontEnd, menu: IMainMenu): Promise<void> => {
     const { commands, serviceManager, shell } = app;
 
     // Setup the keydown listener for the document.
@@ -151,7 +154,7 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
       manager.server.registerIFrame(kernelId, iframe);
     });
 
-    SetupCommands(commands, nbWidget, handler);
+    SetupCommands(commands, menu, nbWidget, handler);
     Widget.attach(completer, document.body);
 
     shell.add(nbWidget);
