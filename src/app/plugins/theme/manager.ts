@@ -1,10 +1,18 @@
-import { IThemeManager } from '@jupyterlab/apputils';
+import {
+  ThemeManager as LabThemeManager,
+  IThemeManager
+} from '@jupyterlab/apputils';
 
-import { IChangedArgs } from '@jupyterlab/coreutils';
+import { IDisposable } from '@lumino/disposable';
 
-import { IDisposable, DisposableSet } from '@lumino/disposable';
+import lightTheme from '!!raw-loader!@jupyterlab/theme-light-extension/style/index.css';
+import lightThemeVars from '!!raw-loader!@jupyterlab/theme-light-extension/style/variables.css';
 
-import { ISignal, Signal } from '@lumino/signaling';
+import darkTheme from '!!raw-loader!@jupyterlab/theme-dark-extension/style/index.css';
+import darkThemeVars from '!!raw-loader!@jupyterlab/theme-dark-extension/style/variables.css';
+
+const LIGHT_THEME = (lightThemeVars as string) + (lightTheme as string);
+const DARK_THEME = (darkThemeVars as string) + (darkTheme as string);
 
 /**
  * A class that provides theme management.
@@ -12,42 +20,8 @@ import { ISignal, Signal } from '@lumino/signaling';
  * Note: Custom Theme Manager than core JupyterLab to be
  * able to override the `loadCSS` method.
  *
- * TODO: extends from upstream ThemeManager?
  */
-export class ThemeManager implements IThemeManager {
-  /**
-   * Get the name of the current theme.
-   */
-  get theme(): string | null {
-    return '';
-  }
-
-  /**
-   * The names of the registered themes.
-   */
-  get themes(): string[] {
-    return [];
-  }
-
-  /**
-   * A signal fired when the application theme changes.
-   */
-  get themeChanged(): ISignal<
-    this,
-    IChangedArgs<string, string | null, string>
-  > {
-    return this._themeChanged;
-  }
-
-  /**
-   * Load a theme CSS file by path.
-   *
-   * @param path - The path of the file to load.
-   */
-  async loadCSS(path: string): Promise<void> {
-    console.log('loadCSS');
-  }
-
+export class ThemeManager extends LabThemeManager {
   /**
    * Register a theme with the theme manager.
    *
@@ -56,41 +30,35 @@ export class ThemeManager implements IThemeManager {
    * @returns A disposable that can be used to unregister the theme.
    */
   register(theme: IThemeManager.ITheme): IDisposable {
-    console.log('register theme');
-    return new DisposableSet();
+    const { name } = theme;
+
+    return super.register({
+      ...theme,
+      name,
+      load: () => this._loadCSS(name),
+      unload: () => this._unloadCSS(name)
+    });
   }
 
   /**
-   * Set the current theme.
+   * Load a theme CSS file by theme name.
    *
    * @param name The name of the theme.
    */
-  async setTheme(name: string): Promise<void> {
-    console.log('setTheme');
+  private async _loadCSS(name: string): Promise<void> {
+    const style = document.createElement('style');
+    if (name === 'JupyterLab Dark') {
+      style.textContent = DARK_THEME;
+    } else {
+      style.textContent = LIGHT_THEME;
+    }
+    document.body.appendChild(style);
+    this._style = style;
   }
 
-  /**
-   * Test whether a given theme is light.
-   *
-   * @param name The name of the theme.
-   */
-  isLight(name: string): boolean {
-    console.log('isLight');
-    return true;
+  private async _unloadCSS(name: string): Promise<void> {
+    this._style?.parentElement?.removeChild(this._style);
   }
 
-  /**
-   * Test whether a given theme styles scrollbars,
-   * and if the user has scrollbar styling enabled.
-   *
-   * @param name The name of the theme.
-   */
-  themeScrollbars(name: string): boolean {
-    console.log('isLight');
-    return true;
-  }
-
-  private _themeChanged = new Signal<this, IChangedArgs<string, string | null>>(
-    this
-  );
+  private _style: HTMLStyleElement;
 }
