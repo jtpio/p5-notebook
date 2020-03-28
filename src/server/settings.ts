@@ -1,5 +1,9 @@
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
+import { StateDB } from '@jupyterlab/statedb';
+
+import { LocalStorageConnector } from '../storage';
+
 import { JSONObject, PartialJSONObject } from '@lumino/coreutils';
 
 import stripJsonComments from 'strip-json-comments';
@@ -52,19 +56,24 @@ export class Settings {
    * Construct a new Settings.
    */
   constructor() {
+    const connector = new LocalStorageConnector('settings');
+    this._storage = new StateDB<string>({
+      connector
+    });
+
     this._router.add('GET', Private.pluginNameRegex, async (req: Request) => {
       const pluginId = this._parsePluginId(req.url);
-      return new Response(JSON.stringify(this._get(pluginId)));
+      const settings = await this._get(pluginId);
+      return new Response(JSON.stringify(settings));
     });
-    this._router.add(
-      'GET',
-      '/api/settings',
-      async (req: Request) => new Response(JSON.stringify(this._getAll()))
-    );
+    this._router.add('GET', '/api/settings', async (req: Request) => {
+      const plugins = await this._getAll();
+      return new Response(JSON.stringify(plugins));
+    });
     this._router.add('PUT', Private.pluginNameRegex, async (req: Request) => {
       const pluginId = this._parsePluginId(req.url);
       const raw = await req.text();
-      localStorage.setItem(Private.getStorageKey(pluginId), raw);
+      this._storage.save(pluginId, stripJsonComments(raw));
       return new Response(null, { status: 204 });
     });
   }
@@ -85,8 +94,8 @@ export class Settings {
    * @param plugin the name of the plugin
    *
    */
-  private _get(plugin: string): any {
-    const all = this._getAll();
+  private async _get(plugin: string): Promise<IPlugin | undefined> {
+    const all = await this._getAll();
     const settings = all.settings as IPlugin[];
     return settings.find((setting: IPlugin) => {
       return setting.id === plugin;
@@ -96,16 +105,18 @@ export class Settings {
   /**
    * Get the settings
    */
-  private _getAll(): { settings: IPlugin[] } {
-    const settings = DEFAULT_SETTINGS.map(plugin => {
-      const { id } = plugin;
-      const raw = localStorage.getItem(Private.getStorageKey(id)) ?? plugin.raw;
-      return {
-        ...plugin,
-        raw,
-        settings: JSON.parse(stripJsonComments(raw))
-      };
-    });
+  private async _getAll(): Promise<{ settings: IPlugin[] }> {
+    const settings = await Promise.all(
+      DEFAULT_SETTINGS.map(async plugin => {
+        const { id } = plugin;
+        const raw = (await this._storage.fetch(id)) ?? plugin.raw;
+        return {
+          ...plugin,
+          raw,
+          settings: JSON.parse(stripJsonComments(raw))
+        };
+      })
+    );
     return {
       settings
     };
@@ -121,6 +132,7 @@ export class Settings {
   }
 
   private _router = new Router();
+  private _storage: StateDB<string>;
 }
 
 /**
@@ -173,14 +185,4 @@ namespace Private {
    * The regex to match plugin names.
    */
   export const pluginNameRegex = new RegExp(/(?:@([^/]+?)[/])?([^/]+?):(\w+)/);
-
-  /**
-   * Get the localStorage key for the plugin.
-   *
-   * @param plugin The plugin id
-   * @returns The storage key for the plugin.
-   */
-  export const getStorageKey = (plugin: string): string => {
-    return `settings-${plugin}`;
-  };
 }
