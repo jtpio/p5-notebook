@@ -50,13 +50,8 @@ export class Settings {
    * Construct a new Settings.
    */
   constructor() {
-    // TODO: better regex
-    this._router.add('GET', '/api/settings/.+', async (req: Request) => {
-      const url = new URL(req.url);
-      const pluginId = url.pathname.replace(
-        `${Settings.SETTINGS_SERVICE_URL}/`,
-        ''
-      );
+    this._router.add('GET', Private.pluginNameRegex, async (req: Request) => {
+      const pluginId = this._parsePluginId(req.url);
       return new Response(JSON.stringify(this._get(pluginId)));
     });
     this._router.add(
@@ -64,21 +59,22 @@ export class Settings {
       '/api/settings',
       async (req: Request) => new Response(JSON.stringify(this._getAll()))
     );
-    this._router.add('PUT', '/api/settings/.+', async (req: Request) => {
-      const url = new URL(req.url);
-      const pluginId = url.pathname.replace(
-        `${Settings.SETTINGS_SERVICE_URL}/`,
-        ''
-      );
+    this._router.add('PUT', Private.pluginNameRegex, async (req: Request) => {
+      const pluginId = this._parsePluginId(req.url);
       const raw = await req.text();
-      localStorage.setItem(getStorageKey(pluginId), raw);
+      localStorage.setItem(Private.getStorageKey(pluginId), raw);
       return new Response(null, { status: 204 });
     });
-    this._router.add(
-      'PUT',
-      '/api/settings',
-      async (req: Request) => new Response(null, { status: 204 })
-    );
+  }
+
+  /**
+   * Parse the plugin id from a URL.
+   *
+   * @param url The request url.
+   */
+  private _parsePluginId(url: string): string {
+    const matches = new URL(url).pathname.match(Private.pluginNameRegex);
+    return matches?.[0] ?? '';
   }
 
   /**
@@ -101,7 +97,7 @@ export class Settings {
   private _getAll(): { settings: IPlugin[] } {
     const settings = DEFAULT_SETTINGS.map(plugin => {
       const { id } = plugin;
-      const raw = localStorage.getItem(getStorageKey(id)) ?? plugin.raw;
+      const raw = localStorage.getItem(Private.getStorageKey(id)) ?? plugin.raw;
       return {
         ...plugin,
         raw,
@@ -161,11 +157,21 @@ const DEFAULT_SETTINGS: IPlugin[] = [
 ];
 
 /**
- * Get the localStorage key for the plugin.
- *
- * @param plugin The plugin id
- * @returns The storage key for the plugin.
+ * A namespace for Private data.
  */
-function getStorageKey(plugin: string): string {
-  return `settings-${plugin}`;
+namespace Private {
+  /**
+   * The regex to match plugin names.
+   */
+  export const pluginNameRegex = new RegExp(/(?:@([^/]+?)[/])?([^/]+?):(\w+)/);
+
+  /**
+   * Get the localStorage key for the plugin.
+   *
+   * @param plugin The plugin id
+   * @returns The storage key for the plugin.
+   */
+  export const getStorageKey = (plugin: string): string => {
+    return `settings-${plugin}`;
+  };
 }

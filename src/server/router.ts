@@ -9,7 +9,11 @@ export class Router {
    * @param pattern The pattern
    * @param callback The callback
    */
-  add(method: Router.Method, pattern: string, callback: Router.Callback): void {
+  add(
+    method: Router.Method,
+    pattern: string | RegExp,
+    callback: Router.Callback
+  ): void {
     this._routes.push({
       method,
       pattern,
@@ -58,7 +62,7 @@ export namespace Router {
    */
   export interface IRoute {
     method: Method;
-    pattern: string;
+    pattern: string | RegExp;
     callback: Callback;
   }
 }
