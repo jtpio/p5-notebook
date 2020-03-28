@@ -149,7 +149,7 @@ export namespace Settings {
 const DEFAULT_SETTINGS: IPlugin[] = [
   {
     id: '@jupyterlab/apputils-extension:themes',
-    raw: '{}',
+    raw: '{ "theme-scrollbars": true }',
     schema: themesSchema as ISettingRegistry.ISchema,
     settings: {},
     version: '2.0.2' // TODO: fetch from package.json
