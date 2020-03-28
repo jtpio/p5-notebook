@@ -22,6 +22,13 @@ const DARK_THEME = (darkThemeVars as string) + (darkTheme as string);
  *
  */
 export class ThemeManager extends LabThemeManager {
+  /**
+   * Register a theme with the theme manager.
+   *
+   * @param theme - The theme to register.
+   *
+   * @returns A disposable that can be used to unregister the theme.
+   */
   register(theme: IThemeManager.ITheme): IDisposable {
     const { name } = theme;
 
@@ -33,6 +40,11 @@ export class ThemeManager extends LabThemeManager {
     });
   }
 
+  /**
+   * Load a theme CSS file by theme name.
+   *
+   * @param name The name of the theme.
+   */
   private async _loadCSS(name: string): Promise<void> {
     const style = document.createElement('style');
     if (name === 'JupyterLab Dark') {

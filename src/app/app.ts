@@ -38,6 +38,9 @@ export class App extends JupyterFrontEnd<Shell> {
    */
   readonly version = 'unknown';
 
+  /**
+   * The JupyterLab application paths dictionary.
+   */
   get paths(): JupyterFrontEnd.IPaths {
     return {
       urls: {

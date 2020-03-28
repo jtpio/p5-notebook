@@ -9,6 +9,9 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ThemeManager } from '../theme/manager';
 
+/**
+ * The command IDs used by the plugin.
+ */
 namespace CommandIDs {
   export const changeTheme = 'apputils:change-theme';
 }
