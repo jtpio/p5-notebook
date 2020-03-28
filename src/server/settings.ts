@@ -1,4 +1,6 @@
-import { JSONObject, JSONArray } from '@lumino/coreutils';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
+import { JSONObject, PartialJSONObject } from '@lumino/coreutils';
 
 import stripJsonComments from 'strip-json-comments';
 
@@ -10,31 +12,35 @@ import topbarSchema from 'jupyterlab-topbar-extension/schema/plugin.json';
 
 import themeToggleSchema from 'jupyterlab-theme-toggle/schema/plugin.json';
 
-// TODO: type the settings
-// TODO: automatically load the settings from the list of plugins?
-const DEFAULT_SETTINGS = [
-  {
-    id: '@jupyterlab/apputils-extension:themes',
-    raw: '{}',
-    schema: themesSchema,
-    settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
-  },
-  {
-    id: 'jupyterlab-topbar-extension:plugin',
-    raw: '{}',
-    schema: topbarSchema,
-    settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
-  },
-  {
-    id: 'jupyterlab-theme-toggle:plugin',
-    raw: '{}',
-    schema: themeToggleSchema,
-    settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
-  }
-];
+/**
+ * An interface for the plugin settings.
+ */
+interface IPlugin extends PartialJSONObject {
+  /**
+   * The name of the plugin.
+   */
+  id: string;
+
+  /**
+   * The settings for the plugin.
+   */
+  settings: JSONObject;
+
+  /**
+   * The raw user settings data as a string containing JSON with comments.
+   */
+  raw: string;
+
+  /**
+   * The JSON schema for the plugin.
+   */
+  schema: ISettingRegistry.ISchema;
+
+  /**
+   * The published version of the NPM package containing the plugin.
+   */
+  version: string;
+}
 
 /**
  * A class to handle requests to /api/settings
@@ -65,7 +71,7 @@ export class Settings {
         ''
       );
       const raw = await req.text();
-      localStorage.setItem(pluginId, raw);
+      localStorage.setItem(getStorageKey(pluginId), raw);
       return new Response(null, { status: 204 });
     });
     this._router.add(
@@ -83,19 +89,19 @@ export class Settings {
    */
   private _get(plugin: string): any {
     const all = this._getAll();
-    const settings = all.settings as JSONArray;
-    return settings.find((setting: JSONObject) => {
-      return setting['id'] === plugin;
+    const settings = all.settings as IPlugin[];
+    return settings.find((setting: IPlugin) => {
+      return setting.id === plugin;
     });
   }
 
   /**
    * Get the settings
    */
-  private _getAll(): JSONObject {
+  private _getAll(): { settings: IPlugin[] } {
     const settings = DEFAULT_SETTINGS.map(plugin => {
       const { id } = plugin;
-      const raw = localStorage.getItem(id) ?? plugin.raw;
+      const raw = localStorage.getItem(getStorageKey(id)) ?? plugin.raw;
       return {
         ...plugin,
         raw,
@@ -127,4 +133,39 @@ export namespace Settings {
    * The url for the settings service.
    */
   export const SETTINGS_SERVICE_URL = '/api/settings';
+}
+
+// TODO: automatically load the settings from the list of available plugins
+const DEFAULT_SETTINGS: IPlugin[] = [
+  {
+    id: '@jupyterlab/apputils-extension:themes',
+    raw: '{}',
+    schema: themesSchema as ISettingRegistry.ISchema,
+    settings: {},
+    version: '2.0.2' // TODO: fetch from package.json
+  },
+  {
+    id: 'jupyterlab-topbar-extension:plugin',
+    raw: '{}',
+    schema: topbarSchema as ISettingRegistry.ISchema,
+    settings: {},
+    version: '2.0.2' // TODO: fetch from package.json
+  },
+  {
+    id: 'jupyterlab-theme-toggle:plugin',
+    raw: '{}',
+    schema: themeToggleSchema as ISettingRegistry.ISchema,
+    settings: {},
+    version: '2.0.2' // TODO: fetch from package.json
+  }
+];
+
+/**
+ * Get the localStorage key for the plugin.
+ *
+ * @param plugin The plugin id
+ * @returns The storage key for the plugin.
+ */
+function getStorageKey(plugin: string): string {
+  return `settings-${plugin}`;
 }

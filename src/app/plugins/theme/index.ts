@@ -36,13 +36,7 @@ const plugin: JupyterFrontEndPlugin<IThemeManager> = {
       url: ''
     });
 
-    let currentTheme: string;
     commands.addCommand(CommandIDs.changeTheme, {
-      label: args => {
-        const theme = args['theme'] as string;
-        return args['isPalette'] ? `Use ${theme} Theme` : theme;
-      },
-      isToggled: args => args['theme'] === currentTheme,
       execute: args => {
         const theme = args['theme'] as string;
         if (theme === manager.theme) {
