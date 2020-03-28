@@ -8,6 +8,8 @@ import { Router } from './router';
 
 import themesSchema from '@jupyterlab/apputils-extension/schema/themes.json';
 
+import shortcutsSchema from '@jupyterlab/shortcuts-extension/schema/shortcuts.json';
+
 import topbarSchema from 'jupyterlab-topbar-extension/schema/plugin.json';
 
 import themeToggleSchema from 'jupyterlab-theme-toggle/schema/plugin.json';
@@ -137,6 +139,13 @@ const DEFAULT_SETTINGS: IPlugin[] = [
     id: '@jupyterlab/apputils-extension:themes',
     raw: '{}',
     schema: themesSchema as ISettingRegistry.ISchema,
+    settings: {},
+    version: '2.0.2' // TODO: fetch from package.json
+  },
+  {
+    id: '@jupyterlab/shortcuts-extension:shortcuts',
+    raw: '{}',
+    schema: shortcutsSchema as ISettingRegistry.ISchema,
     settings: {},
     version: '2.0.2' // TODO: fetch from package.json
   },

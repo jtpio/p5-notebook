@@ -43,6 +43,7 @@ async function main(): Promise<void> {
     require('./app/plugins/notebook'),
     require('./app/plugins/theme'),
     require('./app/plugins/top'),
+    require('@jupyterlab/shortcuts-extension'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/theme-light-extension'),
     require('jupyterlab-theme-toggle'),
