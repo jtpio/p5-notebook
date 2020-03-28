@@ -6,6 +6,8 @@ import {
   JupyterFrontEnd
 } from '@jupyterlab/application';
 
+import { settingsPlugin } from '@jupyterlab/apputils-extension/lib/settingsplugin';
+
 import { App } from './app/app';
 
 import '@jupyterlab/application/style/index.css';
@@ -17,8 +19,6 @@ import '@jupyterlab/completer/style/index.css';
 import '@jupyterlab/documentsearch/style/index.css';
 
 import '@jupyterlab/notebook/style/index.css';
-
-import '@jupyterlab/theme-light-extension/style/index.css';
 
 import '../style/index.css';
 
@@ -44,10 +44,13 @@ async function main(): Promise<void> {
     require('./app/plugins/theme'),
     require('./app/plugins/top'),
     require('@jupyterlab/theme-dark-extension'),
-    require('@jupyterlab/theme-light-extension')
+    require('@jupyterlab/theme-light-extension'),
+    require('jupyterlab-theme-toggle'),
+    require('jupyterlab-topbar-extension')
   ];
 
   app.registerPlugin(paths);
+  app.registerPlugin(settingsPlugin);
   app.registerPluginModules(mods);
 
   await app.start();
