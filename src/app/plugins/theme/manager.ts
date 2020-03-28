@@ -14,8 +14,6 @@ import darkThemeVars from '!!raw-loader!@jupyterlab/theme-dark-extension/style/v
 const LIGHT_THEME = (lightThemeVars as string) + (lightTheme as string);
 const DARK_THEME = (darkThemeVars as string) + (darkTheme as string);
 
-let count = 0;
-
 /**
  * A class that provides theme management.
  *
@@ -37,7 +35,7 @@ export class ThemeManager extends LabThemeManager {
 
   private async _loadCSS(name: string): Promise<void> {
     const style = document.createElement('style');
-    if (count++ % 2 === 0) {
+    if (name === 'JupyterLab Dark') {
       style.textContent = DARK_THEME;
     } else {
       style.textContent = LIGHT_THEME;

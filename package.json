@@ -60,7 +60,8 @@
     "mock-socket": "^9.0.3",
     "p5": "^1.0.0",
     "react": "~16.9.0",
-    "react-dom": "~16.9.0"
+    "react-dom": "~16.9.0",
+    "strip-json-comments": "^3.0.1"
   },
   "devDependencies": {
     "@types/codemirror": "^0.0.76",
