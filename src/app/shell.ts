@@ -23,6 +23,7 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     BoxLayout.setStretch(this._top, 0);
     BoxLayout.setStretch(this._main, 1);
 
+    rootLayout.spacing = 0;
     rootLayout.addWidget(this._top);
     rootLayout.addWidget(this._main);
 
