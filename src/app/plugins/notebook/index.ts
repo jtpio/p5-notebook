@@ -36,7 +36,7 @@ import {
 
 import { Widget } from '@lumino/widgets';
 
-import { SetupCommands } from './commands';
+import { addCommands } from './commands';
 
 import { BrowserServiceManager } from '../../service';
 
@@ -51,7 +51,7 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
   requires: [],
   optional: [IMainMenu],
   activate: async (app: JupyterFrontEnd, menu: IMainMenu): Promise<void> => {
-    const { commands, serviceManager, shell } = app;
+    const { commands, serviceManager } = app;
 
     // Setup the keydown listener for the document.
     document.addEventListener(
@@ -100,30 +100,18 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
     docRegistry.addModelFactory(mFactory);
     docRegistry.addWidgetFactory(wFactory);
 
-    const notebookPath = 'example.ipynb';
-    const nbWidget = docManager.open(notebookPath) as NotebookPanel;
-    await nbWidget.context.sessionContext.ready;
-
-    // TODO: use a CompletionManager instead
-    const editor =
-      nbWidget.content.activeCell && nbWidget.content.activeCell.editor;
+    const connector = new KernelConnector({ session: null });
     const model = new CompleterModel();
-    const completer = new Completer({ editor, model });
-    const connector = new KernelConnector({
-      session: nbWidget.context.sessionContext.session
-    });
+    const completer = new Completer({ model });
     const handler = new CompletionHandler({ completer, connector });
-    handler.editor = editor;
-    nbWidget.content.activeCellChanged.connect((_, cell) => {
-      handler.editor = cell && cell.editor;
-    });
     completer.hide();
 
     // Add an iframe to the output cell
     // TODO: replace by a proper renderer
     NotebookActions.executed.connect(async (_, args) => {
+      const current = app.shell.currentWidget as NotebookPanel;
       const { notebook, cell } = args;
-      if (notebook !== nbWidget.content) {
+      if (notebook !== current.content) {
         return;
       }
       if (cell.model.type !== 'code') {
@@ -141,7 +129,7 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
       if (!matches) {
         return;
       }
-      const kernelId = nbWidget.sessionContext.session?.kernel?.id;
+      const kernelId = current.sessionContext.session?.kernel?.id;
       if (!kernelId) {
         console.error('no kernel id');
         return;
@@ -154,10 +142,10 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
       manager.server.registerIFrame(kernelId, iframe);
     });
 
-    SetupCommands(commands, menu, nbWidget, handler);
+    addCommands(app, menu, docManager, handler);
     Widget.attach(completer, document.body);
 
-    shell.add(nbWidget);
+    app.commands.execute('notebook:open', { name: 'example.ipynb' });
   }
 };
 

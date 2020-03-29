@@ -61,8 +61,8 @@ export class Settings {
       connector
     });
 
-    this._router.add('GET', Private.pluginNameRegex, async (req: Request) => {
-      const pluginId = this._parsePluginId(req.url);
+    this._router.add('GET', Private.PLUGIN_NAME_REGEX, async (req: Request) => {
+      const pluginId = Private.parsePluginId(req.url);
       const settings = await this._get(pluginId);
       return new Response(JSON.stringify(settings));
     });
@@ -70,22 +70,12 @@ export class Settings {
       const plugins = await this._getAll();
       return new Response(JSON.stringify(plugins));
     });
-    this._router.add('PUT', Private.pluginNameRegex, async (req: Request) => {
-      const pluginId = this._parsePluginId(req.url);
+    this._router.add('PUT', Private.PLUGIN_NAME_REGEX, async (req: Request) => {
+      const pluginId = Private.parsePluginId(req.url);
       const raw = await req.text();
       this._storage.save(pluginId, stripJsonComments(raw));
       return new Response(null, { status: 204 });
     });
-  }
-
-  /**
-   * Parse the plugin id from a URL.
-   *
-   * @param url The request url.
-   */
-  private _parsePluginId(url: string): string {
-    const matches = new URL(url).pathname.match(Private.pluginNameRegex);
-    return matches?.[0] ?? '';
   }
 
   /**
@@ -184,5 +174,17 @@ namespace Private {
   /**
    * The regex to match plugin names.
    */
-  export const pluginNameRegex = new RegExp(/(?:@([^/]+?)[/])?([^/]+?):(\w+)/);
+  export const PLUGIN_NAME_REGEX = new RegExp(
+    /(?:@([^/]+?)[/])?([^/]+?):(\w+)/
+  );
+
+  /**
+   * Parse the plugin id from a URL.
+   *
+   * @param url The request url.
+   */
+  export const parsePluginId = (url: string): string => {
+    const matches = new URL(url).pathname.match(PLUGIN_NAME_REGEX);
+    return matches?.[0] ?? '';
+  };
 }

@@ -1,5 +1,7 @@
 import { Contents as ServerContents } from '@jupyterlab/services';
 
+import { INotebookContent } from '@jupyterlab/nbformat';
+
 import { Router } from './router';
 
 import { IJupyterServer } from '../tokens';
@@ -21,21 +23,28 @@ export class Contents implements IJupyterServer.IRoutable {
         return new Response(JSON.stringify(Private.DEFAULT_CHECKPOINTS));
       }
     );
-    this._router.add('GET', '/api/contents/.*', async (req: Request) => {
-      const nb = this.get();
+    this._router.add('GET', Private.FILE_NAME_REGEX, async (req: Request) => {
+      const filename = Private.parseFilename(req.url);
+      const nb = this.get(filename);
       return new Response(JSON.stringify(nb));
     });
-    this._router.add('PUT', '/api/contents/.*', async (req: Request) => {
-      const nb = this.get();
+    this._router.add('PUT', Private.FILE_NAME_REGEX, async (req: Request) => {
+      const filename = Private.parseFilename(req.url);
+      const nb = this.get(filename);
       return new Response(JSON.stringify(nb));
     });
   }
 
   /**
-   * Get the default notebook.
+   * Get a notebook by name.
+   *
+   * @param name The name of the notebook.
    */
-  get(): ServerContents.IModel {
-    return Private.DEFAULT_NOTEBOOK;
+  get(name: string): ServerContents.IModel {
+    if (name === 'example.ipynb') {
+      return Private.DEFAULT_NOTEBOOK;
+    }
+    return Private.EMPTY_NOTEBOOK;
   }
 
   /**
@@ -65,6 +74,21 @@ export namespace Contents {
  */
 namespace Private {
   /**
+   * The regex to match file names.
+   */
+  export const FILE_NAME_REGEX = new RegExp(/(\w+\.ipynb)/);
+
+  /**
+   * Parse the file name from a URL.
+   *
+   * @param url The request url.
+   */
+  export const parseFilename = (url: string): string => {
+    const matches = new URL(url).pathname.match(FILE_NAME_REGEX);
+    return matches?.[0] ?? '';
+  };
+
+  /**
    * The default checkpoints.
    */
   export const DEFAULT_CHECKPOINTS = [
@@ -75,14 +99,58 @@ namespace Private {
    * The default notebook to serve.
    */
   export const DEFAULT_NOTEBOOK: ServerContents.IModel = {
-    name: 'default.ipynb',
-    path: 'default.ipynb',
+    name: 'example.ipynb',
+    path: 'example.ipynb',
     last_modified: '2020-03-18T18:41:01.243007Z',
     created: '2020-03-18T18:41:01.243007Z',
     content: JSON.parse(DEFAULT_NB),
     format: 'json',
     mimetype: '',
     size: DEFAULT_NB.length,
+    writable: true,
+    type: 'notebook'
+  };
+
+  /**
+   * The content for an empty notebook.
+   */
+  const EMPTY_NB: INotebookContent = {
+    metadata: {
+      orig_nbformat: 4,
+      kernelspec: {
+        name: 'p5.js',
+        display_name: 'p5.js'
+      },
+      language_info: {
+        codemirror_mode: {
+          name: 'javascript',
+          version: 3
+        },
+        file_extension: '.js',
+        mimetype: 'text/javascript',
+        name: 'javascript',
+        nbconvert_exporter: 'javascript',
+        pygments_lexer: 'javascript',
+        version: 'es2017'
+      }
+    },
+    nbformat_minor: 4,
+    nbformat: 4,
+    cells: []
+  };
+
+  /**
+   * The default notebook to serve.
+   */
+  export const EMPTY_NOTEBOOK: ServerContents.IModel = {
+    name: 'untitled.ipynb',
+    path: 'untitled.ipynb',
+    last_modified: '2020-03-18T18:41:01.243007Z',
+    created: '2020-03-18T18:41:01.243007Z',
+    content: EMPTY_NB,
+    format: 'json',
+    mimetype: '',
+    size: JSON.stringify(EMPTY_NB).length,
     writable: true,
     type: 'notebook'
   };
