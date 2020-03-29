@@ -1,9 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+import { JupyterFrontEnd } from '@jupyterlab/application';
+
 import { sessionContextDialogs } from '@jupyterlab/apputils';
 
-import { CompletionHandler } from '@jupyterlab/completer';
+import { CompletionHandler, KernelConnector } from '@jupyterlab/completer';
+
+import { DocumentManager } from '@jupyterlab/docmanager';
 
 import {
   SearchInstance,
@@ -11,8 +15,6 @@ import {
 } from '@jupyterlab/documentsearch';
 
 import { NotebookPanel, NotebookActions } from '@jupyterlab/notebook';
-
-import { CommandRegistry } from '@lumino/commands';
 
 import { IMainMenu } from '../top/tokens';
 
@@ -27,6 +29,8 @@ const CommandIDs = {
   startSearch: 'documentsearch:start-search',
   findNext: 'documentsearch:find-next',
   findPrevious: 'documentsearch:find-previous',
+  new: 'notebook:new-untitled',
+  open: 'notebook:open',
   download: 'notebook:download',
   save: 'notebook:save',
   interrupt: 'notebook:interrupt-kernel',
@@ -49,49 +53,100 @@ const CommandIDs = {
   redo: 'notebook-cells:redo'
 };
 
-export const SetupCommands = (
-  commands: CommandRegistry,
+export const addCommands = (
+  app: JupyterFrontEnd,
   menu: IMainMenu,
-  nbWidget: NotebookPanel,
+  docManager: DocumentManager,
   handler: CompletionHandler
 ): void => {
-  // Add commands.
+  const getCurrent = (): NotebookPanel | null => {
+    return app.shell.currentWidget as NotebookPanel;
+  };
+
+  const { commands } = app;
+
   commands.addCommand(CommandIDs.invoke, {
     label: 'Completer: Invoke',
     execute: () => handler.invoke()
   });
+
   commands.addCommand(CommandIDs.select, {
     label: 'Completer: Select',
     execute: () => handler.completer.selectActive()
   });
+
   commands.addCommand(CommandIDs.invokeNotebook, {
     label: 'Invoke Notebook',
     execute: () => {
-      if (nbWidget.content.activeCell?.model.type === 'code') {
+      const current = getCurrent();
+      if (current?.content.activeCell?.model.type === 'code') {
         return commands.execute(CommandIDs.invoke);
       }
     }
   });
+
   commands.addCommand(CommandIDs.selectNotebook, {
     label: 'Select Notebook',
     execute: () => {
-      if (nbWidget.content.activeCell?.model.type === 'code') {
+      const current = getCurrent();
+      if (current?.content.activeCell?.model.type === 'code') {
         return commands.execute(CommandIDs.select);
       }
     }
   });
+
+  commands.addCommand(CommandIDs.new, {
+    label: 'New Notebook',
+    execute: async () => {
+      commands.execute(CommandIDs.open, {
+        name: 'untitled.ipynb'
+      });
+    }
+  });
+
+  commands.addCommand(CommandIDs.open, {
+    label: 'Open',
+    execute: async args => {
+      const name = args['name'] as string;
+      const notebook = docManager.open(name) as NotebookPanel;
+      const sessionContext = notebook.sessionContext;
+      await sessionContext.ready;
+
+      getCurrent()?.dispose();
+      app.shell.add(notebook, 'main');
+
+      handler.connector = new KernelConnector({
+        session: sessionContext.session
+      });
+      handler.editor = notebook.content.activeCell?.editor ?? null;
+      notebook.content.activeCellChanged.connect((_, cell) => {
+        handler.editor = cell && cell.editor;
+      });
+
+      return notebook;
+    }
+  });
+
   commands.addCommand(CommandIDs.save, {
     label: 'Save',
-    execute: () => nbWidget.context.save()
+    execute: () => {
+      const current = getCurrent();
+      current?.context.save();
+    }
   });
+
   commands.addCommand(CommandIDs.download, {
     label: 'Download',
     execute: () => {
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
       const element = document.createElement('a');
       element.href = `data:text/json;charset=utf-8,${encodeURIComponent(
-        nbWidget.context.model.toString()
+        current.context.model.toString()
       )}`;
-      element.download = nbWidget.context.path;
+      element.download = current.context.path;
       document.body.appendChild(element);
       element.click();
       document.body.removeChild(element);
@@ -106,8 +161,12 @@ export const SetupCommands = (
         searchInstance.focusInput();
         return;
       }
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
       const provider = new NotebookSearchProvider();
-      searchInstance = new SearchInstance(nbWidget, provider);
+      searchInstance = new SearchInstance(current, provider);
       searchInstance.disposed.connect(() => {
         searchInstance = undefined;
         // find next and previous are now not enabled
@@ -118,6 +177,7 @@ export const SetupCommands = (
       searchInstance.focusInput();
     }
   });
+
   commands.addCommand(CommandIDs.findNext, {
     label: 'Find Next',
     isEnabled: () => !!searchInstance,
@@ -129,6 +189,7 @@ export const SetupCommands = (
       searchInstance.updateIndices();
     }
   });
+
   commands.addCommand(CommandIDs.findPrevious, {
     label: 'Find Previous',
     isEnabled: () => !!searchInstance,
@@ -140,91 +201,185 @@ export const SetupCommands = (
       searchInstance.updateIndices();
     }
   });
+
   commands.addCommand(CommandIDs.interrupt, {
     label: 'Interrupt',
-    execute: async () =>
-      nbWidget.context.sessionContext.session?.kernel?.interrupt()
+    execute: async () => {
+      const current = getCurrent();
+      current?.context.sessionContext.session?.kernel?.interrupt();
+    }
   });
+
   commands.addCommand(CommandIDs.restart, {
     label: 'Restart Kernel',
-    execute: () =>
-      sessionContextDialogs.restart(nbWidget.context.sessionContext)
+    execute: () => {
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
+      sessionContextDialogs.restart(current.context.sessionContext);
+    }
   });
+
   commands.addCommand(CommandIDs.switchKernel, {
     label: 'Switch Kernel',
-    execute: () =>
-      sessionContextDialogs.selectKernel(nbWidget.context.sessionContext)
+    execute: () => {
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
+      sessionContextDialogs.selectKernel(current.context.sessionContext);
+    }
   });
+
   commands.addCommand(CommandIDs.run, {
     label: 'Run the current cell',
     execute: () => {
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
       return NotebookActions.run(
-        nbWidget.content,
-        nbWidget.context.sessionContext
+        current.content,
+        current.context.sessionContext
       );
     }
   });
+
   commands.addCommand(CommandIDs.runAndAdvance, {
     label: 'Run and Advance',
     execute: () => {
+      const current = getCurrent();
+      if (!current) {
+        return;
+      }
       return NotebookActions.runAndAdvance(
-        nbWidget.content,
-        nbWidget.context.sessionContext
+        current.content,
+        current.context.sessionContext
       );
     }
   });
+
   commands.addCommand(CommandIDs.editMode, {
     label: 'Edit Mode',
     execute: () => {
-      nbWidget.content.mode = 'edit';
+      const current = getCurrent();
+      if (current) {
+        current.content.mode = 'edit';
+      }
     }
   });
+
   commands.addCommand(CommandIDs.commandMode, {
     label: 'Command Mode',
     execute: () => {
-      nbWidget.content.mode = 'command';
+      const current = getCurrent();
+      if (current) {
+        current.content.mode = 'command';
+      }
     }
   });
+
   commands.addCommand(CommandIDs.selectBelow, {
     label: 'Select Below',
-    execute: () => NotebookActions.selectBelow(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.selectBelow(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.selectAbove, {
     label: 'Select Above',
-    execute: () => NotebookActions.selectAbove(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.selectAbove(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.extendAbove, {
     label: 'Extend Above',
-    execute: () => NotebookActions.extendSelectionAbove(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.extendSelectionAbove(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.extendTop, {
     label: 'Extend to Top',
-    execute: () => NotebookActions.extendSelectionAbove(nbWidget.content, true)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.extendSelectionAbove(current.content, true);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.extendBelow, {
     label: 'Extend Below',
-    execute: () => NotebookActions.extendSelectionBelow(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.extendSelectionBelow(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.extendBottom, {
     label: 'Extend to Bottom',
-    execute: () => NotebookActions.extendSelectionBelow(nbWidget.content, true)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.extendSelectionBelow(current.content, true);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.merge, {
     label: 'Merge Cells',
-    execute: () => NotebookActions.mergeCells(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.mergeCells(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.split, {
     label: 'Split Cell',
-    execute: () => NotebookActions.splitCell(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.splitCell(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.undo, {
     label: 'Undo',
-    execute: () => NotebookActions.undo(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.undo(current.content);
+      }
+    }
   });
+
   commands.addCommand(CommandIDs.redo, {
     label: 'Redo',
-    execute: () => NotebookActions.redo(nbWidget.content)
+    execute: () => {
+      const current = getCurrent();
+      if (current) {
+        NotebookActions.redo(current.content);
+      }
+    }
   });
+
   const bindings = [
     {
       selector: '.jp-Notebook.jp-mod-editMode .jp-mod-completer-enabled',
@@ -337,10 +492,12 @@ export const SetupCommands = (
       command: CommandIDs.redo
     }
   ];
+
   bindings.map(binding => commands.addKeyBinding(binding));
 
   // add commands to the menu
   if (menu) {
+    menu.fileMenu.addGroup([{ command: CommandIDs.new }]);
     menu.fileMenu.addGroup([{ command: CommandIDs.download }]);
   }
 };

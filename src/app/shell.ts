@@ -34,6 +34,15 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     // no-op
   }
 
+  /**
+   * Add a widget to the application shell.
+   *
+   * @param widget - The widget being added.
+   *
+   * @param area - Optional region in the shell into which the widget should
+   * be added.
+   *
+   */
   add(widget: Widget, area?: Shell.Area): void {
     if (area === 'top') {
       return this._top.addWidget(widget);
@@ -43,7 +52,12 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     this._main.update();
   }
 
-  currentWidget: Widget | null;
+  /**
+   * The current widget in the shell's main area.
+   */
+  get currentWidget(): Widget {
+    return this._main.widgets[0];
+  }
 
   widgets(area: Shell.Area): IIterator<Widget> {
     if (area === 'top') {
