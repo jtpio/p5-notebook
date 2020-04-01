@@ -57,3 +57,16 @@ iframe {
   padding-top: 12px;
   color: #ed215d;
 }
+
+.p5-shortcuts {
+  padding: 10px;
+}
+
+.p5-shortcuts pre {
+  padding: 5px;
+  margin: 0 0 10px;
+  background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color0);
+  border-radius: 2px;
+  word-break: break-all;
+}

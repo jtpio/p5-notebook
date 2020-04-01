@@ -42,6 +42,8 @@ const RESOURCES = [
 namespace CommandIDs {
   export const open = 'help:open';
 
+  export const shortcuts = 'help:shortcuts';
+
   export const about = 'help:about';
 }
 
@@ -73,6 +75,49 @@ const plugin: JupyterFrontEndPlugin<IMainMenu> = {
       execute: args => {
         const url = args['url'] as string;
         window.open(url);
+      }
+    });
+
+    commands.addCommand(CommandIDs.shortcuts, {
+      label: 'Keyboard Shortcuts',
+      execute: () => {
+        const title = (
+          <span className="p5-about-header">
+            <div className="p5-about-header-info">Keyboard Shortcuts</div>
+          </span>
+        );
+
+        const body = (
+          <table className="p5-shortcuts">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Shortcut</th>
+              </tr>
+            </thead>
+            <tbody>
+              {commands.keyBindings.map((binding, i) => (
+                <tr key={i}>
+                  <td>{commands.label(binding.command)}</td>
+                  <td>
+                    <pre>{binding.keys.join(', ')}</pre>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+
+        return showDialog({
+          title,
+          body,
+          buttons: [
+            Dialog.createButton({
+              label: 'Dismiss',
+              className: 'p5-about-button jp-mod-reject jp-mod-styled'
+            })
+          ]
+        });
       }
     });
 
@@ -120,6 +165,7 @@ const plugin: JupyterFrontEndPlugin<IMainMenu> = {
     }));
 
     menu.helpMenu.addGroup([{ command: CommandIDs.about }]);
+    menu.helpMenu.addGroup([{ command: CommandIDs.shortcuts }]);
     menu.helpMenu.addGroup(resourcesGroup);
 
     app.shell.add(logo, 'top');
