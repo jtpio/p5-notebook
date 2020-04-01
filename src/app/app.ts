@@ -26,7 +26,7 @@ export class App extends JupyterFrontEnd<Shell> {
   /**
    * The name of the application.
    */
-  readonly name = 'p5-notebook';
+  readonly name = 'p5 Notebook';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
