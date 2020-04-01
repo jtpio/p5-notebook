@@ -21,3 +21,39 @@ body {
 iframe {
   border: none;
 }
+
+.p5-about-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.p5-about-body {
+  display: flex;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+  text-align: left;
+  flex-direction: column;
+  width: 100%;
+  min-width: 360px;
+  overflow: visible;
+}
+
+.p5-about-body pre {
+  white-space: pre-wrap;
+}
+
+.p5-about-header-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.p5-about-externalLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 12px;
+  color: #ed215d;
+}
