@@ -15,6 +15,33 @@ import { IMainMenu } from './tokens';
 import p5IconStr from '../../../resources/p5-asterisk.svg';
 
 /**
+ * A list of resources to show in the help menu.
+ */
+const RESOURCES = [
+  {
+    text: 'p5.js Reference',
+    url: 'https://p5js.org/reference'
+  },
+  {
+    text: 'About Jupyter',
+    url: 'https://jupyter.org'
+  },
+  {
+    text: 'Markdown Reference',
+    url: 'https://commonmark.org/help/'
+  }
+];
+
+/**
+ * The command IDs used by the top plugin.
+ */
+namespace CommandIDs {
+  export const open = 'help:open';
+
+  export const about = 'help:about';
+}
+
+/**
  * The top plugin.
  */
 const plugin: JupyterFrontEndPlugin<IMainMenu> = {
@@ -36,6 +63,21 @@ const plugin: JupyterFrontEndPlugin<IMainMenu> = {
     const { commands } = app;
     const menu = new MainMenu({ commands });
     menu.id = 'p5-menu';
+
+    commands.addCommand(CommandIDs.open, {
+      label: args => args['text'] as string,
+      execute: args => {
+        const url = args['url'] as string;
+        window.open(url);
+      }
+    });
+
+    const resourcesGroup = RESOURCES.map(args => ({
+      args,
+      command: CommandIDs.open
+    }));
+
+    menu.helpMenu.addGroup(resourcesGroup);
 
     app.shell.add(logo, 'top');
     app.shell.add(menu, 'top');
