@@ -22,6 +22,13 @@ module.exports = {
       { test: /\.html$/, use: 'file-loader' },
       { test: /\.md$/, use: 'raw-loader' },
       { test: /\.ipynb$/, use: 'raw-loader' },
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+        // eslint-disable-next-line no-undef
+        exclude: /node_modules/
+      },
       { test: /\.js.map$/, use: 'file-loader' },
       {
         // In .css files, svg is loaded as a data URI.
