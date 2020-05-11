@@ -20,6 +20,8 @@ import '@jupyterlab/documentsearch/style/index.css';
 
 import '@jupyterlab/notebook/style/index.css';
 
+import 'jupyterlab-cell-flash/style/index.css';
+
 import '../style/index.css';
 
 /**
@@ -46,6 +48,7 @@ async function main(): Promise<void> {
     require('@jupyterlab/shortcuts-extension'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/theme-light-extension'),
+    require('jupyterlab-cell-flash'),
     require('jupyterlab-theme-toggle'),
     require('jupyterlab-topbar-extension')
   ];
