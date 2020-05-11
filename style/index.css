@@ -72,5 +72,5 @@ iframe {
 }
 
 .jp-NotebookPanel-toolbar {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
