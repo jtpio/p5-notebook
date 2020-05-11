@@ -26,6 +26,12 @@ npx http-server
 
 Open http://localhost:8080 in your browser.
 
+There is also a `watch` command to automatically rebuild the application when there are new changes:
+
+```bash
+yarn run watch
+```
+
 ## How it works
 
 This notebook interface is built using components from the [JupyterLab computational environment](https://github.com/jupyterlab/jupyterlab).
