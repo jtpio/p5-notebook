@@ -51,16 +51,7 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
   requires: [],
   optional: [IMainMenu],
   activate: async (app: JupyterFrontEnd, menu: IMainMenu): Promise<void> => {
-    const { commands, serviceManager } = app;
-
-    // Setup the keydown listener for the document.
-    document.addEventListener(
-      'keydown',
-      event => {
-        commands.processKeydownEvent(event);
-      },
-      true
-    );
+    const { serviceManager } = app;
 
     const rendermime = new RenderMimeRegistry({
       initialFactories: initialFactories,

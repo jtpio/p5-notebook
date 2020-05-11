@@ -493,7 +493,7 @@ export const addCommands = (
     }
   ];
 
-  bindings.map(binding => commands.addKeyBinding(binding));
+  bindings.forEach(binding => commands.addKeyBinding(binding));
 
   // add commands to the menu
   if (menu) {
