@@ -70,3 +70,7 @@ iframe {
   border-radius: 2px;
   word-break: break-all;
 }
+
+.jp-NotebookPanel-toolbar {
+  overflow-x: scroll;
+}
