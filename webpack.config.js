@@ -53,5 +53,10 @@ module.exports = {
         use: [{ loader: 'url-loader', options: { limit: 10000 } }]
       }
     ]
+  },
+  watchOptions: {
+    poll: 500,
+    aggregateTimeout: 1000,
+    ignored: /node_modules/
   }
 };
