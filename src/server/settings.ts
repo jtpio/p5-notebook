@@ -18,6 +18,8 @@ import topbarSchema from 'jupyterlab-topbar-extension/schema/plugin.json';
 
 import themeToggleSchema from 'jupyterlab-theme-toggle/schema/plugin.json';
 
+import cellFlashSchema from 'jupyterlab-cell-flash/schema/plugin.json';
+
 /**
  * An interface for the plugin settings.
  */
@@ -164,6 +166,13 @@ const DEFAULT_SETTINGS: IPlugin[] = [
     schema: themeToggleSchema as ISettingRegistry.ISchema,
     settings: {},
     version: '2.0.2' // TODO: fetch from package.json
+  },
+  {
+    id: 'jupyterlab-cell-flash:plugin',
+    raw: '{}',
+    schema: cellFlashSchema as ISettingRegistry.ISchema,
+    settings: {},
+    version: '2.2.2' // TODO: fetch from package.json
   }
 ];
 
