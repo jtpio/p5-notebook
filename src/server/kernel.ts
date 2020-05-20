@@ -6,6 +6,8 @@ import { IDisposable } from '@lumino/disposable';
 
 import p5 from '!!raw-loader!p5/lib/p5.min.js';
 
+import p5Sound from '!!raw-loader!p5/lib/addons/p5.sound.min.js';
+
 import { IJupyterServer } from '../tokens';
 
 /**
@@ -467,10 +469,19 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
       return;
     }
     const doc = iframe.contentWindow.document;
+
+    // add p5
     const script = doc.createElement('script');
     doc.body.appendChild(script);
     script.textContent = p5 as string;
     script.id = 'p5-src';
+
+    // add p5-sound
+    const soundScript = doc.createElement('script');
+    doc.body.appendChild(soundScript);
+    soundScript.textContent = p5Sound as string;
+    soundScript.id = 'p5-sound';
+
     this._evalFunc(
       iframe.contentWindow,
       `
