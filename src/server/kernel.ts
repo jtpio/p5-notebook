@@ -118,8 +118,17 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
     for (const cell of this._cells) {
       this._evalFunc(iframe.contentWindow, cell);
     }
-    // call the setup function
-    this._evalFunc(iframe.contentWindow, 'if (window.setup) window.setup()');
+    // call the preload and setup function
+    this._evalFunc(
+      iframe.contentWindow,
+      `
+      setTimeout(() => {
+        if (window.preload) window.preload();
+        else if (window.setup) window.setup();
+        window.loop();
+      }, 100);
+   `
+    );
     this._iframes.push(iframe);
   }
 
@@ -486,6 +495,7 @@ export class KernelIFrame implements IJupyterServer.IKernelIFrame, IDisposable {
       iframe.contentWindow,
       `
       new p5();
+      window.noLoop();
       setTimeout(() => {
         var body = document.body;
         body.style.margin = 0;
