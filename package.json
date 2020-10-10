@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "tsc && webpack",
-    "build:prod": "yarn run:clean && tsc && webpack --mode=production",
+    "build:prod": "yarn run clean && tsc && webpack --mode=production",
     "stage": "node stage.js",
     "clean": "rimraf dist && rimraf build && rimraf tsconfig.tsbuildinfo",
     "deploy": "yarn run build:prod && yarn run stage",
