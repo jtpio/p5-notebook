@@ -1,10 +1,13 @@
-const fs = require('fs-extra');
 const path = require('path');
+const fs = require('fs-extra');
 
 // copy static resources
 const basePath = path.resolve('.');
 const resources = path.resolve(basePath, './src/resources');
 const target = path.resolve(basePath, './build/resources');
+
+const buildDir = path.resolve(basePath, './build');
+fs.ensureDirSync(buildDir);
 fs.copySync(resources, target);
 
 module.exports = {
