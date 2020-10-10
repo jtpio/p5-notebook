@@ -23,3 +23,6 @@ jobs:
       run: |
         yarn run eslint:check
         yarn run prettier:check
+    - name: Test deploy script
+      run: |
+        yarn run deploy

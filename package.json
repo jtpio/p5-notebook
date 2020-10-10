@@ -19,8 +19,10 @@
   },
   "scripts": {
     "build": "tsc && webpack",
-    "build:prod": "tsc && webpack --mode=production",
-    "clean": "rimraf build && rimraf tsconfig.tsbuildinfo",
+    "build:prod": "yarn run clean && tsc && webpack --mode=production",
+    "stage": "node stage.js",
+    "clean": "rimraf dist && rimraf build && rimraf tsconfig.tsbuildinfo",
+    "deploy": "yarn run build:prod && yarn run stage",
     "prepublishOnly": "npm run build",
     "prettier": "prettier --write '**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}'",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
