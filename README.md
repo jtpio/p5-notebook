@@ -4,7 +4,7 @@
 
 A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
-**✨ [Try it in your browser!](https://p5-notebook.vercel.app/) ✨**
+**✨ [Try it in your browser!](https://p5-notebook.now.sh/) ✨**
 
 ![screenshot](./screenshot.png)
 
