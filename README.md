@@ -1,10 +1,10 @@
 # ![p5-icon](./favicon.ico) p5-notebook ![p5-icon](./favicon.ico)
 
-[![Github Actions Status](https://github.com/jtpio/p5-notebook/workflows/Deploy/badge.svg)](https://jtp.io/p5-notebook-demo)
+[![Github Actions Status](https://github.com/jtpio/p5-notebook/workflows/Build/badge.svg)](https://github.com/jtpio/p5-notebook/actions)
 
 A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
-**✨ [Try it in your browser!](https://jtp.io/p5-notebook-demo) ✨**
+**✨ [Try it in your browser!](https://p5-notebook.vercel.app/) ✨**
 
 ![screenshot](./screenshot.png)
 
