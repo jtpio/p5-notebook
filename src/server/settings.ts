@@ -144,35 +144,35 @@ const DEFAULT_SETTINGS: IPlugin[] = [
     raw: '{ "theme-scrollbars": true }',
     schema: themesSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: '3.0.0-rc.6' // TODO: fetch from package.json
   },
   {
     id: '@jupyterlab/shortcuts-extension:shortcuts',
     raw: '{}',
     schema: shortcutsSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: '3.0.0-rc.6' // TODO: fetch from package.json
   },
   {
     id: 'jupyterlab-topbar-extension:plugin',
     raw: '{}',
     schema: topbarSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: '0.6.0' // TODO: fetch from package.json
   },
   {
     id: 'jupyterlab-theme-toggle:plugin',
     raw: '{}',
     schema: themeToggleSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: '0.6.0' // TODO: fetch from package.json
   },
   {
     id: 'jupyterlab-cell-flash:plugin',
     raw: '{}',
     schema: cellFlashSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.2.2' // TODO: fetch from package.json
+    version: '0.3.0' // TODO: fetch from package.json
   }
 ];
 

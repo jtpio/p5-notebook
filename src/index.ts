@@ -1,10 +1,16 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+import { PageConfig } from '@jupyterlab/coreutils';
+// eslint-disable-next-line
+__webpack_public_path__ = PageConfig.getOption('fullStaticUrl') + '/';
+
 import {
   JupyterFrontEndPlugin,
   JupyterFrontEnd
 } from '@jupyterlab/application';
+
+import { ITranslator, TranslationManager } from '@jupyterlab/translation';
 
 import { settingsPlugin } from '@jupyterlab/apputils-extension/lib/settingsplugin';
 
@@ -37,6 +43,19 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 };
 
 /**
+ * A simplified Translator
+ */
+const translator: JupyterFrontEndPlugin<ITranslator> = {
+  id: '@jupyterlab/translation:translator',
+  activate: (app: App): ITranslator => {
+    const translationManager = new TranslationManager();
+    return translationManager;
+  },
+  autoStart: true,
+  provides: ITranslator
+};
+
+/**
  * The main function
  */
 async function main(): Promise<void> {
@@ -48,12 +67,14 @@ async function main(): Promise<void> {
     require('@jupyterlab/shortcuts-extension'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/theme-light-extension'),
+    // require('@jupyterlab/translation-extension'),
     require('jupyterlab-cell-flash'),
     require('jupyterlab-theme-toggle'),
     require('jupyterlab-topbar-extension')
   ];
 
   app.registerPlugin(paths);
+  app.registerPlugin(translator);
   app.registerPlugin(settingsPlugin);
   app.registerPluginModules(mods);
 
