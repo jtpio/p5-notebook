@@ -67,7 +67,6 @@ async function main(): Promise<void> {
     require('@jupyterlab/shortcuts-extension'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/theme-light-extension'),
-    // require('@jupyterlab/translation-extension'),
     require('jupyterlab-cell-flash'),
     require('jupyterlab-theme-toggle'),
     require('jupyterlab-topbar-extension')

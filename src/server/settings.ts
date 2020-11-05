@@ -144,14 +144,14 @@ const DEFAULT_SETTINGS: IPlugin[] = [
     raw: '{ "theme-scrollbars": true }',
     schema: themesSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '3.0.0-rc.6' // TODO: fetch from package.json
+    version: '3.0.0-rc.7' // TODO: fetch from package.json
   },
   {
     id: '@jupyterlab/shortcuts-extension:shortcuts',
     raw: '{}',
     schema: shortcutsSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '3.0.0-rc.6' // TODO: fetch from package.json
+    version: '3.0.0-rc.7' // TODO: fetch from package.json
   },
   {
     id: 'jupyterlab-topbar-extension:plugin',

@@ -74,7 +74,7 @@ module.exports = [
     plugins: [
       new webpack.DefinePlugin({
         'process.env': '{}',
-        process: {}
+        process: { cwd: () => '/' }
       })
     ],
     watchOptions: {

@@ -22,6 +22,14 @@ export class Sessions implements IJupyterServer.IRoutable {
   constructor(options: Sessions.IOptions) {
     this._kernels = options.kernels;
 
+    this._router.add('GET', '/api/sessions.*', async (req: Request) => {
+      return new Response(JSON.stringify([]), { status: 200 });
+    });
+
+    this._router.add('DELETE', '/api/sessions.*', async (req: Request) => {
+      return new Response(null, { status: 204 });
+    });
+
     this._router.add('POST', '/api/sessions.*', async (req: Request) => {
       const session = this.startNew();
       return new Response(JSON.stringify(session), { status: 201 });
