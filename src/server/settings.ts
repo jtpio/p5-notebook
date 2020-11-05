@@ -74,7 +74,9 @@ export class Settings {
     });
     this._router.add('PUT', Private.PLUGIN_NAME_REGEX, async (req: Request) => {
       const pluginId = Private.parsePluginId(req.url);
-      const raw = await req.text();
+      const payload = await req.text();
+      const parsed = JSON.parse(payload);
+      const { raw } = parsed;
       this._storage.save(pluginId, stripJsonComments(raw));
       return new Response(null, { status: 204 });
     });
