@@ -26,12 +26,21 @@ export class Sessions implements IJupyterServer.IRoutable {
       return new Response(JSON.stringify([]), { status: 200 });
     });
 
+    this._router.add('PATCH', '/api/sessions.*', async (req: Request) => {
+      const payload = await req.text();
+      const options = JSON.parse(payload);
+      const session = this._patch(options);
+      return new Response(JSON.stringify(session), { status: 200 });
+    });
+
     this._router.add('DELETE', '/api/sessions.*', async (req: Request) => {
       return new Response(null, { status: 204 });
     });
 
     this._router.add('POST', '/api/sessions.*', async (req: Request) => {
-      const session = this.startNew();
+      const payload = await req.text();
+      const options = JSON.parse(payload);
+      const session = this.startNew(options);
       return new Response(JSON.stringify(session), { status: 201 });
     });
   }
@@ -39,18 +48,42 @@ export class Sessions implements IJupyterServer.IRoutable {
   /**
    * Start a new session
    * TODO: read path and name
+   *
+   * @param options The options to start a new session.
    */
-  startNew(): Session.IModel {
-    const sessionId = UUID.uuid4();
-    const kernel = this._kernels.startNew('');
+  startNew(options: Session.IModel): Session.IModel {
+    const { path } = options;
+    const id = options.id ?? UUID.uuid4();
+    const kernel = this._kernels.startNew(id);
     const session: Session.IModel = {
-      id: sessionId,
-      path: DEFAULT_NAME,
+      id,
+      path,
       name: DEFAULT_NAME,
       type: 'notebook',
       kernel: {
         id: kernel.id,
         name: kernel.name
+      }
+    };
+    return session;
+  }
+
+  /**
+   * Patch a session
+   * TODO: read path and name
+   *
+   * @param options The options to start a new session.
+   */
+  private _patch(options: Session.IModel): Session.IModel {
+    const { id } = options;
+    const session: Session.IModel = {
+      id,
+      path: DEFAULT_NAME,
+      name: DEFAULT_NAME,
+      type: 'notebook',
+      kernel: {
+        id: id,
+        name: 'p5.js'
       }
     };
     return session;
