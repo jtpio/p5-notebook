@@ -30,7 +30,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@blueprintjs/core@^3.15.1", "@blueprintjs/core@^3.22.2", "@blueprintjs/core@^3.34.0":
+"@blueprintjs/core@^3.22.2", "@blueprintjs/core@^3.32.1", "@blueprintjs/core@^3.34.0":
   version "3.35.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.35.0.tgz#ed48ad7e6692f7dc32e28200a7984e029102ce3f"
   integrity sha512-2coEMDX1JJuHvDCt6wZSB6zntDlKvUmi4rqjLeGR+ZOo4TtFB92GSjycMtupka1PURM1A66oQZvnMiBIjuMW6Q==
@@ -911,9 +911,9 @@
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
 "@types/react@^16.9.48":
-  version "16.9.55"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.55.tgz#47078587f5bfe028a23b6b46c7b94ac0d436acff"
-  integrity sha512-6KLe6lkILeRwyyy7yG9rULKJ0sXplUsl98MGoCfpteXf9sPWFWWMknDcsvubcpaTdBuxtsLF6HDUwdApZL/xIg==
+  version "16.9.56"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.56.tgz#ea25847b53c5bec064933095fc366b1462e2adf0"
+  integrity sha512-gIkl4J44G/qxbuC6r2Xh+D3CGZpJ+NdWTItAPmZbR5mUS+JQ8Zvzpl0ea5qT/ZT3ZNTUcDKUVqV3xBE8wv/DyQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -1815,9 +1815,9 @@ dom-serializer@^1.0.1:
     entities "^2.0.0"
 
 dom4@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/dom4/-/dom4-2.1.5.tgz#f98a94eb67b340f0fa5b42b0ee9c38cda035428e"
-  integrity sha512-gJbnVGq5zaBUY0lUh0LUEVGYrtN75Ks8ZwpwOYvnVFrKy/qzXK4R/1WuLIFExWj/tBxbRAkTzZUGJHXmqsBNjQ==
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/dom4/-/dom4-2.1.6.tgz#c90df07134aa0dbd81ed4d6ba1237b36fc164770"
+  integrity sha512-JkCVGnN4ofKGbjf5Uvc8mmxaATIErKQKSgACdBXpsQ3fY6DlIpAyWfiBSrGkttATssbDCp3psiAKWXk5gmjycA==
 
 domelementtype@^2.0.1:
   version "2.0.2"
@@ -1856,9 +1856,9 @@ duplicate-package-checker-webpack-plugin@^3.0.0:
     semver "^5.4.1"
 
 electron-to-chromium@^1.3.585:
-  version "1.3.589"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.589.tgz#bd26183ed8697dde6ac19acbc16a3bf33b1f8220"
-  integrity sha512-rQItBTFnol20HaaLm26UgSUduX7iGerwW7pEYX17MB1tI6LzFajiLV7iZ7LVcUcsN/7HrZUoCLrBauChy/IqEg==
+  version "1.3.590"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.590.tgz#3b5c93b58cfa06a85e082df6715f362e17bf5315"
+  integrity sha512-76/kAJffe8VUXvEVu677KZuQ92rD1HHn1WO7vjn5atJN/2n71jPgLJ2qs7jKg/00i1xmdR91ZNTg1VIQAxVOIw==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -2948,16 +2948,16 @@ jupyterlab-cell-flash@^0.3.0:
     "@jupyterlab/notebook" "^3.0.0-rc.5"
     "@jupyterlab/settingregistry" "^3.0.0-rc.5"
 
-jupyterlab-theme-toggle@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/jupyterlab-theme-toggle/-/jupyterlab-theme-toggle-0.6.0.tgz#2ca39c5d7e9922583b587409d66715d2e1a15db8"
-  integrity sha512-EATdExM5i4IPgg9U1cDvrGzxAy7sPXKiL70KRRIF4X2Pd+AGvzvELBbkvTeDYJaHVCeo0jM7Zab8MLRm9qYiRw==
+jupyterlab-theme-toggle@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/jupyterlab-theme-toggle/-/jupyterlab-theme-toggle-0.6.1.tgz#bb44af82d190dc47325f5d4437b6e0320bc935f0"
+  integrity sha512-Pm4UNSPUCILyc3CRvB8GxzY5LjQIXtKlGNAQR6zu+H4YrtTyBIigXyTSRfy6gu91eY8lFIsbTRF8d6BWc9v29w==
   dependencies:
-    "@blueprintjs/core" "^3.15.1"
-    "@jupyterlab/application" "^3.0.0-rc.6"
-    "@jupyterlab/apputils" "^3.0.0-rc.6"
+    "@blueprintjs/core" "^3.32.1"
+    "@jupyterlab/application" "^3.0.0-rc.7"
+    "@jupyterlab/apputils" "^3.0.0-rc.7"
     jupyterlab-topbar "^0.6.0"
-    react "^16.13.1"
+    react "^17.0.0"
 
 jupyterlab-topbar-extension@^0.6.0:
   version "0.6.0"
@@ -3915,15 +3915,14 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^17.0.1, react-dom@~16.13.0:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
-  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
+react-dom@^17.0.0, react-dom@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
+  integrity sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
+    scheduler "^0.20.1"
 
 react-is@^16.8.1:
   version "16.13.1"
@@ -3958,14 +3957,13 @@ react-transition-group@^2.9.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@^16.13.1, react@^17.0.1, react@~16.13.0:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
-  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
+react@^17.0.0, react@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
+  integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
 
 read-pkg@^3.0.0:
   version "3.0.0"
@@ -4164,10 +4162,10 @@ sanitize-html@~1.27.4:
     parse-srcset "^1.0.2"
     postcss "^7.0.27"
 
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+scheduler@^0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.1.tgz#da0b907e24026b01181ecbc75efdc7f27b5a000c"
+  integrity sha512-LKTe+2xNJBNxu/QhHvDR14wUXHRQbVY5ZOYpOGWRzhydZUqrLb2JBvLPY7cAqFmqrWuDED0Mjk7013SZiOz6Bw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -4968,9 +4966,9 @@ webpack@^5.3.1:
     webpack-sources "^2.1.1"
 
 whatwg-fetch@^3.0.0:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.1.tgz#e5f871572d6879663fa5674c8f833f15a8425ab3"
-  integrity sha512-sofZVzE1wKwO+EYPbWfiwzaKovWiZXf4coEzjGP9b2GBVgQRLQUZ2QcuPpQExGDAW5GItpEm6Tl4OU5mywnAoQ==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.5.0.tgz#605a2cd0a7146e5db141e29d1c62ab84c0c4c868"
+  integrity sha512-jXkLtsR42xhXg7akoDKvKWE40eJeI+2KZqcp2h3NsOrRnDvtWX36KcKl30dy+hxECivdk2BVUHVNrPtoMBUx6A==
 
 which@^1.2.9:
   version "1.3.1"

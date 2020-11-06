@@ -65,12 +65,12 @@
     "@lumino/widgets": "^1.11.1",
     "es6-promise": "~4.2.8",
     "jupyterlab-cell-flash": "^0.3.0",
-    "jupyterlab-theme-toggle": "^0.6.0",
+    "jupyterlab-theme-toggle": "^0.6.1",
     "jupyterlab-topbar-extension": "^0.6.0",
     "mock-socket": "^9.0.3",
     "p5": "^1.1.9",
-    "react": "~16.13.0",
-    "react-dom": "~16.13.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "strip-json-comments": "^3.0.1"
   },
   "devDependencies": {
@@ -103,10 +103,6 @@
     "webpack": "^5.3.1",
     "webpack-cli": "^4.1.0",
     "whatwg-fetch": "^3.0.0"
-  },
-  "resolutions": {
-    "react": "~16.13.0",
-    "react-dom": "~16.13.0"
   },
   "husky": {
     "hooks": {
