@@ -11,14 +11,19 @@ import stripJsonComments from 'strip-json-comments';
 import { Router } from './router';
 
 import themesSchema from '@jupyterlab/apputils-extension/schema/themes.json';
+import themesPackage from '@jupyterlab/apputils-extension/package.json';
 
 import shortcutsSchema from '@jupyterlab/shortcuts-extension/schema/shortcuts.json';
+import shortcutsPackage from '@jupyterlab/shortcuts-extension/package.json';
 
 import topbarSchema from 'jupyterlab-topbar-extension/schema/plugin.json';
+import topbarPackage from 'jupyterlab-topbar-extension/package.json';
 
 import themeToggleSchema from 'jupyterlab-theme-toggle/schema/plugin.json';
+import themeTogglePackage from 'jupyterlab-theme-toggle/package.json';
 
 import cellFlashSchema from 'jupyterlab-cell-flash/schema/plugin.json';
+import cellFlashPackage from 'jupyterlab-cell-flash/package.json';
 
 /**
  * An interface for the plugin settings.
@@ -74,7 +79,9 @@ export class Settings {
     });
     this._router.add('PUT', Private.PLUGIN_NAME_REGEX, async (req: Request) => {
       const pluginId = Private.parsePluginId(req.url);
-      const raw = await req.text();
+      const payload = await req.text();
+      const parsed = JSON.parse(payload);
+      const { raw } = parsed;
       this._storage.save(pluginId, stripJsonComments(raw));
       return new Response(null, { status: 204 });
     });
@@ -144,35 +151,35 @@ const DEFAULT_SETTINGS: IPlugin[] = [
     raw: '{ "theme-scrollbars": true }',
     schema: themesSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: themesPackage.version
   },
   {
     id: '@jupyterlab/shortcuts-extension:shortcuts',
     raw: '{}',
     schema: shortcutsSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: shortcutsPackage.version
   },
   {
     id: 'jupyterlab-topbar-extension:plugin',
     raw: '{}',
     schema: topbarSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: topbarPackage.version
   },
   {
     id: 'jupyterlab-theme-toggle:plugin',
     raw: '{}',
     schema: themeToggleSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.0.2' // TODO: fetch from package.json
+    version: themeTogglePackage.version
   },
   {
     id: 'jupyterlab-cell-flash:plugin',
     raw: '{}',
     schema: cellFlashSchema as ISettingRegistry.ISchema,
     settings: {},
-    version: '2.2.2' // TODO: fetch from package.json
+    version: cellFlashPackage.version
   }
 ];
 

@@ -7,8 +7,6 @@ import {
   serialize
 } from '@jupyterlab/services/lib/kernel/serialize';
 
-import { UUID } from '@lumino/coreutils';
-
 import { Server as WebSocketServer } from 'mock-socket';
 
 import { KernelIFrame } from './kernel';
@@ -25,7 +23,7 @@ export class Kernels implements IJupyterServer.IRoutable {
    * @param sessionId The session id.
    */
   startNew(sessionId: string): Kernel.IModel {
-    const id = UUID.uuid4();
+    const id = sessionId;
     const kernelUrl = `${Kernels.WS_BASE_URL}/api/kernels/${id}/channels`;
     const wsServer = new WebSocketServer(kernelUrl);
 

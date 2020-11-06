@@ -37,7 +37,7 @@ export class Router {
       }
     }
 
-    throw new Error('Cannot route ' + req);
+    throw new Error('Cannot route ' + req.method + ' ' + req.url);
   }
 
   private _routes: Router.IRoute[] = [];
