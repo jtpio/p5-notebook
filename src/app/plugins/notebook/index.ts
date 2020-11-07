@@ -167,6 +167,16 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
           }
         });
       }
+
+      // also add the example notebook to the launcher
+      launcher.add({
+        command: 'notebook:open',
+        args: { isLauncher: true, name: 'example.ipynb' },
+        category: 'Notebook',
+        rank: 1000,
+        // TODO: do not hardcode the url
+        kernelIconUrl: '/build/resources/p5js-square-logo.svg'
+      });
     });
   }
 };

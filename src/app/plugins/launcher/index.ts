@@ -35,7 +35,8 @@ const plugin: JupyterFrontEndPlugin<ILauncher> = {
       execute: () => {
         const id = 'launcher';
         const callback = (item: Widget): void => {
-          shell.add(item, 'main', { ref: id });
+          // do nothing for now
+          // shell.add(item, 'main', { ref: id });
         };
         const launcher = new Launcher({
           model,

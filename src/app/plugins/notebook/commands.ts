@@ -118,7 +118,6 @@ export const addCommands = (
       const sessionContext = notebook.sessionContext;
       await sessionContext.ready;
 
-      getCurrent()?.dispose();
       app.shell.add(notebook, 'main');
 
       handler.connector = new KernelConnector({

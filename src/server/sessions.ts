@@ -52,13 +52,13 @@ export class Sessions implements IJupyterServer.IRoutable {
    * @param options The options to start a new session.
    */
   startNew(options: Session.IModel): Session.IModel {
-    const { path } = options;
+    const { path, name } = options;
     const id = options.id ?? UUID.uuid4();
     const kernel = this._kernels.startNew(id);
     const session: Session.IModel = {
       id,
-      path,
-      name: DEFAULT_NAME,
+      path: path ?? name,
+      name: name ?? DEFAULT_NAME,
       type: 'notebook',
       kernel: {
         id: kernel.id,
@@ -75,11 +75,11 @@ export class Sessions implements IJupyterServer.IRoutable {
    * @param options The options to start a new session.
    */
   private _patch(options: Session.IModel): Session.IModel {
-    const { id } = options;
+    const { id, path, name } = options;
     const session: Session.IModel = {
       id,
-      path: DEFAULT_NAME,
-      name: DEFAULT_NAME,
+      path: path ?? DEFAULT_NAME,
+      name: name ?? DEFAULT_NAME,
       type: 'notebook',
       kernel: {
         id: id,

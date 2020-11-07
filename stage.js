@@ -13,6 +13,6 @@ fs.ensureDirSync(dest);
 ].forEach(f => {
   const src = path.resolve(basePath, f);
   const target = path.resolve(dest, f);
-  console.log(src, target);
+  console.log(src, '->', target);
   fs.copySync(src, target);
 });
