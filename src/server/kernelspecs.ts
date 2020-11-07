@@ -71,6 +71,24 @@ namespace Private {
           'logo-32x32': '/kernelspecs/p5/logo-32x32.png',
           'logo-64x64': '/build/resources/p5js-square-logo.svg'
         }
+      },
+      pyp5: {
+        name: 'pyp5',
+        display_name: 'pyp5js',
+        language: 'python',
+        argv: [],
+        spec: {
+          argv: [],
+          env: {},
+          display_name: 'pyp5js',
+          language: 'python',
+          interrupt_mode: 'message',
+          metadata: {}
+        },
+        resources: {
+          'logo-32x32': '/kernelspecs/p5/logo-32x32.png',
+          'logo-64x64': '/build/resources/pyp5js.svg'
+        }
       }
     }
   };

@@ -96,7 +96,13 @@ export const addCommands = (
   });
 
   commands.addCommand(CommandIDs.new, {
-    label: 'New Notebook',
+    label: (args: any) => {
+      const kernelName = args['kernelName'];
+      if (args['isLauncher'] && kernelName) {
+        return kernelName;
+      }
+      return 'New Notebook';
+    },
     execute: async () => {
       commands.execute(CommandIDs.open, {
         name: 'untitled.ipynb'
@@ -108,7 +114,7 @@ export const addCommands = (
     label: (args: any) => {
       const name = args['name'] as string;
       if (name) {
-        return `Open ${name}`;
+        return `${name}`;
       }
       return 'Open Example';
     },
