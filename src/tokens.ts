@@ -9,9 +9,14 @@ export namespace IJupyterServer {
    */
   export interface IKernelIFrame {
     /**
+     * Dispose the kernel.
+     */
+    dispose(): void;
+
+    /**
      * Register an IFrame from the frontend.
      */
-    registerIFrame(iframe: HTMLIFrameElement): void;
+    registerIFrame(iframe: HTMLIFrameElement): Promise<void>;
 
     /**
      * Handle an incoming message from the server.

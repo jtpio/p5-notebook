@@ -53,8 +53,9 @@ export class Sessions implements IJupyterServer.IRoutable {
    */
   startNew(options: Session.IModel): Session.IModel {
     const { path, name } = options;
+    const kernelName = options.kernel?.name;
     const id = options.id ?? UUID.uuid4();
-    const kernel = this._kernels.startNew(id);
+    const kernel = this._kernels.startNew({ id, name: kernelName });
     const session: Session.IModel = {
       id,
       path: path ?? name,

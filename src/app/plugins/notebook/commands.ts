@@ -103,9 +103,11 @@ export const addCommands = (
       }
       return 'New Notebook';
     },
-    execute: async () => {
+    execute: (args: any) => {
+      const kernelName = args['kernelName'] as string;
       commands.execute(CommandIDs.open, {
-        name: 'untitled.ipynb'
+        name: 'untitled.ipynb',
+        kernelName
       });
     }
   });
@@ -120,7 +122,10 @@ export const addCommands = (
     },
     execute: async args => {
       const name = args['name'] as string;
-      const notebook = docManager.open(name) as NotebookPanel;
+      const kernelName = args['kernelName'] as string;
+      const notebook = docManager.open(name, 'default', {
+        name: kernelName
+      }) as NotebookPanel;
       const sessionContext = notebook.sessionContext;
       await sessionContext.ready;
 

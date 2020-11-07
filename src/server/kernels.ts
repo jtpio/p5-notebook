@@ -12,6 +12,7 @@ import { Server as WebSocketServer } from 'mock-socket';
 import { KernelIFrame } from './kernels/kernel';
 
 import { IJupyterServer } from '../tokens';
+import { PyP5KernelIFrame } from './kernels/pyp5Kernel';
 
 /**
  * A class to handle requests to /api/kernels
@@ -20,10 +21,10 @@ export class Kernels implements IJupyterServer.IRoutable {
   /**
    * Start a new kernel.
    *
-   * @param sessionId The session id.
+   * @param options The kernel start options.
    */
-  startNew(sessionId: string): Kernel.IModel {
-    const id = sessionId;
+  startNew(options: Kernels.IStartOptions): Kernel.IModel {
+    const { id, name } = options;
     const kernelUrl = `${Kernels.WS_BASE_URL}/api/kernels/${id}/channels`;
     const wsServer = new WebSocketServer(kernelUrl);
 
@@ -34,7 +35,14 @@ export class Kernels implements IJupyterServer.IRoutable {
         socket.send(message);
       };
 
-      const kernel = new KernelIFrame({ id, sendMessage, sessionId });
+      let kernel: IJupyterServer.IKernelIFrame;
+
+      // TODO: more generic kernel instantiation
+      if (name === 'pyp5') {
+        kernel = new PyP5KernelIFrame({ id, sendMessage, sessionId: id });
+      } else {
+        kernel = new KernelIFrame({ id, sendMessage, sessionId: id });
+      }
       this._kernels.set(id, kernel);
 
       socket.on('message', (message: string | ArrayBuffer) => {
@@ -53,7 +61,7 @@ export class Kernels implements IJupyterServer.IRoutable {
 
     const model = {
       id,
-      name: 'p5.js'
+      name: name ?? 'p5.js'
     };
     return model;
   }
@@ -81,13 +89,28 @@ export class Kernels implements IJupyterServer.IRoutable {
     return new Response(null);
   }
 
-  private _kernels = new ObservableMap<KernelIFrame>();
+  private _kernels = new ObservableMap<IJupyterServer.IKernelIFrame>();
 }
 
 /**
  * A namespace for Kernels statics.
  */
 export namespace Kernels {
+  /**
+   * Options to start a new options.
+   */
+  export interface IStartOptions {
+    /**
+     * The kernel id.
+     */
+    id: string;
+
+    /**
+     * The kernel name.
+     */
+    name?: string;
+  }
+
   /**
    * The base url for the Kernels manager
    */
