@@ -8,7 +8,7 @@ import p5 from '!!raw-loader!p5/lib/p5.min.js';
 
 import p5Sound from '!!raw-loader!p5/lib/addons/p5.sound.min.js';
 
-import { IJupyterServer } from '../tokens';
+import { IJupyterServer } from '../../tokens';
 
 /**
  * A kernel that executes code in an IFrame.

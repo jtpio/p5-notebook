@@ -9,7 +9,7 @@ import {
 
 import { Server as WebSocketServer } from 'mock-socket';
 
-import { KernelIFrame } from './kernel';
+import { KernelIFrame } from './kernels/kernel';
 
 import { IJupyterServer } from '../tokens';
 
