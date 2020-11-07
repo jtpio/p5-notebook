@@ -20,6 +20,8 @@ import { DocumentManager } from '@jupyterlab/docmanager';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
+import { ILauncher } from '@jupyterlab/launcher';
+
 import { MathJaxTypesetter } from '@jupyterlab/mathjax2';
 
 import {
@@ -33,6 +35,8 @@ import {
   RenderMimeRegistry,
   standardRendererFactories as initialFactories
 } from '@jupyterlab/rendermime';
+
+import { JSONExt, ReadonlyJSONValue } from '@lumino/coreutils';
 
 import { Widget } from '@lumino/widgets';
 
@@ -48,9 +52,12 @@ import { IMainMenu } from '../top/tokens';
 const notebookPlugin: JupyterFrontEndPlugin<void> = {
   id: '@p5-notebook/notebook:plugin',
   autoStart: true,
-  requires: [],
-  optional: [IMainMenu],
-  activate: async (app: JupyterFrontEnd, menu: IMainMenu): Promise<void> => {
+  requires: [ILauncher, IMainMenu],
+  activate: async (
+    app: JupyterFrontEnd,
+    launcher: ILauncher,
+    menu: IMainMenu
+  ): Promise<void> => {
     const { serviceManager } = app;
 
     const rendermime = new RenderMimeRegistry({
@@ -136,7 +143,31 @@ const notebookPlugin: JupyterFrontEndPlugin<void> = {
     addCommands(app, menu, docManager, handler);
     Widget.attach(completer, document.body);
 
-    app.commands.execute('notebook:open', { name: 'example.ipynb' });
+    void serviceManager.ready.then(() => {
+      const specs = serviceManager.kernelspecs.specs;
+      if (!specs) {
+        return;
+      }
+
+      for (const name in specs.kernelspecs) {
+        const rank = name === specs.default ? 0 : Infinity;
+        const spec = specs.kernelspecs[name];
+        if (!spec) {
+          return;
+        }
+        const kernelIconUrl = spec.resources['logo-64x64'];
+        launcher.add({
+          command: 'notebook:new-untitled',
+          args: { isLauncher: true, kernelName: name },
+          category: 'Notebook',
+          rank,
+          kernelIconUrl,
+          metadata: {
+            kernel: JSONExt.deepCopy(spec.metadata || {}) as ReadonlyJSONValue
+          }
+        });
+      }
+    });
   }
 };
 

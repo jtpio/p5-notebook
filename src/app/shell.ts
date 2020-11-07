@@ -59,6 +59,11 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     return this._main.widgets[0];
   }
 
+  /**
+   * Return the list of widgets for the given area.
+   *
+   * @param area The area
+   */
   widgets(area: Shell.Area): IIterator<Widget> {
     if (area === 'top') {
       return iter(this._top.widgets);

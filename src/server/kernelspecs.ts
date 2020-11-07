@@ -69,7 +69,7 @@ namespace Private {
         },
         resources: {
           'logo-32x32': '/kernelspecs/p5/logo-32x32.png',
-          'logo-64x64': '/kernelspecs/p5/logo-64x64.png'
+          'logo-64x64': '/build/resources/p5js-square-logo.svg'
         }
       }
     }

@@ -105,7 +105,13 @@ export const addCommands = (
   });
 
   commands.addCommand(CommandIDs.open, {
-    label: 'Open',
+    label: (args: any) => {
+      const name = args['name'] as string;
+      if (name) {
+        return `Open ${name}`;
+      }
+      return 'Open Example';
+    },
     execute: async args => {
       const name = args['name'] as string;
       const notebook = docManager.open(name) as NotebookPanel;
