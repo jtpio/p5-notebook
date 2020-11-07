@@ -24,6 +24,8 @@ import '@jupyterlab/completer/style/index.css';
 
 import '@jupyterlab/documentsearch/style/index.css';
 
+import '@jupyterlab/launcher/style/index.css';
+
 import '@jupyterlab/notebook/style/index.css';
 
 import 'jupyterlab-cell-flash/style/index.css';
@@ -61,6 +63,7 @@ const translator: JupyterFrontEndPlugin<ITranslator> = {
 async function main(): Promise<void> {
   const app = new App();
   const mods = [
+    require('./app/plugins/launcher'),
     require('./app/plugins/notebook'),
     require('./app/plugins/theme'),
     require('./app/plugins/top'),

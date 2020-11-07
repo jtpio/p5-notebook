@@ -5,9 +5,14 @@ const basePath = path.resolve('.');
 const dest = path.resolve(basePath, 'dist');
 fs.ensureDirSync(dest);
 
-['index.html', 'favicon.ico', './build/bundle.js'].forEach(f => {
+[
+  'index.html',
+  'favicon.ico',
+  './build/bundle.js',
+  './build/resources/p5js-square-logo.svg'
+].forEach(f => {
   const src = path.resolve(basePath, f);
   const target = path.resolve(dest, f);
-  console.log(src, target);
+  console.log(src, '->', target);
   fs.copySync(src, target);
 });

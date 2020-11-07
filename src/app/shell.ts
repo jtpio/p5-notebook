@@ -1,5 +1,7 @@
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
+import { DocumentRegistry } from '@jupyterlab/docregistry';
+
 import { IIterator, iter } from '@lumino/algorithm';
 
 import { Panel, Widget, BoxLayout } from '@lumino/widgets';
@@ -42,12 +44,20 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
    * @param area - Optional region in the shell into which the widget should
    * be added.
    *
+   * @param options - Optional open options.
+   *
    */
-  add(widget: Widget, area?: Shell.Area): void {
+  add(
+    widget: Widget,
+    area?: Shell.Area,
+    options?: DocumentRegistry.IOpenOptions
+  ): void {
     if (area === 'top') {
       return this._top.addWidget(widget);
     }
-    this._main.widgets.forEach(w => w.dispose());
+    this._main.widgets.forEach(w => {
+      w.close();
+    });
     this._main.addWidget(widget);
     this._main.update();
   }
@@ -59,6 +69,11 @@ export class Shell extends Widget implements JupyterFrontEnd.IShell {
     return this._main.widgets[0];
   }
 
+  /**
+   * Return the list of widgets for the given area.
+   *
+   * @param area The area
+   */
   widgets(area: Shell.Area): IIterator<Widget> {
     if (area === 'top') {
       return iter(this._top.widgets);
