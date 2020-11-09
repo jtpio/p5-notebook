@@ -116,23 +116,7 @@ namespace Private {
    */
   const EMPTY_NB: INotebookContent = {
     metadata: {
-      orig_nbformat: 4,
-      kernelspec: {
-        name: 'p5.js',
-        display_name: 'p5.js'
-      },
-      language_info: {
-        codemirror_mode: {
-          name: 'javascript',
-          version: 3
-        },
-        file_extension: '.js',
-        mimetype: 'text/javascript',
-        name: 'javascript',
-        nbconvert_exporter: 'javascript',
-        pygments_lexer: 'javascript',
-        version: 'es2017'
-      }
+      orig_nbformat: 4
     },
     nbformat_minor: 4,
     nbformat: 4,
