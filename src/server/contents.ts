@@ -133,7 +133,7 @@ namespace Private {
     created: '2020-03-18T18:41:01.243007Z',
     content: EMPTY_NB,
     format: 'json',
-    mimetype: '',
+    mimetype: 'application/json',
     size: JSON.stringify(EMPTY_NB).length,
     writable: true,
     type: 'notebook'

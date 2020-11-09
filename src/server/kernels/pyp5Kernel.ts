@@ -33,6 +33,40 @@ export class PyP5KernelIFrame
       this._jsFunc(
         this._iframe.contentWindow,
         `
+        console._log = console.log;
+        console._error = console.error;
+
+        window._bubbleUp = function(msg) {
+          window.parent.postMessage({
+            ...msg,
+            "parentHeader": window._parentHeader
+          });
+        }
+
+        console.log = function() {
+          const args = Array.prototype.slice.call(arguments);
+          window._bubbleUp({
+            "event": "stream",
+            "name": "stdout",
+            "text": args.join(' ') + '\\n'
+          });
+        };
+        console.info = console.log;
+
+        console.error = function() {
+          const args = Array.prototype.slice.call(arguments);
+          window._bubbleUp({
+            "event": "stream",
+            "name": "stderr",
+            "text": args.join(' ') + '\\n'
+          });
+        };
+        console.warn = console.error;
+
+        window.onerror = function(message, source, lineno, colno, error) {
+          console.error(message);
+        }
+
         setTimeout(() => {
           languagePluginLoader.then(() => {
             console.log('pyodide loaded!');
@@ -177,13 +211,14 @@ export class PyP5KernelIFrame
       implementation_version: '0.1.0',
       language_info: {
         codemirror_mode: {
-          name: 'python'
+          name: 'python',
+          version: 3
         },
-        file_extension: '.js',
+        file_extension: '.py',
         mimetype: 'text/x-python',
         name: 'python',
         nbconvert_exporter: 'python',
-        pygments_lexer: 'python',
+        pygments_lexer: 'ipython3',
         version: '3.8'
       },
       protocol_version: '5.3',
