@@ -78,3 +78,39 @@ iframe {
 .jp-Launcher {
   height: 100%;
 }
+
+#p5-splash {
+  z-index: 10000;
+  width: 20%;
+  height: 20%;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  opacity: 0;
+}
+
+.splash-fade-in {
+  animation: 0.5s fade-in forwards;
+}
+
+.splash-fade-out {
+  animation: 0.5s fade-out forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
