@@ -28,7 +28,7 @@ const splash: JupyterFrontEndPlugin<void> = {
       splash.classList.add('splash-fade-out');
       window.setTimeout(() => {
         document.body.removeChild(splash);
-      }, 500);
+      }, 1000);
     });
   }
 };

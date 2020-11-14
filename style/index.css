@@ -94,7 +94,7 @@ iframe {
 }
 
 .splash-fade-out {
-  animation: 0.5s fade-out forwards;
+  animation: 1s fade-out forwards;
 }
 
 @keyframes fade-in {
