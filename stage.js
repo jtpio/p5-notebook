@@ -9,7 +9,8 @@ fs.ensureDirSync(dest);
   'index.html',
   'favicon.ico',
   './build/bundle.js',
-  './build/resources/p5js-square-logo.svg'
+  './build/resources/p5js-square-logo.svg',
+  './build/resources/p5-notebook.svg'
 ].forEach(f => {
   const src = path.resolve(basePath, f);
   const target = path.resolve(dest, f);

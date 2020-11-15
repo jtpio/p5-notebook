@@ -16,7 +16,7 @@ const splash: JupyterFrontEndPlugin<void> = {
     const splash = document.createElement('div');
     splash.id = 'p5-splash';
     const img = document.createElement('img');
-    img.src = '/build/resources/p5js-square-logo.svg';
+    img.src = '/build/resources/p5-notebook.svg';
     splash.appendChild(img);
     document.body.appendChild(splash);
 
