@@ -78,3 +78,44 @@ iframe {
 .jp-Launcher {
   height: 100%;
 }
+
+#p5-splash {
+  z-index: 10000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.75);
+  opacity: 0;
+}
+
+.splash-fade-in {
+  animation: 0.5s fade-in forwards;
+}
+
+.splash-fade-out {
+  animation: 1s fade-out forwards, 1s zoom-in forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes zoom-in {
+  100% {
+    transform: translate(-50%, -50%) scale(10);
+  }
+}
