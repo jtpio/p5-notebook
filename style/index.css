@@ -94,7 +94,7 @@ iframe {
 }
 
 .splash-fade-out {
-  animation: 1s fade-out forwards;
+  animation: 1s fade-out forwards, 1s zoom-in forwards;
 }
 
 @keyframes fade-in {
@@ -112,5 +112,14 @@ iframe {
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(10, 10);
   }
 }
