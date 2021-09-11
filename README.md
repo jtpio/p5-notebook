@@ -51,8 +51,9 @@ p5.js kernels also run in the browser in their own IFrame. The IFrame provides t
 - [archived / demo] p5.js in the Classic Jupyter Notebook with Jupyter Widgets: https://github.com/jtpio/p5-jupyter-notebook
 - Jupyter Kernels, right inside JupyterLab: https://github.com/deathbeds/jyve
 - JupyterLite has:
+
   > - Python kernel backed by Pyodide running in a Web Worker
   >   - Initial support for interactive visualization libraries such as altair, bqplot, ipywidgets, matplotlib, and plotly
   > - JavaScript and P5.js kernels running in an IFrame
-  
+
   https://github.com/jupyterlite/jupyterlite
