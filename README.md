@@ -4,13 +4,15 @@
 
 A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
+![jupyterlite-demo](https://user-images.githubusercontent.com/591645/135714189-8ca296e5-22de-4369-bd9d-62ad07bb53f9.gif)
+
 ## Usage
 
 **✨ [Try it in your browser!](https://p5-notebook.now.sh/) ✨**
 
 ## Dev install
 
-Make sure [Node.js](https://nodejs.org) is installed.
+This repo includes a couple of additional plugins to tweak the Jupyter UI. To setup a local environment and be able to iterate on them, make sure [Node.js](https://nodejs.org) is installed, then:
 
 ```bash
 # Clone the repo to your local environment
@@ -28,12 +30,6 @@ jupyter labextension develop . --overwrite
 
 # Rebuild the extension Typescript source after making changes
 jlpm run build
-```
-
-There is also a `watch` command to automatically rebuild the application when there are new changes:
-
-```bash
-yarn run watch
 ```
 
 ## Related projects
