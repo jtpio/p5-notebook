@@ -1,18 +1,21 @@
-# small script to deploy to Vercel
+#!/bin/bash
 
+# small script to deploy to Vercel
 set -xeu
 
-yum install wget
+# bootstrap the environment
+curl -L  https://gist.githubusercontent.com/jtpio/4c184a755c332b35d7de456603eac119/raw/11a54dd5eacc833fafc9e24b5cef18c4d31586dd/bootstrap.sh | bash -
 
-wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
-
-./bin/micromamba shell init -s bash -p ~/micromamba
+# activate the environment
 source ~/.bashrc
-
 micromamba activate
-micromamba install python=3.9 -c conda-forge -y
 
+# install dependencies
 python -m pip install -r requirements-deploy.txt
 
+# build the JupyterLite site
 jupyter lite --version
 jupyter lite build
+
+# copy the favicon
+cp ./favicon.ico ./_output/lab/favicon.ico

@@ -4,45 +4,33 @@
 
 A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
+![jupyterlite-demo](https://user-images.githubusercontent.com/591645/135714189-8ca296e5-22de-4369-bd9d-62ad07bb53f9.gif)
+
+## Usage
+
 **✨ [Try it in your browser!](https://p5-notebook.now.sh/) ✨**
-
-![screenshot](./screenshot.png)
-
-## Status
-
-This is still an experiment 🧪.
-
-Feel free to open an issue if you have any feedback, and PRs are also welcome! Thanks!
 
 ## Dev install
 
-Make sure [Node.js](https://nodejs.org) is installed.
+This repo includes a couple of additional plugins to tweak the Jupyter UI. To setup a local environment and be able to iterate on them, make sure [Node.js](https://nodejs.org) is installed, then:
 
 ```bash
-yarn
-yarn run build
-npx http-server
+# Clone the repo to your local environment
+# Change directory to the fork directory
+
+# create a new enviroment
+mamba create --name p5-notebook -c conda-forge python=3.9 yarn jupyterlab jupyter-packaging
+conda activate p5-notebook
+
+# Install package in development mode
+python -m pip install -e .
+
+# Link your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+
+# Rebuild the extension Typescript source after making changes
+jlpm run build
 ```
-
-Open http://localhost:8080 in your browser.
-
-There is also a `watch` command to automatically rebuild the application when there are new changes:
-
-```bash
-yarn run watch
-```
-
-## How it works
-
-This notebook interface is built using components from the [JupyterLab computational environment](https://github.com/jupyterlab/jupyterlab).
-
-JupyterLab is the next-gen UI for [Project Jupyter](https://jupyter.org), and is itself built as a set of extensions. These extensions are modular and can be reused in alternative frontends such as this notebook interface.
-
-Jupyter front-ends usually rely on a server known as the Jupyter Server (also called the Notebook Server). This server is written in Python and handles request coming from the client, such as starting a new kernel or retrieving the content of a Jupyter notebook. The kernels usually run on the host machine, but it is also possible to have kernels running on a remote machine.
-
-Because the p5 notebook runs entirely in the browser, it relies on a very minimal Jupyter Server that also runs in the browser and exposes (parts of) the [notebook server REST API](http://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml). This makes it easier to reuse components from core JupyterLab and swap the backend to an alternative one running in the browser.
-
-p5.js kernels also run in the browser in their own IFrame. The IFrame provides the execution engine for the kernel and this is where its state is kept.
 
 ## Related projects
 

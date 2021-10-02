@@ -1,0 +1,69 @@
+{
+  "name": "@p5-notebook/lab-extension",
+  "version": "0.1.0",
+  "description": "p5 notebook - lab extension",
+  "homepage": "https://github.com/jtpio/p5-notebook",
+  "bugs": {
+    "url": "https://github.com/jtpio/p5-notebook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtpio/p5-notebook.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Jeremy Tuloup",
+    "email": ""
+  },
+  "sideEffects": [
+    "style/*.css",
+    "style/index.js"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "styleModule": "style/index.js",
+  "directories": {
+    "lib": "lib/"
+  },
+  "files": [
+    "lib/*.d.ts",
+    "lib/*.js.map",
+    "lib/*.js",
+    "style/*.css",
+    "style/index.js"
+  ],
+  "scripts": {
+    "build": "jlpm run build:lib && jlpm run build:labextension:dev",
+    "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:lib": "tsc",
+    "build:prod": "jlpm run build:lib && jlpm run build:labextension",
+    "clean": "jlpm run clean:lib && jlpm run clean:labextension",
+    "clean:labextension": "rimraf ../../p5_notebook/labextension",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "eslint": "eslint . --ext .ts,.tsx --fix",
+    "eslint:check": "eslint . --ext .ts,.tsx",
+    "watch": "run-p watch:src watch:labextension",
+    "watch:labextension": "jupyter labextension watch .",
+    "watch:src": "tsc -w"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^3.1.13",
+    "@jupyterlab/ui-components": "^3.1.13",
+    "@lumino/widgets": "^1.28.0",
+    "@retrolab/application": "^0.3.7"
+  },
+  "devDependencies": {
+    "@jupyterlab/builder": "^3.1.0",
+    "rimraf": "~3.0.0",
+    "typescript": "~4.2.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "jupyterlab": {
+    "extension": true,
+    "outputDir": "../../p5_notebook/labextension"
+  }
+}
