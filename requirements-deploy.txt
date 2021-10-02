@@ -1,3 +1,6 @@
 jupyterlab~=3.1.0
 jupyterlite==0.1.0a10
 jupyterlite-p5-kernel==0.1.0a11
+
+# install the extra extensions
+.
