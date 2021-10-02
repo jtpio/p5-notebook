@@ -10,16 +10,16 @@ import setuptools
 HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-NAME = "jupyterlite-p5-kernel"
+NAME = "p5-notebook"
 PACKAGE = NAME.replace("-", "_")
 
-src_path = HERE / "packages/p5-kernel-extension"
+src_path = HERE / "packages/lab-extension"
 lab_path = HERE / NAME.replace("-", "_") / "labextension"
 
 # Representative files that should exist after a successful build
 ensured_targets = [str(lab_path / "package.json"), str(lab_path / "static/style.js")]
 
-labext_name = "@jupyterlite/p5-kernel-extension"
+labext_name = "@p5-notebook/lab-extension"
 
 data_files_spec = [
     (

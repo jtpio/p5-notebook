@@ -13,9 +13,21 @@ A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 Make sure [Node.js](https://nodejs.org) is installed.
 
 ```bash
-yarn
-yarn run build
-npx http-server
+# Clone the repo to your local environment
+# Change directory to the fork directory
+
+# create a new enviroment
+mamba create --name p5-notebook -c conda-forge python=3.9 yarn jupyterlab jupyter-packaging
+conda activate p5-notebook
+
+# Install package in development mode
+python -m pip install -e .
+
+# Link your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+
+# Rebuild the extension Typescript source after making changes
+jlpm run build
 ```
 
 There is also a `watch` command to automatically rebuild the application when there are new changes:
