@@ -6,6 +6,7 @@
     "collaborative": true,
     "disabledExtensions": [
       "@jupyterlab/application-extension:logo",
+      "@retrolab/application-extension:logo",
       "@jupyterlite/javascript-kernel-extension",
       "@jupyterlite/pyolite-kernel-extension"
     ]
