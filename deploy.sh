@@ -16,3 +16,6 @@ python -m pip install -r requirements-deploy.txt
 # build the JupyterLite site
 jupyter lite --version
 jupyter lite build
+
+# copy the favicon
+cp ./favicon.ico ./_output/lab/favicon.ico

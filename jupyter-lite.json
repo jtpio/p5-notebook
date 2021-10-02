@@ -11,6 +11,7 @@
       "@jupyterlite/retro-application-extension:logo",
       "@jupyterlite/javascript-kernel-extension",
       "@jupyterlite/pyolite-kernel-extension"
-    ]
+    ],
+    "faviconUrl": "./lab/favicon.ico"
   }
 }
