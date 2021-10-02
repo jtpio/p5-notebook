@@ -5,6 +5,7 @@
     "appUrl": "./retro",
     "collaborative": true,
     "disabledExtensions": [
+      "@jupyterlab/application-extension:logo",
       "@jupyterlite/javascript-kernel-extension",
       "@jupyterlite/pyolite-kernel-extension"
     ]
