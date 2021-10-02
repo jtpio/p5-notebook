@@ -38,7 +38,7 @@ const logo: JupyterFrontEndPlugin<void> = {
         elementPosition: "center",
         margin: "2px 2px 2px 8px",
         height: "auto",
-        width: "16px",
+        width: "28px",
       });
     }
     app.shell.add(logo, "top", { rank: 0 });
