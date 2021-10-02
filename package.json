@@ -1,0 +1,74 @@
+{
+  "name": "@p5-notebook/root",
+  "private": true,
+  "version": "0.1.0",
+  "keywords": [
+    "jupyter",
+    "jupyterlite",
+    "jupyterlite-extension"
+  ],
+  "homepage": "https://github.com/jtpio/p5-notebook",
+  "bugs": {
+    "url": "https://github.com/jtpio/p5-notebook/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Jeremy Tuloup",
+    "email": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtpio/p5-notebook.git"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "build:prod": "lerna run build:prod",
+    "build:test": "lerna run build:test",
+    "bump:version": "lerna version --no-push --force-publish --no-git-tag-version --yes",
+    "clean": "lerna run clean",
+    "install": "lerna bootstrap",
+    "install:dev": "yarn run build:prod && yarn run develop",
+    "install:extension": "jupyter labextension develop --overwrite .",
+    "eslint": "eslint . --ext .ts,.tsx --fix",
+    "eslint:check": "eslint . --ext .ts,.tsx",
+    "lint": "yarn run eslint && yarn run prettier",
+    "lint:check": "yarn run eslint:check && yarn run prettier:check",
+    "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "publish": "yarn run clean && yarn run build && lerna publish",
+    "test": "lerna run test",
+    "watch": "lerna run watch"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "lerna": "^4.0.0",
+    "lint-staged": "^10.4.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.4.1",
+    "rimraf": "^3.0.2",
+    "shell-quote": "^1.7.2"
+  },
+  "jupyter-releaser": {
+    "skip": ["check-links"],
+    "options": {
+      "version-cmd": [
+        "jlpm run bump:version"
+      ]
+    },
+    "hooks": {
+      "before-bump-version": [
+        "python -m pip install jupyterlab~=3.1",
+        "jlpm"
+      ]
+    }
+  }
+}
