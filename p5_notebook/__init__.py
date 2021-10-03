@@ -7,7 +7,7 @@ HERE = Path(__file__).parent.resolve()
 
 _extensions = []
 
-for folder in ["labextension", "p5-theme-light"]:
+for folder in ["labextension", "p5-theme-light", "p5-theme-dark"]:
     with (HERE / folder / "package.json").open() as fid:
         data = json.load(fid)
         _extensions += [{"src": folder, "dest": data["name"]}]
