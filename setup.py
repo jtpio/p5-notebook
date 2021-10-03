@@ -23,7 +23,10 @@ for folder, labext_name in [
     lab_path = HERE / NAME.replace("-", "_") / folder
 
     # Representative files that should exist after a successful build
-    ensured_targets += [str(lab_path / "package.json"), str(lab_path / "static/style.js")]
+    ensured_targets += [
+        str(lab_path / "package.json"),
+        str(lab_path / "static/style.js"),
+    ]
 
     data_files_spec += [
         (
