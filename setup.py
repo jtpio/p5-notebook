@@ -19,6 +19,7 @@ data_files_spec = []
 for folder, labext_name in [
     ("labextension", "@p5-notebook/lab-extension"),
     ("p5-theme-light", "@p5-notebook/p5-theme-light"),
+    ("p5-theme-dark", "@p5-notebook/p5-theme-dark"),
 ]:
     lab_path = HERE / NAME.replace("-", "_") / folder
 

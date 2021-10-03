@@ -1,7 +1,7 @@
 {
-  "name": "@p5-notebook/p5-theme-light",
+  "name": "@p5-notebook/p5-theme-dark",
   "version": "0.1.0",
-  "description": "A p5.js light theme for JupyterLab",
+  "description": "A p5.js dark theme for JupyterLab",
   "keywords": [
     "jupyter",
     "jupyterlab",
@@ -31,7 +31,7 @@
     "build:lib": "tsc",
     "clean": "jlpm run clean:lib",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:labextension": "rimraf ../../p5_notebook/p5-theme-light",
+    "clean:labextension": "rimraf ../../p5_notebook/p5-theme-dark",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
@@ -55,6 +55,6 @@
   "jupyterlab": {
     "extension": true,
     "themePath": "style/index.css",
-    "outputDir": "../../p5_notebook/p5-theme-light"
+    "outputDir": "../../p5_notebook/p5-theme-dark"
   }
 }

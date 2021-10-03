@@ -9,6 +9,7 @@ include yarn.lock
 
 graft p5_notebook/labextension
 graft p5_notebook/p5-theme-light
+graft p5_notebook/p5-theme-dark
 
 # Javascript files
 graft packages/**

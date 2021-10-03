@@ -1,6 +1,6 @@
 {
   "@jupyterlab/apputils-extension:themes": {
-    "theme": "p5.js",
+    "theme": "p5.js Light",
     "theme-scrollbars": true
   }
 }
