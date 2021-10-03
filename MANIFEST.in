@@ -8,6 +8,7 @@ include ts*.json
 include yarn.lock
 
 graft p5_notebook/labextension
+graft p5_notebook/p5-theme-light
 
 # Javascript files
 graft packages/**

@@ -13,27 +13,34 @@ HERE = Path(__file__).parent.resolve()
 NAME = "p5-notebook"
 PACKAGE = NAME.replace("-", "_")
 
-src_path = HERE / "packages/lab-extension"
-lab_path = HERE / NAME.replace("-", "_") / "labextension"
+ensured_targets = []
+data_files_spec = []
 
-# Representative files that should exist after a successful build
-ensured_targets = [str(lab_path / "package.json"), str(lab_path / "static/style.js")]
+for folder, labext_name in [
+    ("labextension", "@p5-notebook/lab-extension"),
+    ("p5-theme-light", "@p5-notebook/p5-theme-light"),
+]:
+    lab_path = HERE / NAME.replace("-", "_") / folder
 
-labext_name = "@p5-notebook/lab-extension"
+    # Representative files that should exist after a successful build
+    ensured_targets += [
+        str(lab_path / "package.json"),
+        str(lab_path / "static/style.js"),
+    ]
 
-data_files_spec = [
-    (
-        "share/jupyter/labextensions/%s" % labext_name,
-        str(lab_path.relative_to(HERE)),
-        "**",
-    ),
-    ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
-]
+    data_files_spec += [
+        (
+            "share/jupyter/labextensions/%s" % labext_name,
+            str(lab_path.relative_to(HERE)),
+            "**",
+        ),
+        ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+    ]
 
 long_description = (HERE / "README.md").read_text()
 
 # Get the package info from package.json
-pkg_json = json.loads((src_path / "package.json").read_bytes())
+pkg_json = json.loads((HERE / "packages/lab-extension/package.json").read_bytes())
 version = (
     pkg_json["version"]
     .replace("-alpha.", "a")
