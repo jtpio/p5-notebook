@@ -1,5 +1,5 @@
 {
-  "name": "@p5-notebook/theme-light",
+  "name": "@p5-notebook/p5-theme-light",
   "version": "0.1.0",
   "description": "A p5.js theme for JupyterLab",
   "keywords": [
