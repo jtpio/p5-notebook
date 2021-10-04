@@ -12,7 +12,7 @@ A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
 ## Features 🎁
 
-### Opens with the RetroLab by default 📒
+### Opens with RetroLab by default 📒
 
 By default, the p5 notebook opens with the simpler [retro](https://github.com/jupyterlab/retrolab) interface.
 
