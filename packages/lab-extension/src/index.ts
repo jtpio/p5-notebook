@@ -4,6 +4,8 @@ import {
   ILabShell
 } from '@jupyterlab/application';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 import { IRetroShell } from '@retrolab/application';
 
 import { Widget } from '@lumino/widgets';
@@ -22,9 +24,9 @@ const logo: JupyterFrontEndPlugin<void> = {
     labShell: ILabShell | null,
     retroShell: IRetroShell | null
   ) => {
-    const logo = new Widget();
-    logo.id = 'jp-MainLogo';
+    let logo: Widget | null = null;
     if (labShell) {
+      logo = new Widget();
       asteriskIcon.element({
         container: logo.node,
         elementPosition: 'center',
@@ -33,15 +35,24 @@ const logo: JupyterFrontEndPlugin<void> = {
         width: '16px'
       });
     } else if (retroShell) {
+      const baseUrl = PageConfig.getBaseUrl();
+      const node = document.createElement('a');
+      node.href = `${baseUrl}retro/tree`;
+      node.target = '_blank';
+      node.rel = 'noopener noreferrer';
+      logo = new Widget({ node });
       squareIcon.element({
         container: logo.node,
         elementPosition: 'center',
         margin: '2px 2px 2px 8px',
         height: 'auto',
-        width: '28px'
+        width: '42px'
       });
     }
-    app.shell.add(logo, 'top', { rank: 0 });
+    if (logo) {
+      logo.id = 'jp-MainLogo';
+      app.shell.add(logo, 'top', { rank: 0 });
+    }
   }
 };
 
