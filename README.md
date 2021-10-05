@@ -42,6 +42,12 @@ Just like in JupyterLab, the p5 notebook also supports additional display langua
 
 ![display-languages](https://user-images.githubusercontent.com/591645/135838407-2ff06596-10da-4d04-ad71-3139ae692211.gif)
 
+### Real Time Collaboration
+
+Users can edit code and work together on the same sketch:
+
+![rtc](https://user-images.githubusercontent.com/591645/135981928-901c93a5-9c90-4ffe-8254-ad3e28d8a145.gif)
+
 ### JupyterLab and RetroLab features 🎨
 
 Most of the JupyterLab and RetroLab features are also available, such as switching to the Simple Interface and opening the command palette:
