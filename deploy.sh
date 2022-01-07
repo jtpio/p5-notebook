@@ -7,8 +7,8 @@ set -xeu
 curl -L  https://gist.githubusercontent.com/jtpio/4c184a755c332b35d7de456603eac119/raw/11a54dd5eacc833fafc9e24b5cef18c4d31586dd/bootstrap.sh | bash -
 
 # activate the environment
-source ~/.bashrc
 export ZSH_VERSION=""
+source ~/.bashrc
 micromamba activate
 
 # install dependencies
