@@ -8,6 +8,7 @@ curl -L  https://gist.githubusercontent.com/jtpio/4c184a755c332b35d7de456603eac1
 
 # activate the environment
 source ~/.bashrc
+export ZSH_VERSION=""
 micromamba activate
 
 # install dependencies
