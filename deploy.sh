@@ -9,8 +9,9 @@ yum install wget || true
 wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
 
 ./bin/micromamba shell hook -p ~/micromamba -s posix
-
 ./bin/micromamba shell init -s bash -p ~/micromamba
+
+source ~/.bashrc
 
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
