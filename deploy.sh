@@ -10,10 +10,6 @@ wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -
 
 ./bin/micromamba shell init -s bash -p ~/micromamba
 
-echo "SHELL"
-echo $SHELL
-
-source ~/.bashrc
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
 
