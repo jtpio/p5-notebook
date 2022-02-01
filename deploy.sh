@@ -11,9 +11,8 @@ export MAMBA_VERSION=0.20.0
 URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux-64/micromamba-${MAMBA_VERSION}-0.tar.bz2"
 wget -qO- ${URL} | tar -xvj bin/micromamba
 
-~/bin/micromamba shell init -s bash -p ~/micromamba
-
-eval "$(~/bin/micromamba shell hook --shell=bash)"
+~/bin/micromamba shell hook --shell=bash
+source ~/.bashrc
 
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
