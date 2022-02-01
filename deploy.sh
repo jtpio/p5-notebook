@@ -12,7 +12,7 @@ wget -qO- ${URL} | tar -xvj bin/micromamba
 
 ./bin/micromamba shell init -s zsh -p ~/micromamba
 
-source ~/.bashrc
+source ~/.zshrc
 
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
