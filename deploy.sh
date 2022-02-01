@@ -13,7 +13,7 @@ wget -qO- ${URL} | tar -xvj bin/micromamba
 
 ~/bin/micromamba shell init -s bash -p ~/micromamba
 
-eval "$(micromamba shell hook --shell=)"
+eval "$(~/bin/micromamba shell hook --shell=)"
 
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
