@@ -12,7 +12,8 @@ URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux
 wget -qO- ${URL} | tar -xvj bin/micromamba
 
 ./bin/micromamba shell init --shell=bash -p ~/micromamba
-eval "$(./bin/micromamba shell hook --shell=bash)"
+
+source ~/.bashrc
 
 micromamba activate
 micromamba install python=3.10 -c conda-forge -y
