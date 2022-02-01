@@ -13,8 +13,10 @@ wget -qO- ${URL} | tar -xvj bin/micromamba
 
 ~/bin/micromamba shell init -s bash -p ~/micromamba
 
-~/bin/micromamba activate
-~/bin/micromamba install python=3.10 -c conda-forge -y
+eval "$(micromamba shell hook --shell=)"
+
+micromamba activate
+micromamba install python=3.10 -c conda-forge -y
 
 # install dependencies
 python -m pip install -r requirements-deploy.txt
