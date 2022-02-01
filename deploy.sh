@@ -7,6 +7,7 @@ set -xeu
 yum install wget || true
 
 export MAMBA_VERSION=0.20.0
+export ZSH_VERSION=""
 URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux-64/micromamba-${MAMBA_VERSION}-0.tar.bz2"
 wget -qO- ${URL} | tar -xvj bin/micromamba
 
