@@ -4,11 +4,19 @@
 set -xeu
 
 # bootstrap the environment
-curl -L  https://gist.githubusercontent.com/jtpio/4c184a755c332b35d7de456603eac119/raw/11a54dd5eacc833fafc9e24b5cef18c4d31586dd/bootstrap.sh | bash -
+yum install tar wget || true
 
-# activate the environment
+export ZSH_VERSION=""
+export MAMBA_VERSION=0.20.0
+URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux-64/micromamba-${MAMBA_VERSION}-0.tar.bz2"
+wget -qO- ${URL} | tar -xvj bin/micromamba
+
+./bin/micromamba shell init --shell=bash -p ~/micromamba
+
 source ~/.bashrc
+
 micromamba activate
+micromamba install python=3.10 -c conda-forge -y
 
 # install dependencies
 python -m pip install -r requirements-deploy.txt
