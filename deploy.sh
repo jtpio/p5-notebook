@@ -6,8 +6,8 @@ set -xeu
 # bootstrap the environment
 yum install tar wget || true
 
-export ZSH_VERSION=""
-export MAMBA_VERSION=0.20.0
+# install micromamba
+export MAMBA_VERSION=0.21.0
 URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux-64/micromamba-${MAMBA_VERSION}-0.tar.bz2"
 wget -qO- ${URL} | tar -xvj bin/micromamba
 
