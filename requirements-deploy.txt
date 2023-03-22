@@ -1,11 +1,11 @@
-jupyterlab~=3.5.2
+jupyterlab~=3.5.3
 jupyterlab-language-pack-es-ES
 jupyterlab-language-pack-fr-FR
 jupyterlab-language-pack-it-IT
 jupyterlab-language-pack-pl-PL
 jupyterlab-language-pack-zh-CN
-jupyterlite==0.1.0b18
-jupyterlite-p5-kernel==0.1.0
+jupyterlite-core==0.1.0b20
+jupyterlite-p5-kernel==0.1.1
 
 # install the extra extensions
 .

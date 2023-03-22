@@ -8,9 +8,7 @@
       "@jupyterlab/application-extension:logo",
       "@jupyterlite/retro-application-extension:logo",
       "@jupyterlite/application-extension:logo",
-      "@jupyterlite/retro-application-extension:logo",
-      "@jupyterlite/javascript-kernel-extension",
-      "@jupyterlite/pyolite-kernel-extension"
+      "@jupyterlite/retro-application-extension:logo"
     ],
     "faviconUrl": "./lab/favicon.ico"
   }
