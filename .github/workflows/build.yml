@@ -38,7 +38,7 @@ jobs:
         pip uninstall -y myextension jupyterlab
         rm -rf myextension
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: myextension-sdist
         path: myextension.tar.gz
@@ -51,11 +51,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Install Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.8'
         architecture: 'x64'
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v3
       with:
         name: myextension-sdist
     - name: Install and Test
