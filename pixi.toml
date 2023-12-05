@@ -24,6 +24,7 @@ jupyterlab-language-pack-pl-PL = "*"
 jupyterlab-language-pack-zh-CN = "*"
 jupyterlite-core = ">=0.2.1,<0.3"
 nodejs = ">=20,<21"
+notebook = ">=7.0.6,<7.1"
 
 [pypi-dependencies]
 jupyterlite-p5-kernel = ">=0.1.0,<0.2"
