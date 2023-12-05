@@ -59,21 +59,14 @@ Most of the JupyterLab and RetroLab features are also available, such as switchi
 This repo includes a couple of additional plugins to tweak the Jupyter UI. To setup a local environment and be able to iterate on them, make sure [Node.js](https://nodejs.org) is installed, then:
 
 ```bash
-# Clone the repo to your local environment
-# Change directory to the fork directory
-
-# create a new enviroment
-mamba create --name p5-notebook -c conda-forge python=3.9 yarn jupyterlab jupyter-packaging
-conda activate p5-notebook
+# install dependencies
+pixi install
 
 # Install package in development mode
-python -m pip install -e .
-
-# Link your development version of the extension with JupyterLab
-jupyter labextension develop . --overwrite
+pixi run develop
 
 # Rebuild the extension Typescript source after making changes
-jlpm run build
+pixi run build
 ```
 
 ## Related projects

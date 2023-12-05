@@ -3205,27 +3205,6 @@ package:
   size: 89141
   timestamp: 1641346969816
 - platform: linux-64
-  name: yarn
-  version: 3.7.0
-  category: main
-  manager: conda
-  dependencies:
-  - __unix
-  - nodejs >=14.10.0
-  url: https://conda.anaconda.org/conda-forge/noarch/yarn-3.7.0-h31011fe_0.conda
-  hash:
-    md5: c564443d7460ac4defca774bd858d474
-    sha256: e5606adf0838b36c398ddb1588b2e5fc8f68a787d295ae54c710a46cea9f5014
-  build: h31011fe_0
-  arch: x86_64
-  subdir: linux-64
-  build_number: 0
-  license: BSD-2-Clause
-  license_family: BSD
-  noarch: generic
-  size: 811517
-  timestamp: 1700055701177
-- platform: linux-64
   name: zeromq
   version: 4.3.5
   category: main

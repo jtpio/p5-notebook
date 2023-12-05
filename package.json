@@ -31,17 +31,13 @@
     "build:test": "lerna run build:test",
     "bump:version": "lerna version --no-push --force-publish --no-git-tag-version --yes",
     "clean": "lerna run clean",
-    "install": "lerna bootstrap",
-    "install:dev": "yarn run build:prod && yarn run develop",
-    "install:extension": "jupyter labextension develop --overwrite .",
+    "develop": "jupyter labextension develop --overwrite .",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
-    "lint": "yarn run eslint && yarn run prettier",
-    "lint:check": "yarn run eslint:check && yarn run prettier:check",
+    "lint": "jlpm run eslint && jlpm run prettier",
+    "lint:check": "jlpm run eslint:check && jlpm run prettier:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
-    "publish": "yarn run clean && yarn run build && lerna publish",
-    "test": "lerna run test",
     "watch": "lerna run watch"
   },
   "devDependencies": {
@@ -50,7 +46,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "lerna": "^4.0.0",
+    "lerna": "^6",
     "lint-staged": "^10.4.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
@@ -58,7 +54,9 @@
     "shell-quote": "^1.7.2"
   },
   "jupyter-releaser": {
-    "skip": ["check-links"],
+    "skip": [
+      "check-links"
+    ],
     "options": {
       "version-cmd": [
         "jlpm run bump:version"
@@ -66,7 +64,7 @@
     },
     "hooks": {
       "before-bump-version": [
-        "python -m pip install jupyterlab~=3.1",
+        "python -m pip install jupyterlab~=4.0",
         "jlpm"
       ]
     }

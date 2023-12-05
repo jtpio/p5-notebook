@@ -6,8 +6,10 @@ channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tasks]
-build = "jupyter lite build"
+build = "jlpm run build"
+build_lite = { cmd = ["jupyter lite build"], depends_on = ["install"] }
 copy_favicon = "cp ./favicon.ico ./_output/lab/favicon.ico"
+develop = "jlpm run develop"
 install_editable = "pip install -e ."
 install = "pip install ."
 
@@ -21,7 +23,7 @@ jupyterlab-language-pack-it-IT = "*"
 jupyterlab-language-pack-pl-PL = "*"
 jupyterlab-language-pack-zh-CN = "*"
 jupyterlite-core = ">=0.2.1,<0.3"
-yarn = ">=3,<4"
+nodejs = ">=20,<21"
 
 [pypi-dependencies]
 jupyterlite-p5-kernel = ">=0.1.0,<0.2"

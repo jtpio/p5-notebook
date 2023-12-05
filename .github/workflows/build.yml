@@ -17,7 +17,7 @@ jobs:
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
     - name: Install dependencies
-      run: python -m pip install -U jupyterlab~=3.5.3 check-manifest
+      run: python -m pip install -U jupyterlab~=4.0
 
     - name: Build the extension
       run: |
@@ -29,8 +29,6 @@ jobs:
         jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
         jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
         jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-
-        check-manifest -v
 
         pip install build
         python -m build --sdist
