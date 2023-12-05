@@ -45,3 +45,6 @@ junit.xml
 test.ipynb
 p5_notebook/labextension
 p5_notebook/p5-theme-*
+# pixi environments
+.pixi
+

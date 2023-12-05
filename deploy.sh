@@ -3,27 +3,9 @@
 # small script to deploy to Vercel
 set -xeu
 
-# bootstrap the environment
-yum install tar wget || true
-
-# install micromamba
-export MAMBA_VERSION=0.27.0
-URL="https://anaconda.org/conda-forge/micromamba/${MAMBA_VERSION}/download/linux-64/micromamba-${MAMBA_VERSION}-0.tar.bz2"
-wget -qO- ${URL} | tar -xvj bin/micromamba
-
-./bin/micromamba shell init --shell=bash -p ~/micromamba
-
+# install pixi
+export PIXI_VERSION=v0.9.1 && curl -fsSL https://pixi.sh/install.sh | bash
 source ~/.bashrc
 
-micromamba activate
-micromamba install python=3.10 -c conda-forge -y
-
-# install dependencies
-python -m pip install -r requirements-deploy.txt
-
-# build the JupyterLite site
-jupyter lite --version
-jupyter lite build
-
-# copy the favicon
-cp ./favicon.ico ./_output/lab/favicon.ico
+pixi run build
+pixi run copy_favicon
