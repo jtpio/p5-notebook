@@ -11,62 +11,83 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
-    - name: Install dependencies
-      run: python -m pip install -U jupyterlab~=4.0
+      - name: Install dependencies
+        run: python -m pip install -U "jupyterlab>=4.0.0,<5"
 
-    - name: Build the extension
-      run: |
-        set -eux
-        jlpm install
-        jlpm run eslint:check
-        python -m pip install .
+      - name: Lint the extension
+        run: |
+          set -eux
+          jlpm
+          jlpm run lint:check
 
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+      - name: Build the extension
+        run: |
+          set -eux
+          python -m pip install .
 
-        pip install build
-        python -m build --sdist
-        cp dist/*.tar.gz myextension.tar.gz
-        pip uninstall -y myextension jupyterlab
-        rm -rf myextension
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          python -m jupyterlab.browser_check
 
-    - uses: actions/upload-artifact@v3
-      with:
-        name: myextension-sdist
-        path: myextension.tar.gz
+      - name: Package the extension
+        run: |
+          set -eux
+
+          pip install build
+          python -m build
+          pip uninstall -y "p5_notebook" jupyterlab
+
+      - name: Upload extension packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-artifacts
+          path: dist/p5_notebook*
+          if-no-files-found: error
 
   test_isolated:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Install Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
-        architecture: 'x64'
-    - uses: actions/download-artifact@v3
-      with:
-        name: myextension-sdist
-    - name: Install and Test
-      run: |
-        set -eux
-        # Remove NodeJS, twice to take care of system and locally installed node versions.
-        sudo rm -rf $(which node)
-        sudo rm -rf $(which node)
-        pip install myextension.tar.gz
-        pip install -U jupyterlab~=4.0
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-        jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-        python -m jupyterlab.browser_check --no-chrome-test
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+      - uses: actions/download-artifact@v3
+        with:
+          name: extension-artifacts
+      - name: Install and Test
+        run: |
+          set -eux
+          # Remove NodeJS, twice to take care of system and locally installed node versions.
+          sudo rm -rf $(which node)
+          sudo rm -rf $(which node)
+
+          pip install "jupyterlab>=4.0.0,<5" p5_notebook*.whl
+
+
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          python -m jupyterlab.browser_check --no-browser-test
+
+  check_links:
+    name: Check Links
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
