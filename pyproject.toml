@@ -68,8 +68,6 @@ build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "p5_notebook/labextension/static/style.js",
     "p5_notebook/labextension/package.json",
-    "p5_notebook/p5-theme-dark/package.json",
-    "p5_notebook/p5-theme-light/package.json",
 ]
 skip-if-exists = [
     "p5_notebook/labextension/static/style.js",
