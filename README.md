@@ -8,15 +8,15 @@ A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
 ## Usage
 
-**✨ [Try it in your browser!](https://p5nb.now.sh/) ✨**
+**✨ [Try it in your browser!](https://p5nb.vercel.app/) ✨**
 
 ## Features 🎁
 
-### Opens with RetroLab by default 📒
+### Opens with Jupyter Notebook by default 📒
 
-By default, the p5 notebook opens with the simpler [retro](https://github.com/jupyterlab/retrolab) interface.
+By default, the p5 notebook opens with the simpler [notebook](https://github.com/jupyter/notebook) interface.
 
-![intro-retro](https://user-images.githubusercontent.com/591645/135836629-4fb3e6f7-fde5-41d7-bea7-7bd714c5f428.gif)
+![intro-notebook](https://user-images.githubusercontent.com/591645/135836629-4fb3e6f7-fde5-41d7-bea7-7bd714c5f428.gif)
 
 ### JupyterLab interface 🧪
 
@@ -42,17 +42,15 @@ Just like in JupyterLab, the p5 notebook also supports additional display langua
 
 ![display-languages](https://user-images.githubusercontent.com/591645/135838407-2ff06596-10da-4d04-ad71-3139ae692211.gif)
 
-### Real Time Collaboration
-
-Users can edit code and work together on the same sketch:
-
-![rtc](https://user-images.githubusercontent.com/591645/135981928-901c93a5-9c90-4ffe-8254-ad3e28d8a145.gif)
-
 ### JupyterLab and RetroLab features 🎨
 
 Most of the JupyterLab and RetroLab features are also available, such as switching to the Simple Interface and opening the command palette:
 
 ![simple-palette](https://user-images.githubusercontent.com/591645/135837214-860c5a92-b46e-4cd6-aeac-3b0c47ad9329.gif)
+
+### Real Time Collaboration
+
+Coming soon!
 
 ## Dev install
 
