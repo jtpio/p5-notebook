@@ -66,11 +66,10 @@ dependencies = [
 ]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "p5_notebook/labextension/static/style.js",
     "p5_notebook/labextension/package.json",
 ]
 skip-if-exists = [
-    "p5_notebook/labextension/static/style.js",
+    "p5_notebook/labextension/package.json",
 ]
 
 [tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
