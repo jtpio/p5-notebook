@@ -4,7 +4,7 @@
 
 A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
-![intro-retro](https://user-images.githubusercontent.com/591645/135836629-4fb3e6f7-fde5-41d7-bea7-7bd714c5f428.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/7193d8bb-2e0a-4465-88fe-3f3793d51576
 
 ## Usage
 
@@ -16,37 +16,37 @@ A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
 
 By default, the p5 notebook opens with the simpler [notebook](https://github.com/jupyter/notebook) interface.
 
-![intro-notebook](https://user-images.githubusercontent.com/591645/135836629-4fb3e6f7-fde5-41d7-bea7-7bd714c5f428.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/7193d8bb-2e0a-4465-88fe-3f3793d51576
 
 ### JupyterLab interface 🧪
 
 The JupyterLab interface is still accessible via the `View > Open in JupyterLab` menu:
 
-![open-jupyterlab](https://user-images.githubusercontent.com/591645/135836658-f315dffb-3733-405c-af8b-a40444c3a55a.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/f44186a4-51a3-4417-9968-af7a5fb6cbd6
 
 ### Live preview of HTML-based sketches ⚡
 
 With the JupyterLab interface, `.html` files can be edited and rendered live with the built-in HTML viewer:
 
-![html-viewer](https://user-images.githubusercontent.com/591645/135836723-7e80fe17-4587-43ce-94cf-45d7353cb57c.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/f1cc56d0-de44-4d3c-9aa9-9ad9ef90feb4
 
 ### Support for themes 🌈
 
 The p5 notebook includes the default JupyterLab Light and Dark themes, as well as `p5.js` branded Light and Dark themes:
 
-![themes](https://user-images.githubusercontent.com/591645/135837172-69d1d709-eb8f-4071-87b9-132a035e08cf.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/44cdd305-b00a-406d-8d38-860152565f24
 
 ### Support for additional display languages 🌐
 
 Just like in JupyterLab, the p5 notebook also supports additional display languages like French and Simplified Chinese:
 
-![display-languages](https://user-images.githubusercontent.com/591645/135838407-2ff06596-10da-4d04-ad71-3139ae692211.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/316613d9-71b5-4912-9adf-95f83d22fea6
 
 ### JupyterLab and RetroLab features 🎨
 
 Most of the JupyterLab and RetroLab features are also available, such as switching to the Simple Interface and opening the command palette:
 
-![simple-palette](https://user-images.githubusercontent.com/591645/135837214-860c5a92-b46e-4cd6-aeac-3b0c47ad9329.gif)
+https://github.com/jtpio/p5-notebook/assets/591645/15104791-6481-4c37-8447-06535c66b060
 
 ### Real Time Collaboration
 
