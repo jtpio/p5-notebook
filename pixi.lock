@@ -1892,6 +1892,33 @@ package:
   size: 17141416
   timestamp: 1700390394425
 - platform: linux-64
+  name: notebook
+  version: 7.0.6
+  category: main
+  manager: conda
+  dependencies:
+  - jupyter_server >=2.4.0,<3
+  - jupyterlab >=4.0.7,<5
+  - jupyterlab_server >=2.22.1,<3
+  - notebook-shim >=0.2,<0.3
+  - python >=3.8
+  - tornado >=6.2.0
+  url: https://conda.anaconda.org/conda-forge/noarch/notebook-7.0.6-pyhd8ed1ab_0.conda
+  hash:
+    md5: d60881c78a54cbf8042ae719f1f77a50
+    sha256: 5259ad2fb47300407dafa6ea5e78085a2c8de8dcdbfbaa58592bf2677d7187a9
+  build: pyhd8ed1ab_0
+  arch: x86_64
+  subdir: linux-64
+  build_number: 0
+  license: BSD-3-Clause
+  license_family: BSD
+  noarch: python
+  size: 3122185
+  timestamp: 1697550916556
+  purls:
+  - pkg:pypi/notebook
+- platform: linux-64
   name: notebook-shim
   version: 0.2.3
   category: main
