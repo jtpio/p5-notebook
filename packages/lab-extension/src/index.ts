@@ -6,7 +6,7 @@ import {
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
-import { IRetroShell } from '@retrolab/application';
+import { INotebookShell } from '@jupyter-notebook/application';
 
 import { Widget } from '@lumino/widgets';
 
@@ -17,12 +17,12 @@ import { asteriskIcon, squareIcon } from './icons';
  */
 const logo: JupyterFrontEndPlugin<void> = {
   id: '@p5-notebook/lab-extension:logo',
-  optional: [ILabShell, IRetroShell],
+  optional: [ILabShell, INotebookShell],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
     labShell: ILabShell | null,
-    retroShell: IRetroShell | null
+    notebookShell: INotebookShell | null
   ) => {
     let logo: Widget | null = null;
     if (labShell) {
@@ -34,10 +34,10 @@ const logo: JupyterFrontEndPlugin<void> = {
         height: 'auto',
         width: '16px'
       });
-    } else if (retroShell) {
+    } else if (notebookShell) {
       const baseUrl = PageConfig.getBaseUrl();
       const node = document.createElement('a');
-      node.href = `${baseUrl}retro/tree`;
+      node.href = `${baseUrl}tree`;
       node.target = '_blank';
       node.rel = 'noopener noreferrer';
       logo = new Widget({ node });

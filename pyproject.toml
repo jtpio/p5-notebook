@@ -1,17 +1,93 @@
 [build-system]
-requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.1"]
-build-backend = "jupyter_packaging.build_api"
+requires = [
+    "hatchling",
+    "jupyterlab~=4.0",
+    "hatch-nodejs-version>=0.3.2",
+]
+build-backend = "hatchling.build"
 
-[tool.jupyter-packaging.options]
-skip-if-exists = ["p5_notebook/labextension/static/style.js"]
-ensured-targets = ["p5_notebook/labextension/static/style.js", "p5_notebook/labextension/package.json"]
+[project]
+name = "p5-notebook"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Framework :: Jupyter",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = []
+dynamic = [
+    "version",
+    "description",
+    "authors",
+    "urls",
+    "keywords",
+]
 
-[tool.jupyter-packaging.builder]
-factory = "jupyter_packaging.npm_builder"
+[tool.hatch.metadata.hooks.nodejs]
+fields = [
+    "description",
+    "authors",
+    "urls",
+]
 
-[tool.jupyter-packaging.build-args]
+[project.license]
+file = "LICENSE"
+
+[tool.hatch.version]
+source = "nodejs"
+
+[tool.hatch.build.hooks.version]
+path = "p5_notebook/_version.py"
+
+[tool.hatch.build.targets.wheel.shared-data]
+"p5_notebook/labextension/static" = "share/jupyter/labextensions/@p5-notebook/lab-extension/static"
+"install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/install.json"
+"p5_notebook/labextension/package.json" = "share/jupyter/labextensions/@p5-notebook/lab-extension/package.json"
+"p5_notebook/p5-theme-light/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/static"
+"p5_notebook/p5-theme-light/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/package.json"
+"p5_notebook/p5-theme-light/themes/@p5-notebook/p5-theme-light" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/themes/@p5-notebook/p5-theme-light"
+"p5_notebook/p5-theme-dark/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/static"
+"p5_notebook/p5-theme-dark/themes/@p5-notebook/p5-theme-dark" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/themes/@p5-notebook/p5-theme-dark"
+"p5_notebook/p5-theme-dark/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/package.json"
+
+[tool.hatch.build.targets.sdist]
+artifacts = [
+    "p5_notebook/labextension",
+    "p5_notebook/p5-theme-light",
+    "p5_notebook/p5-theme-dark",
+]
+exclude = [
+    ".github",
+]
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = [
+    "hatch-jupyter-builder>=0.8.3",
+]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "p5_notebook/labextension/package.json",
+]
+skip-if-exists = [
+    "p5_notebook/labextension/package.json",
+]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "build"
+npm = [
+    "jlpm",
+]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
-npm = ["jlpm"]
-
-[tool.check-manifest]
-ignore = ["p5_notebook/labextension/**", "p5_notebook/p5-theme-light/**", "p5_notebook/p5-theme-dark/**", "yarn.lock", ".*", "*.json", "*.ico", "demo/**", "*.sh", "requirements-deploy.txt", "packages/**"]
+npm = [
+    "jlpm",
+]

@@ -45,3 +45,11 @@ junit.xml
 test.ipynb
 p5_notebook/labextension
 p5_notebook/p5-theme-*
+# pixi environments
+.pixi
+
+# Yarn 3
+.yarn
+.pnp*
+
+_version.py
