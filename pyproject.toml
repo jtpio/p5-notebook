@@ -44,6 +44,9 @@ file = "LICENSE"
 [tool.hatch.version]
 source = "nodejs"
 
+[tool.hatch.build.hooks.version]
+path = "p5_notebook/_version.py"
+
 [tool.hatch.build.targets.wheel.shared-data]
 "p5_notebook/labextension/static" = "share/jupyter/labextensions/@p5-notebook/lab-extension/static"
 "install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/install.json"
@@ -56,6 +59,11 @@ source = "nodejs"
 "p5_notebook/p5-theme-dark/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/package.json"
 
 [tool.hatch.build.targets.sdist]
+artifacts = [
+    "p5_notebook/labextension",
+    "p5_notebook/p5-theme-light",
+    "p5_notebook/p5-theme-dark",
+]
 exclude = [
     ".github",
 ]
@@ -73,7 +81,6 @@ skip-if-exists = [
 ]
 
 [tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
-build_dir = "p5_notebook/labextension"
 build_cmd = "build"
 npm = [
     "jlpm",
@@ -84,25 +91,3 @@ build_cmd = "build:prod"
 npm = [
     "jlpm",
 ]
-
-[tool.tbump]
-field = [
-    { name = "channel", default = "" },
-    { name = "release", default = "" },
-]
-
-[tool.tbump.version]
-current = "0.1.0"
-regex = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)((?P<channel>a|b|rc|.dev)(?P<release>\\d+))?"
-
-[tool.tbump.git]
-message_template = "Bump to {new_version}"
-tag_template = "v{new_version}"
-
-[[tool.tbump.file]]
-src = "pyproject.toml"
-version_template = "version = \"{major}.{minor}.{patch}{channel}{release}\""
-
-[[tool.tbump.file]]
-src = "package.json"
-version_template = "\"version\": \"{major}.{minor}.{patch}{channel}{release}\""

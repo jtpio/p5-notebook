@@ -51,3 +51,5 @@ p5_notebook/p5-theme-*
 # Yarn 3
 .yarn
 .pnp*
+
+_version.py

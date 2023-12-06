@@ -31,7 +31,7 @@ jobs:
       - name: Build the extension
         run: |
           set -eux
-          python -m pip install -e .
+          python -m pip install .
 
           jupyter labextension list
           jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
