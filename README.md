@@ -20,7 +20,7 @@ https://github.com/jtpio/p5-notebook/assets/591645/7193d8bb-2e0a-4465-88fe-3f379
 
 ### JupyterLab interface 🧪
 
-The JupyterLab interface is still accessible via the `View > Open in JupyterLab` menu:
+The JupyterLab interface is still accessible via the `View > Open in JupyterLab` menu entry:
 
 https://github.com/jtpio/p5-notebook/assets/591645/f44186a4-51a3-4417-9968-af7a5fb6cbd6
 
@@ -32,19 +32,19 @@ https://github.com/jtpio/p5-notebook/assets/591645/f1cc56d0-de44-4d3c-9aa9-9ad9e
 
 ### Support for themes 🌈
 
-The p5 notebook includes the default JupyterLab Light and Dark themes, as well as `p5.js` branded Light and Dark themes:
+The p5 notebook includes the default JupyterLab Light and Dark themes, as well as `p5.js` branded light and dark themes:
 
 https://github.com/jtpio/p5-notebook/assets/591645/44cdd305-b00a-406d-8d38-860152565f24
 
 ### Support for additional display languages 🌐
 
-Just like in JupyterLab, the p5 notebook also supports additional display languages like French and Simplified Chinese:
+Just like with JupyterLab, the p5 notebook also supports additional display languages like French and Simplified Chinese:
 
 https://github.com/jtpio/p5-notebook/assets/591645/316613d9-71b5-4912-9adf-95f83d22fea6
 
-### JupyterLab and RetroLab features 🎨
+### JupyterLab and Notebook features 🎨
 
-Most of the JupyterLab and RetroLab features are also available, such as switching to the Simple Interface and opening the command palette:
+Most of the JupyterLab and Jupyter Notebook features are also available, such as switching to the Simple Interface and opening the command palette:
 
 https://github.com/jtpio/p5-notebook/assets/591645/15104791-6481-4c37-8447-06535c66b060
 
