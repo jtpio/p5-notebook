@@ -14,6 +14,6 @@ echo $(basename "$SHELL")
 source ~/.bashrc
 source ~/.bash_profile
 
-pixi install
-pixi run build_lite
-pixi run copy_favicon
+~/.bin/pixi install
+~/.bin/pixi run build_lite
+~/.bin/pixi run copy_favicon
