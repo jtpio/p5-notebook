@@ -4,8 +4,8 @@
 set -xeu
 
 # install pixi
-touch ~/.bashrc
 export PIXI_VERSION=v0.9.1 && curl -fsSL https://pixi.sh/install.sh | bash
+ls -lisah ~
 source ~/.bashrc
 
 pixi install
