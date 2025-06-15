@@ -3,28 +3,28 @@ name = "p5-notebook"
 version = "0.1.0"
 description = "A minimal Jupyter Notebook UI for p5.js sketches"
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-arm64"]
 
 [tasks]
 build = "jlpm run build"
-build_lite = { cmd = "jupyter lite build", depends_on = ["install"] }
+build_lite = { cmd = "jupyter lite build", depends-on = ["install"] }
 copy_favicon = "cp ./favicon.ico ./_output/lab/favicon.ico"
 develop = "jlpm run develop"
 install_editable = "pip install -e ."
 install = "pip install ."
 
 [dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.12,<3.13"
 pip = ">23"
-jupyterlab = ">=4.0.9,<4.1"
+jupyterlab = ">=4.4.3,<4.5"
 jupyterlab-language-pack-es-ES = "*"
 jupyterlab-language-pack-fr-FR = "*"
 jupyterlab-language-pack-it-IT = "*"
 jupyterlab-language-pack-pl-PL = "*"
 jupyterlab-language-pack-zh-CN = "*"
-jupyterlite-core = ">=0.2.1,<0.3"
-nodejs = ">=20,<21"
-notebook = ">=7.0.6,<7.1"
+jupyterlite-core = ">=0.6.1,<0.7"
+nodejs = ">=22,<23"
+notebook = ">=7.4,<7.5"
 
 [pypi-dependencies]
 jupyterlite-p5-kernel = ">=0.1.0,<0.2"
