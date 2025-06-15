@@ -4,7 +4,7 @@
 set -xeu
 
 # install pixi
-export PIXI_VERSION=v0.9.1 && curl -fsSL https://pixi.sh/install.sh | bash
+export PIXI_VERSION=v0.47.0 && curl -fsSL https://pixi.sh/install.sh | bash
 
 # This started to fail as of February 21st 2024
 # See commit log in https://github.com/jtpio/p5-notebook/pull/118
