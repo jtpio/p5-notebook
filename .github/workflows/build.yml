@@ -77,6 +77,7 @@ jobs:
           sudo rm -rf $(which node)
           sudo rm -rf $(which node)
 
+          uv sync
           uv pip install "jupyterlab>=4.5.0,<4.6" p5_notebook*.whl
 
 
