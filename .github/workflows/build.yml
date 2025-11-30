@@ -81,11 +81,11 @@ jobs:
           uv pip install "jupyterlab>=4.5.0,<4.6" p5_notebook*.whl
 
 
-          uv jupyter labextension list
-          uv jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          uv jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          uv jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-          # uv python -m jupyterlab.browser_check --no-browser-test
+          uv run jupyter labextension list
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          # uv run python -m jupyterlab.browser_check --no-browser-test
   check_links:
     name: Check Links
     runs-on: ubuntu-latest
