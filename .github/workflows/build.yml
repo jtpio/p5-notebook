@@ -28,8 +28,8 @@ jobs:
       - name: Lint the extension
         run: |
           set -eux
-          jlpm
-          jlpm run lint:check
+          uv run jlpm
+          uv run jlpm run lint:check
 
       - name: Build the extension
         run: |
