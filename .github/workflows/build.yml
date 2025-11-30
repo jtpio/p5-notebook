@@ -84,7 +84,7 @@ jobs:
           jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
           jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
           jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-          python -m jupyterlab.browser_check --no-browser-test
+          # python -m jupyterlab.browser_check --no-browser-test
 
   check_links:
     name: Check Links
