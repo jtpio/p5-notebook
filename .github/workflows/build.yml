@@ -14,13 +14,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
 
-      - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        run: uv python install 3.12
 
       - name: Install dependencies
-        run: python -m pip install -U "jupyterlab>=4.0,<4.1"
+        run: uv sync
 
       - name: Lint the extension
         run: |
@@ -31,24 +34,23 @@ jobs:
       - name: Build the extension
         run: |
           set -eux
-          python -m pip install .
+          uv pip install .
 
-          jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-          python -m jupyterlab.browser_check
+          uv run jupyter labextension list
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          uv run python -m jupyterlab.browser_check
 
       - name: Package the extension
         run: |
           set -eux
 
-          pip install build
-          python -m build
-          pip uninstall -y "p5_notebook" jupyterlab
+          uv pip install build
+          uv build
 
       - name: Upload extension packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: extension-artifacts
           path: dist/p5_notebook*
@@ -59,12 +61,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          architecture: 'x64'
-      - uses: actions/download-artifact@v3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: extension-artifacts
       - name: Install and Test
@@ -74,7 +77,7 @@ jobs:
           sudo rm -rf $(which node)
           sudo rm -rf $(which node)
 
-          pip install "jupyterlab>=4.0,<4.1" p5_notebook*.whl
+          uv pip install "jupyterlab>=4.5.0,<4.6" p5_notebook*.whl
 
 
           jupyter labextension list
@@ -88,6 +91,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.2.2
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1

@@ -9,20 +9,25 @@ build-backend = "hatchling.build"
 [project]
 name = "p5-notebook"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.12"
 classifiers = [
     "Framework :: Jupyter",
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-dependencies = []
+dependencies = [
+    "jupyterlab>=4.5.0,<4.6",
+    "notebook>=7.5,<7.6",
+    "jupyterlab-language-pack-es-ES",
+    "jupyterlab-language-pack-fr-FR",
+    "jupyterlab-language-pack-it-IT",
+    "jupyterlab-language-pack-pl-PL",
+    "jupyterlab-language-pack-zh-CN",
+    "jupyterlite-p5-kernel>=0.2.0,<0.3",
+    "jupyterlite-core>=0.7.0,<0.8",
+]
 dynamic = [
     "version",
     "description",
