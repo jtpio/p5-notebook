@@ -3,3 +3,5 @@ node_modules
 **/lib
 **/package.json
 p5_notebook/
+.venv
+_output/
