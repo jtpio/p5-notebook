@@ -53,3 +53,7 @@ p5_notebook/p5-theme-*
 .pnp*
 
 _version.py
+
+# JupyterLite
+_output
+*.doit.db
