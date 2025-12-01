@@ -41,10 +41,10 @@
     "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0"
+    "@jupyterlab/application": "^4.5.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0",
+    "@jupyterlab/builder": "^4.5.0",
     "rimraf": "^3.0.2",
     "typescript": "~5.0.0"
   },

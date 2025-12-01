@@ -49,14 +49,14 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.0",
-    "@jupyterlab/application": "^4.0.0",
-    "@jupyterlab/coreutils": "^6.0.0",
-    "@jupyterlab/ui-components": "^4.0.0",
-    "@lumino/widgets": "^2.0.0"
+    "@jupyter-notebook/application": "^7.5.0",
+    "@jupyterlab/application": "^4.5.0",
+    "@jupyterlab/coreutils": "^6.5.0",
+    "@jupyterlab/ui-components": "^4.5.0",
+    "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0",
+    "@jupyterlab/builder": "^4.5.0",
     "rimraf": "~3.0.0",
     "typescript": "~5.0.0"
   },
