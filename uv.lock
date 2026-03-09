@@ -802,11 +802,11 @@ wheels = [
 
 [[package]]
 name = "jupyterlite-p5-kernel"
-version = "0.2.0"
+version = "0.4.0a1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a3/99/7401141ce8f0e9783c32e19c595b43c5d5f2699343584cff6e8071879fda/jupyterlite_p5_kernel-0.2.0.tar.gz", hash = "sha256:49e9a662eef5402defaf3ed288a4a53e82dfd934ea097e517034a6c1038358e3", size = 224819, upload-time = "2025-11-27T13:59:22.347Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5e/9a/a8a0749fcf6da3946aba28a1e3d56e687e31fbf89ea9d7ba8873ea9788cd/jupyterlite_p5_kernel-0.4.0a1.tar.gz", hash = "sha256:5a37f260eae24a819a2e2ea39ffee7e6cf115d726d522fe21115af0255f1cd32", size = 290311, upload-time = "2026-03-06T08:49:03.672Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6c/f5/ce6c978f3f8536a1991f7d1dc4b21543df15b9713c00cb042892f040f076/jupyterlite_p5_kernel-0.2.0-py3-none-any.whl", hash = "sha256:34b376af0aba4decb2c0723ac97b71bd082be2d1701d072811a861dc6226f6e5", size = 21989, upload-time = "2025-11-27T13:59:20.823Z" },
+    { url = "https://files.pythonhosted.org/packages/23/68/66c8a843136ac88151634727a1f921ac997163448cb247aeee20e3f82219/jupyterlite_p5_kernel-0.4.0a1-py3-none-any.whl", hash = "sha256:6ece7a56ed04075d843cb870cab5b452ba5c6e347a19bd1a9e8c2753b6b544d7", size = 98528, upload-time = "2026-03-06T08:49:01.831Z" },
 ]
 
 [[package]]
@@ -1018,7 +1018,7 @@ requires-dist = [
     { name = "jupyterlab-language-pack-pl-pl" },
     { name = "jupyterlab-language-pack-zh-cn" },
     { name = "jupyterlite-core", specifier = ">=0.7.0,<0.8" },
-    { name = "jupyterlite-p5-kernel", specifier = ">=0.2.0,<0.3" },
+    { name = "jupyterlite-p5-kernel", specifier = ">=0.4.0a1,<0.5" },
     { name = "notebook", specifier = ">=7.5,<7.6" },
 ]
 
