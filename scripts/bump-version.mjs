@@ -6,8 +6,16 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Pre-release labels that hatch-nodejs-version can convert to a Python version
+const PRE = '(a|b|c|rc|alpha|beta|pre|preview)[-.]?\\d*';
+const DEV = 'dev[-.]?\\d*';
+const VERSION = new RegExp(
+  `^\\d+\\.\\d+\\.\\d+(-(${PRE}|${DEV}|${PRE}\\.${DEV}))?$`,
+  'i'
+);
+
 const version = process.argv[2];
-if (!/^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/.test(version ?? '')) {
+if (!VERSION.test(version ?? '')) {
   console.error('Usage: jlpm bump:version <x.y.z[-alpha.n]>');
   process.exit(1);
 }
