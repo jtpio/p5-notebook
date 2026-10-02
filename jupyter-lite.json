@@ -3,7 +3,7 @@
   "jupyter-config-data": {
     "appName": "p5 notebook",
     "appUrl": "./tree",
-    "collaborative": true,
+    "defaultKernelName": "p5js",
     "disabledExtensions": [
       "@jupyterlab/application-extension:logo",
       "@jupyter-notebook/application-extension:logo",
