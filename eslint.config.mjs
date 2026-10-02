@@ -58,11 +58,23 @@ export default defineConfig([
     }
   },
   {
-    files: ['scripts/**/*.mjs', 'ui-tests/*.js'],
+    files: ['scripts/**/*.mjs'],
     languageOptions: {
       globals: {
         ...globals.node
       }
+    }
+  },
+  {
+    files: ['ui-tests/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        ...globals.node
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off'
     }
   }
 ]);
