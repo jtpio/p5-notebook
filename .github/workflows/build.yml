@@ -45,9 +45,9 @@ jobs:
         run: |
           set -eux
           jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK.*(python, p5-notebook)"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK.*(python, p5-notebook)"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK.*(python, p5-notebook)"
 
       - name: Package the extensions
         run: uv build
@@ -65,16 +65,16 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: extension-artifacts
+
       - name: Install uv
         uses: astral-sh/setup-uv@v10.2.0
         with:
           python-version: '3.12'
           activate-environment: true
           enable-cache: false
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: extension-artifacts
 
       - name: Install and Test
         run: |
@@ -86,9 +86,9 @@ jobs:
           uv pip install p5_notebook*.whl
 
           jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK.*(python, p5-notebook)"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK.*(python, p5-notebook)"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK.*(python, p5-notebook)"
 
   ui_tests:
     name: UI Tests

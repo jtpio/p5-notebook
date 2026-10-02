@@ -54,11 +54,16 @@ source = "nodejs"
 path = "p5_notebook/_version.py"
 
 [tool.hatch.build.targets.wheel.shared-data]
-"p5_notebook/labextension" = "share/jupyter/labextensions/@p5-notebook/lab-extension"
+"p5_notebook/labextension/static" = "share/jupyter/labextensions/@p5-notebook/lab-extension/static"
+"p5_notebook/labextension/package.json" = "share/jupyter/labextensions/@p5-notebook/lab-extension/package.json"
 "packages/lab-extension/install.json" = "share/jupyter/labextensions/@p5-notebook/lab-extension/install.json"
-"p5_notebook/p5-theme-light" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light"
+"p5_notebook/p5-theme-light/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/static"
+"p5_notebook/p5-theme-light/themes" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/themes"
+"p5_notebook/p5-theme-light/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/package.json"
 "packages/p5-theme-light/install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/install.json"
-"p5_notebook/p5-theme-dark" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark"
+"p5_notebook/p5-theme-dark/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/static"
+"p5_notebook/p5-theme-dark/themes" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/themes"
+"p5_notebook/p5-theme-dark/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/package.json"
 "packages/p5-theme-dark/install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/install.json"
 
 [tool.hatch.build.targets.sdist]
@@ -70,6 +75,12 @@ artifacts = [
 exclude = [
     ".github",
 ]
+
+# hatchling skips packages/ after it follows the workspace symlinks in node_modules
+[tool.hatch.build.targets.sdist.force-include]
+"packages/lab-extension/install.json" = "packages/lab-extension/install.json"
+"packages/p5-theme-light/install.json" = "packages/p5-theme-light/install.json"
+"packages/p5-theme-dark/install.json" = "packages/p5-theme-dark/install.json"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = [
