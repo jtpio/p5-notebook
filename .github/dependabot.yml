@@ -1,0 +1,45 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    groups:
+      actions:
+        patterns:
+          - '*'
+    labels:
+      - 'maintenance'
+    cooldown:
+      default-days: 7
+
+  # lockfile-only: JupyterLab, Notebook and JupyterLite minor bumps must move together
+  - package-ecosystem: 'uv'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    versioning-strategy: 'lockfile-only'
+    groups:
+      python:
+        patterns:
+          - '*'
+    labels:
+      - 'maintenance'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'npm'
+    directories:
+      - '/'
+      - '/ui-tests'
+    schedule:
+      interval: 'monthly'
+    versioning-strategy: 'lockfile-only'
+    groups:
+      js:
+        patterns:
+          - '*'
+    labels:
+      - 'maintenance'
+    cooldown:
+      default-days: 7

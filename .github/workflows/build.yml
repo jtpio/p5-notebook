@@ -5,52 +5,55 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - '*'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.12'
+          activate-environment: true
 
-      - name: Set up Python
-        run: uv python install 3.12
+      # --no-editable builds the extensions in production mode
+      - name: Install dependencies and build the extensions
+        run: uv sync --locked --no-editable
 
-      - name: Install dependencies
-        run: uv sync
-
-      - name: Lint the extension
+      - name: Lint the extensions
         run: |
           set -eux
-          uv run jlpm
-          uv run jlpm run lint:check
+          jlpm install --immutable
+          jlpm run lint:check
 
-      - name: Build the extension
+      - name: Check the extensions are installed
         run: |
           set -eux
-          uv pip install .
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
 
-          uv run jupyter labextension list
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-          # uv run python -m jupyterlab.browser_check
-
-      - name: Package the extension
-        run: |
-          set -eux
-
-          uv pip install build
-          uv build
+      - name: Package the extensions
+        run: uv build
 
       - name: Upload extension packages
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: extension-artifacts
           path: dist/p5_notebook*
@@ -59,17 +62,20 @@ jobs:
   test_isolated:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.12'
+          activate-environment: true
+          enable-cache: false
 
-      - name: Set up Python
-        run: uv python install 3.12
-
-      - uses: actions/download-artifact@v4.3.0
+      - uses: actions/download-artifact@v8
         with:
           name: extension-artifacts
+
       - name: Install and Test
         run: |
           set -eux
@@ -77,20 +83,73 @@ jobs:
           sudo rm -rf $(which node)
           sudo rm -rf $(which node)
 
-          uv venv
-          uv pip install "jupyterlab>=4.5.0,<4.6" p5_notebook*.whl
+          uv pip install p5_notebook*.whl
 
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
 
-          uv run jupyter labextension list
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/lab-extension.*OK"
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-light.*OK"
-          uv run jupyter labextension list 2>&1 | grep -ie "@p5-notebook/p5-theme-dark.*OK"
-          # uv run python -m jupyterlab.browser_check --no-browser-test
+  ui_tests:
+    name: UI Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/pw-browsers
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.12'
+          activate-environment: true
+
+      - name: Install dependencies and build the extensions
+        run: uv sync --locked --no-editable
+
+      - name: Install the UI test dependencies
+        working-directory: ui-tests
+        run: jlpm install --immutable
+
+      - name: Build the JupyterLite site
+        working-directory: ui-tests
+        run: jlpm build
+
+      - name: Cache the Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('ui-tests/yarn.lock') }}
+
+      - name: Install the browser
+        working-directory: ui-tests
+        run: jlpm playwright install --with-deps chromium --only-shell
+
+      - name: Run the UI tests
+        working-directory: ui-tests
+        run: jlpm test
+
+      - name: Upload the Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-tests-report
+          path: |
+            ui-tests/playwright-report
+            ui-tests/test-results
+
   check_links:
     name: Check Links
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
