@@ -11,11 +11,11 @@ module.exports = {
     ...baseConfig.use,
     appPath: '',
     autoGoto: false,
-    baseURL: 'http://localhost:8000'
+    baseURL: 'http://localhost:8123'
   },
   webServer: {
     command: 'jlpm start',
-    url: 'http://localhost:8000/lab/index.html',
+    url: 'http://localhost:8123/lab/index.html',
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI
   }

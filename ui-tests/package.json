@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "python build.py",
-    "start": "python -m http.server -b 127.0.0.1 8000 --directory dist",
+    "start": "python -m http.server -b 127.0.0.1 8123 --directory dist",
     "test": "playwright test",
     "test:debug": "PWDEBUG=1 playwright test",
     "test:report": "playwright show-report"
