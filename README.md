@@ -1,8 +1,8 @@
 # ![p5-icon](./favicon.ico) p5-notebook ![p5-icon](./favicon.ico)
 
-[![Github Actions Status](https://github.com/jtpio/p5-notebook/workflows/Build/badge.svg)](https://github.com/jtpio/p5-notebook/actions)
+[![Build](https://github.com/jtpio/p5-notebook/actions/workflows/build.yml/badge.svg)](https://github.com/jtpio/p5-notebook/actions/workflows/build.yml)
 
-A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels.
+A minimal Jupyter Notebook UI for [p5.js](https://p5js.org) kernels, powered by [JupyterLite](https://github.com/jupyterlite/jupyterlite) and the [p5.js kernel](https://github.com/jupyterlite/p5-kernel).
 
 https://github.com/jtpio/p5-notebook/assets/591645/7193d8bb-2e0a-4465-88fe-3f3793d51576
 
@@ -38,7 +38,7 @@ https://github.com/jtpio/p5-notebook/assets/591645/44cdd305-b00a-406d-8d38-86015
 
 ### Support for additional display languages 🌐
 
-Just like with JupyterLab, the p5 notebook also supports additional display languages like French and Simplified Chinese:
+Just like with JupyterLab, the p5 notebook also supports additional display languages: French, Italian, Polish, Simplified Chinese and Spanish:
 
 https://github.com/jtpio/p5-notebook/assets/591645/316613d9-71b5-4912-9adf-95f83d22fea6
 
@@ -52,19 +52,48 @@ https://github.com/jtpio/p5-notebook/assets/591645/15104791-6481-4c37-8447-06535
 
 Coming soon!
 
-## Dev install
+## Development
 
-This repo includes a couple of additional plugins to tweak the Jupyter UI. To setup a local environment and be able to iterate on them, make sure [Node.js](https://nodejs.org) is installed, then:
+This repo is a JupyterLite deployment with three JupyterLab extensions in `packages/`: the p5 logo and the p5.js light and dark themes. Make sure [Node.js](https://nodejs.org) and [uv](https://docs.astral.sh/uv/) are installed, then:
 
 ```bash
-# install dependencies
-pixi install
+# create the environment, install the dependencies and build the extensions
+uv sync
 
-# Install package in development mode
-pixi run develop
+# link the extensions in development mode
+uv run jlpm develop
 
-# Rebuild the extension Typescript source after making changes
-pixi run build
+# rebuild the extensions after making changes
+uv run jlpm build
+
+# or rebuild them automatically on changes
+uv run jlpm watch
+
+# build and serve the JupyterLite site
+uv run jupyter lite build
+uv run jupyter lite serve
+```
+
+To bump the version of all the packages:
+
+```bash
+uv run jlpm bump:version 0.2.0
+```
+
+### UI tests
+
+The UI tests use [Galata](https://github.com/jupyterlab/jupyterlab/tree/main/galata) and [Playwright](https://playwright.dev) against a JupyterLite build of the site:
+
+```bash
+cd ui-tests
+uv run jlpm install
+uv run jlpm playwright install chromium
+
+# build the site with the Galata helpers
+uv run jlpm build
+
+# run the tests
+uv run jlpm test
 ```
 
 ## Related projects
