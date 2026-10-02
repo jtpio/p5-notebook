@@ -10,6 +10,7 @@ import { IThemeManager } from '@jupyterlab/apputils';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@p5-notebook/p5-theme-light',
+  description: 'Adds the p5.js Light theme.',
   requires: [IThemeManager],
   autoStart: true,
   activate: (app: JupyterFrontEnd, manager: IThemeManager) => {
