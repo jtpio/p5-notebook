@@ -14,20 +14,23 @@ ROOT = HERE.parent
 OUTPUT = HERE / "dist"
 GALATA = Path(jupyterlab.__file__).parent / "galata"
 
-# jupyter lite build merges into an existing jupyter-lite.json
+# A stale doit cache skips the jupyter-lite.json merge into a fresh output
 shutil.rmtree(OUTPUT, ignore_errors=True)
+(HERE / ".jupyterlite.doit.db").unlink(missing_ok=True)
 
 run(
     [
         "jupyter",
         "lite",
         "build",
+        "--lite-dir",
+        str(ROOT),
         "--output-dir",
         str(OUTPUT),
         f"--FederatedExtensionAddon.extra_labextensions_path={GALATA}",
     ],
     check=True,
-    cwd=ROOT,
+    cwd=HERE,
 )
 
 # Galata reads the application from window.jupyterapp
