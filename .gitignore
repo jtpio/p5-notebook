@@ -19,19 +19,8 @@ __pycache__
 *.swp
 *.map
 
-coverage/
-tests/**/coverage
-tests/**/.cache-loader
-docs/_build
-docs/api
-docs/source/_build
-
-lerna-debug.log
-yarn-error.log
-
-junit.xml
-
 *.tsbuildinfo
+.eslintcache
 
 # jetbrains IDE stuff
 *.iml
@@ -42,18 +31,17 @@ junit.xml
 .history
 .vscode
 
-test.ipynb
 p5_notebook/labextension
 p5_notebook/p5-theme-*
-# pixi environments
-.pixi
 
-# Yarn 3
-.yarn
-.pnp*
-
+# Python
+.venv
 _version.py
 
 # JupyterLite
 _output
 *.doit.db
+
+# UI tests
+ui-tests/playwright-report
+ui-tests/test-results

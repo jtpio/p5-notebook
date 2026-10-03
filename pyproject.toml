@@ -1,32 +1,35 @@
 [build-system]
 requires = [
-    "hatchling",
-    "jupyterlab~=4.0",
+    "hatchling>=1.27",
     "hatch-nodejs-version>=0.3.2",
+    "jupyter-builder>=1.2.0,<2",
 ]
 build-backend = "hatchling.build"
 
 [project]
 name = "p5-notebook"
 readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 classifiers = [
     "Framework :: Jupyter",
-    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "jupyterlab>=4.5.0,<4.6",
-    "notebook>=7.5,<7.6",
+    "jupyterlab>=4.6.4,<4.7",
+    "notebook>=7.6.3,<7.7",
     "jupyterlab-language-pack-es-ES",
     "jupyterlab-language-pack-fr-FR",
     "jupyterlab-language-pack-it-IT",
     "jupyterlab-language-pack-pl-PL",
     "jupyterlab-language-pack-zh-CN",
-    "jupyterlite-p5-kernel>=0.4.0a1,<0.5",
-    "jupyterlite-core>=0.7.0,<0.8",
+    "jupyterlite-p5-kernel>=0.4.0a2,<0.5",
+    "jupyterlite-core>=0.8.5,<0.9",
 ]
 dynamic = [
     "version",
@@ -41,10 +44,8 @@ fields = [
     "description",
     "authors",
     "urls",
+    "keywords",
 ]
-
-[project.license]
-file = "LICENSE"
 
 [tool.hatch.version]
 source = "nodejs"
@@ -54,14 +55,16 @@ path = "p5_notebook/_version.py"
 
 [tool.hatch.build.targets.wheel.shared-data]
 "p5_notebook/labextension/static" = "share/jupyter/labextensions/@p5-notebook/lab-extension/static"
-"install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/install.json"
 "p5_notebook/labextension/package.json" = "share/jupyter/labextensions/@p5-notebook/lab-extension/package.json"
+"packages/lab-extension/install.json" = "share/jupyter/labextensions/@p5-notebook/lab-extension/install.json"
 "p5_notebook/p5-theme-light/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/static"
+"p5_notebook/p5-theme-light/themes" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/themes"
 "p5_notebook/p5-theme-light/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/package.json"
-"p5_notebook/p5-theme-light/themes/@p5-notebook/p5-theme-light" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/themes/@p5-notebook/p5-theme-light"
+"packages/p5-theme-light/install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-light/install.json"
 "p5_notebook/p5-theme-dark/static" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/static"
-"p5_notebook/p5-theme-dark/themes/@p5-notebook/p5-theme-dark" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/themes/@p5-notebook/p5-theme-dark"
+"p5_notebook/p5-theme-dark/themes" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/themes"
 "p5_notebook/p5-theme-dark/package.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/package.json"
+"packages/p5-theme-dark/install.json" = "share/jupyter/labextensions/@p5-notebook/p5-theme-dark/install.json"
 
 [tool.hatch.build.targets.sdist]
 artifacts = [
@@ -73,6 +76,12 @@ exclude = [
     ".github",
 ]
 
+# hatchling skips packages/ after it follows the workspace symlinks in node_modules
+[tool.hatch.build.targets.sdist.force-include]
+"packages/lab-extension/install.json" = "packages/lab-extension/install.json"
+"packages/p5-theme-light/install.json" = "packages/p5-theme-light/install.json"
+"packages/p5-theme-dark/install.json" = "packages/p5-theme-dark/install.json"
+
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = [
     "hatch-jupyter-builder>=0.8.3",
@@ -80,19 +89,23 @@ dependencies = [
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "p5_notebook/labextension/package.json",
+    "p5_notebook/p5-theme-light/package.json",
+    "p5_notebook/p5-theme-dark/package.json",
 ]
 skip-if-exists = [
     "p5_notebook/labextension/package.json",
+    "p5_notebook/p5-theme-light/package.json",
+    "p5_notebook/p5-theme-dark/package.json",
 ]
 
 [tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
 build_cmd = "build"
 npm = [
-    "jlpm",
+    "pnpm",
 ]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
 npm = [
-    "jlpm",
+    "pnpm",
 ]

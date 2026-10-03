@@ -2,6 +2,7 @@
   "name": "@p5-notebook/root",
   "private": true,
   "version": "0.1.0",
+  "description": "A minimal Jupyter Notebook UI for p5.js, powered by JupyterLite",
   "keywords": [
     "jupyter",
     "jupyterlite",
@@ -20,52 +21,34 @@
     "type": "git",
     "url": "https://github.com/jtpio/p5-notebook.git"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
   "scripts": {
-    "build": "lerna run build",
-    "build:prod": "lerna run build:prod",
-    "build:test": "lerna run build:test",
-    "bump:version": "lerna version --no-push --force-publish --no-git-tag-version --yes",
-    "clean": "lerna run clean",
-    "develop": "jupyter labextension develop --overwrite .",
-    "eslint": "eslint . --ext .ts,.tsx --fix",
-    "eslint:check": "eslint . --ext .ts,.tsx",
-    "lint": "jlpm run eslint && jlpm run prettier",
-    "lint:check": "jlpm run eslint:check && jlpm run prettier:check",
-    "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
-    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
-    "watch": "lerna run watch"
+    "build": "pnpm -r run build",
+    "build:prod": "pnpm -r run build:prod",
+    "bump:version": "node scripts/bump-version.mjs",
+    "clean": "pnpm -r run clean",
+    "develop": "jupyter-builder develop --overwrite .",
+    "eslint": "pnpm eslint:check --fix",
+    "eslint:check": "eslint . --cache",
+    "lint": "pnpm prettier && pnpm eslint",
+    "lint:check": "pnpm prettier:check && pnpm eslint:check",
+    "prettier": "pnpm prettier:base --write --list-different",
+    "prettier:base": "prettier \"**/*{.ts,.tsx,.js,.jsx,.mjs,.css,.json,.md,.yml}\"",
+    "prettier:check": "pnpm prettier:base --check",
+    "watch": "pnpm -r --parallel run watch"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
-    "@typescript-eslint/parser": "^4.32.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "lerna": "^6",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "shell-quote": "^1.7.2"
+    "@eslint/js": "^10.0.1",
+    "@jupyter/eslint-plugin": "^1.3.0",
+    "@jupyterlab/core-meta": "~4.6.4",
+    "css-loader": "^7.1.5",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^17.0.0",
+    "prettier": "^3.8.0",
+    "style-loader": "^4.0.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.56.0"
   },
-  "jupyter-releaser": {
-    "skip": [
-      "check-links"
-    ],
-    "options": {
-      "version-cmd": [
-        "jlpm run bump:version"
-      ]
-    },
-    "hooks": {
-      "before-bump-version": [
-        "python -m pip install jupyterlab~=4.0",
-        "jlpm"
-      ]
-    }
-  }
+  "packageManager": "pnpm@10.34.6"
 }

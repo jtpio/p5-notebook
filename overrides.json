@@ -1,6 +1,11 @@
 {
   "@jupyterlab/apputils-extension:themes": {
     "theme": "p5.js Light",
+    "preferred-light-theme": "p5.js Light",
+    "preferred-dark-theme": "p5.js Dark",
     "theme-scrollbars": true
+  },
+  "@jupyterlab/notebook-extension:tracker": {
+    "autoStartDefaultKernel": true
   }
 }

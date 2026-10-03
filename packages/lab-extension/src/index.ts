@@ -4,8 +4,6 @@ import {
   ILabShell
 } from '@jupyterlab/application';
 
-import { PageConfig } from '@jupyterlab/coreutils';
-
 import { INotebookShell } from '@jupyter-notebook/application';
 
 import { Widget } from '@lumino/widgets';
@@ -17,6 +15,7 @@ import { asteriskIcon, squareIcon } from './icons';
  */
 const logo: JupyterFrontEndPlugin<void> = {
   id: '@p5-notebook/lab-extension:logo',
+  description: 'Adds the p5.js logo to the top area.',
   optional: [ILabShell, INotebookShell],
   autoStart: true,
   activate: (
@@ -35,7 +34,7 @@ const logo: JupyterFrontEndPlugin<void> = {
         width: '16px'
       });
     } else if (notebookShell) {
-      const baseUrl = PageConfig.getBaseUrl();
+      const { baseUrl } = app.serviceManager.serverSettings;
       const node = document.createElement('a');
       node.href = `${baseUrl}tree`;
       node.target = '_blank';
@@ -56,6 +55,6 @@ const logo: JupyterFrontEndPlugin<void> = {
   }
 };
 
-const plugins: JupyterFrontEndPlugin<any>[] = [logo];
+const plugins: JupyterFrontEndPlugin<void>[] = [logo];
 
 export default plugins;
