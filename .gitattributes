@@ -1,4 +1,4 @@
 # Collapse generated lock files in diffs
 uv.lock linguist-generated=true
-yarn.lock linguist-generated=true
-ui-tests/yarn.lock linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+ui-tests/pnpm-lock.yaml linguist-generated=true

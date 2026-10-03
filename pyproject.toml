@@ -101,11 +101,11 @@ skip-if-exists = [
 [tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
 build_cmd = "build"
 npm = [
-    "jlpm",
+    "pnpm",
 ]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
 npm = [
-    "jlpm",
+    "pnpm",
 ]

@@ -1,0 +1,5 @@
+packages:
+  - 'packages/*'
+
+ignoredBuiltDependencies:
+  - '@fortawesome/fontawesome-free'

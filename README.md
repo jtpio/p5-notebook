@@ -54,20 +54,20 @@ Coming soon!
 
 ## Development
 
-This repo is a JupyterLite deployment with three JupyterLab extensions in `packages/`: the p5 logo and the p5.js light and dark themes. Make sure [Node.js](https://nodejs.org) and [uv](https://docs.astral.sh/uv/) are installed, then:
+This repo is a JupyterLite deployment with three JupyterLab extensions in `packages/`: the p5 logo and the p5.js light and dark themes. Make sure [Node.js](https://nodejs.org), [pnpm](https://pnpm.io) and [uv](https://docs.astral.sh/uv/) are installed, then:
 
 ```bash
 # create the environment, install the dependencies and build the extensions
 uv sync
 
 # link the extensions in development mode
-uv run jlpm develop
+uv run pnpm develop
 
 # rebuild the extensions after making changes
-uv run jlpm build
+uv run pnpm build
 
 # or rebuild them automatically on changes
-uv run jlpm watch
+uv run pnpm watch
 
 # build and serve the JupyterLite site
 uv run jupyter lite build
@@ -77,7 +77,7 @@ uv run jupyter lite serve
 To bump the version of all the packages:
 
 ```bash
-uv run jlpm bump:version 0.2.0
+pnpm bump:version 0.2.0
 ```
 
 ### UI tests
@@ -86,14 +86,14 @@ The UI tests use [Galata](https://github.com/jupyterlab/jupyterlab/tree/main/gal
 
 ```bash
 cd ui-tests
-uv run jlpm install
-uv run jlpm playwright install chromium
+pnpm install
+pnpm exec playwright install chromium
 
 # build the site with the Galata helpers
-uv run jlpm build
+uv run pnpm build
 
 # run the tests
-uv run jlpm test
+uv run pnpm test
 ```
 
 ## Related projects

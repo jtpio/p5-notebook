@@ -14,7 +14,7 @@ module.exports = {
     baseURL: 'http://localhost:8123'
   },
   webServer: {
-    command: 'jlpm start',
+    command: 'pnpm start',
     url: 'http://localhost:8123/lab/index.html',
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI

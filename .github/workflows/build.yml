@@ -25,6 +25,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          cache: true
+
       - name: Install uv
         uses: astral-sh/setup-uv@v10.2.0
         with:
@@ -38,8 +43,8 @@ jobs:
       - name: Lint the extensions
         run: |
           set -eux
-          jlpm install --immutable
-          jlpm run lint:check
+          pnpm install --frozen-lockfile
+          pnpm lint:check
 
       - name: Check the extensions are installed
         run: |
@@ -103,6 +108,14 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          cache: true
+          cache_dependency_path: |
+            pnpm-lock.yaml
+            ui-tests/pnpm-lock.yaml
+
       - name: Install uv
         uses: astral-sh/setup-uv@v10.2.0
         with:
@@ -114,25 +127,25 @@ jobs:
 
       - name: Install the UI test dependencies
         working-directory: ui-tests
-        run: jlpm install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Build the JupyterLite site
         working-directory: ui-tests
-        run: jlpm build
+        run: pnpm build
 
       - name: Cache the Playwright browsers
         uses: actions/cache@v6
         with:
           path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
-          key: ${{ runner.os }}-playwright-${{ hashFiles('ui-tests/yarn.lock') }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('ui-tests/pnpm-lock.yaml') }}
 
       - name: Install the browser
         working-directory: ui-tests
-        run: jlpm playwright install --with-deps chromium --only-shell
+        run: pnpm exec playwright install --with-deps chromium --only-shell
 
       - name: Run the UI tests
         working-directory: ui-tests
-        run: jlpm test
+        run: pnpm test
 
       - name: Upload the Playwright report
         if: ${{ !cancelled() }}

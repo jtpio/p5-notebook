@@ -19,8 +19,6 @@ __pycache__
 *.swp
 *.map
 
-yarn-error.log
-
 *.tsbuildinfo
 .eslintcache
 
@@ -39,10 +37,6 @@ p5_notebook/p5-theme-*
 # Python
 .venv
 _version.py
-
-# Yarn 3
-.yarn
-.pnp*
 
 # JupyterLite
 _output

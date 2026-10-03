@@ -16,7 +16,7 @@ const VERSION = new RegExp(
 
 const version = process.argv[2];
 if (!VERSION.test(version ?? '')) {
-  console.error('Usage: jlpm bump:version <x.y.z[-alpha.n]>');
+  console.error('Usage: pnpm bump:version <x.y.z[-alpha.n]>');
   process.exit(1);
 }
 
